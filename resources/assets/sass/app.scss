@@ -1,12 +1,11 @@
+// Materialize
+@import "~materialize-css/sass/materialize";
 
-// Font Awesome
-@import "node_modules/font-awesome/scss/font-awesome";
+// Material Icons
+@import "~material-design-icons/iconfont/material-icons.css";
 
 // Variables
 @import "variables";
-
-// Materialize
-@import "node_modules/materialize-css/sass/materialize";
 
 .navbar-laravel {
   background-color: #fff;
