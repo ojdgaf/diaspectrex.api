@@ -52,7 +52,7 @@ return [
          * basic default value but you may easily change it to any table you like.
          */
 
-        'model_has_permissions' => 'permission_entity',
+        'model_has_permissions' => 'permission_model',
 
         /*
          * When using the "HasRoles" trait from this package, we need to know which
@@ -60,7 +60,7 @@ return [
          * basic default value but you may easily change it to any table you like.
          */
 
-        'model_has_roles' => 'role_entity',
+        'model_has_roles' => 'role_model',
 
         /*
          * When using the "HasRoles" trait from this package, we need to know which
