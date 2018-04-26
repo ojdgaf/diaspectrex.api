@@ -5,4 +5,6 @@ namespace App\Models\Users;
 class Employee extends User
 {
     protected static $singleTableType = 'employee';
+
+    protected static $singleTableSubclasses = [Operator::class];
 }
