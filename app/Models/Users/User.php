@@ -2,10 +2,9 @@
 
 namespace App\Models\Users;
 
-use App\Models\Diagnosing\Card;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
 
 class User extends Authenticatable
@@ -25,9 +24,4 @@ class User extends Authenticatable
         'first_name', 'middle_name', 'last_name',
         'birthday', 'passport', 'residence',
     ];
-
-    public function diagnosticCard()
-    {
-        return $this->hasOne(Card::class);
-    }
 }

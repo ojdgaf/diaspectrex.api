@@ -20,4 +20,9 @@ class Card extends Model
     {
         return $this->belongsTo(Group::class, 'diagnostic_group_id');
     }
+
+    public function tests()
+    {
+        return $this->hasMany(Test::class, 'diagnostic_card_id');
+    }
 }
