@@ -18,6 +18,8 @@ class User extends Authenticatable
 
     protected static $singleTableSubclasses = [Patient::class, Employee::class];
 
+    protected $guarded = [];
+
     protected static $persisted = [
         'type', 'email', 'password', 'sex', 'phone',
         'first_name', 'middle_name', 'last_name',
