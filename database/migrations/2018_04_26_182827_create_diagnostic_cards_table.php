@@ -16,6 +16,7 @@ class CreateDiagnosticCardsTable extends Migration
         Schema::create('diagnostic_cards', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('diagnostic_group_id');
             $table->text('complaints')->nullable();
             $table->text('diseases')->nullable();
             $table->text('allergies')->nullable();
@@ -23,6 +24,10 @@ class CreateDiagnosticCardsTable extends Migration
 
             $table->foreign('user_id')
                 ->references('id')->on('users')
+                ->onUpdate('cascade')->onDelete('cascade');
+
+            $table->foreign('diagnostic_group_id')
+                ->references('id')->on('diagnostic_groups')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
     }

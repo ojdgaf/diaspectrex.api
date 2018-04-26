@@ -26,9 +26,6 @@ class CreateUsersTable extends Migration
             $table->string('residence')->nullable();
             $table->string('phone')->nullable();
 
-            # Patient part
-            $table->unsignedInteger('diagnostic_card_id')->nullable();
-
             # Employee part
             $table->dateTime('hired_at')->nullable();
             $table->dateTime('fired_at')->nullable();
