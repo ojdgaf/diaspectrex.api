@@ -38,6 +38,8 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            # TODO exclude CORS before deploying
+            \Barryvdh\Cors\HandleCors::class,
             'throttle:60,1',
             'bindings',
         ],
