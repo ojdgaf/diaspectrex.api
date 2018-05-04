@@ -6,26 +6,22 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, HasRoles, SingleTableInheritanceTrait;
+    use Notifiable, HasRoles;
 
     protected $table = 'users';
 
-    protected static $singleTableTypeField = 'type';
-
-    protected static $singleTableType = 'user';
-
-    protected static $singleTableSubclasses = [Patient::class, Employee::class];
-
-    protected $guarded = [];
-
-    protected static $persisted = [
+    protected $fillable = [
+        # common
         'type', 'email', 'password', 'sex', 'phone',
         'first_name', 'middle_name', 'last_name',
         'birthday', 'passport', 'residence',
+        # employee
+        'hired_at', 'fired_at', 'is_present', 'about',
+        # doctor
+        'degree',
     ];
 
     /**
@@ -46,5 +42,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function diagnosticCard()
+    {
+        return $this->hasOne(Card::class, 'user_id');
     }
 }
