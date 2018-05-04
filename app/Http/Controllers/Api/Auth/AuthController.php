@@ -2,9 +2,17 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Http\Requests\Api\Auth\Login;
+use App\Http\Requests\Api\Auth\Register;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
+/**
+ * Class AuthController
+ * @package App\Http\Controllers\Api\Auth
+ */
 class AuthController extends Controller
 {
     /**
@@ -14,23 +22,36 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     /**
      * Get a JWT via given credentials.
      *
+     * @param Login $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(Login $request): JsonResponse
     {
-        $credentials = request(['email', 'password']);
+        $credentials = $request->only(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials)) {
+        if (! $token = auth()->attempt($credentials))
             return response()->json(['error' => 'Unauthorized'], 401);
-        }
 
         return $this->respondWithToken($token);
+    }
+
+    /**
+     * Create the user and return JWT token.
+     *
+     * @param Register $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(Register $request): JsonResponse
+    {
+        $user = $this->createUser($request);
+
+        return $this->respondWithToken(auth()->login($user));
     }
 
     /**
@@ -76,8 +97,23 @@ class AuthController extends Controller
     {
         return response()->json([
             'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'token_type'   => 'bearer',
+            'expires_in'   => auth()->factory()->getTTL() * 60,
         ]);
+    }
+
+    /**
+     * @param Register $request
+     * @return User
+     */
+    protected function createUser(Register $request): User
+    {
+        $user = new User($request->all());
+
+        $user->password = Hash::make($request->password);
+
+        $user->save();
+
+        return $user;
     }
 }

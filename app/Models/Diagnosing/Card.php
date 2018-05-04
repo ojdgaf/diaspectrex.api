@@ -3,7 +3,7 @@
 namespace App\Models\Diagnosing;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Users\User;
+use App\Models\User;
 
 class Card extends Model
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Users;
+namespace App\Models;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
