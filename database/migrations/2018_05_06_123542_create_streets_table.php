@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDiagnosticGroupsTable extends Migration
+class CreateStreetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateDiagnosticGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('diagnostic_groups', function (Blueprint $table) {
+        Schema::create('streets', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('display_name');
-            $table->text('description')->nullable();
+            $table->unsignedInteger('city_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('city_id')->references('id')
+                ->on('cities')->onUpdate('cascade')->onDelete('set null');
         });
     }
 
@@ -30,6 +32,9 @@ class CreateDiagnosticGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('diagnostic_groups');
+        Schema::table('streets', function(Blueprint $table){
+            $table->dropForeign(['city_id']);
+        });
+        Schema::dropIfExists('streets');
     }
 }

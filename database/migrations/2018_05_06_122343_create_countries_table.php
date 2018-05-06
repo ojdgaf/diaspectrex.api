@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDiagnosticGroupsTable extends Migration
+class CreateCountriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateDiagnosticGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('diagnostic_groups', function (Blueprint $table) {
+        Schema::create('countries', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('display_name');
-            $table->text('description')->nullable();
+            $table->string('currency_code')->nullable();
+            $table->string('currency_name')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +30,6 @@ class CreateDiagnosticGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('diagnostic_groups');
+        Schema::dropIfExists('countries');
     }
 }

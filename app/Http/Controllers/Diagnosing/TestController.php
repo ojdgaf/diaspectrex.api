@@ -24,6 +24,7 @@ class TestController
             'data' => [],
         ];
     }
+
     public function createTestFromFile(Request $request)
     {
         $patient = Patient::findOrFail($request->user_id);

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddForeignKeys extends Migration
+class AddForeignKeysToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class AddForeignKeys extends Migration
      */
     public function up()
     {
-        Schema::table('diagnostic_cards', function (Blueprint $table) {
-//            $table->foreign('')
-//                ->references('id')->on('')
-//                ->onUpdate('cascade')->onDelete('cascade');
+        Schema::table('users', function(Blueprint $table){
+            $table->foreign('address_id')->references('id')
+                ->on('addresses')->onUpdate('cascade')->onDelete('set null');
         });
     }
+
     /**
      * Reverse the migrations.
      *
@@ -26,8 +26,8 @@ class AddForeignKeys extends Migration
      */
     public function down()
     {
-        Schema::table('diagnostic_cards', function (Blueprint $table) {
-//            $table->dropForeign('');
+        Schema::table('users', function(Blueprint $table){
+            $table->dropForeign(['address_id']);
         });
     }
 }

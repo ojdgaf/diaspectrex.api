@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
-class CreateDiagnosticGroupsTable extends Migration
+class CreateHospitalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +14,11 @@ class CreateDiagnosticGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('diagnostic_groups', function (Blueprint $table) {
+        Schema::create('hospitals', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('display_name');
+            $table->string('name', 255);
             $table->text('description')->nullable();
+            $table->unsignedInteger('address_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +31,9 @@ class CreateDiagnosticGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('diagnostic_groups');
+        Schema::table('hospitals', function(Blueprint $table){
+            $table->dropForeign(['address_id']);
+        });
+        Schema::dropIfExists('hospitals');
     }
 }

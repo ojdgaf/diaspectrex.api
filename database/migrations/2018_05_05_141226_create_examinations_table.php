@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDiagnosticGroupsTable extends Migration
+class CreateExaminationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateDiagnosticGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('diagnostic_groups', function (Blueprint $table) {
+        Schema::create('examinations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('display_name');
-            $table->text('description')->nullable();
-            $table->timestamps();
+            $table->text('complains')->nullable();
+            $table->string('diagnosis');
+            $table->text('comment')->nullable();
+            $table->timestamp('started_at')->useCurrent();
+            $table->timestamp('ended_at')->nullable();
             $table->softDeletes();
         });
     }
@@ -30,6 +32,6 @@ class CreateDiagnosticGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('diagnostic_groups');
+        Schema::dropIfExists('examinations');
     }
 }
