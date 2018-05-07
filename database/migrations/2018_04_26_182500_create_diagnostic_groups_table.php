@@ -17,6 +17,7 @@ class CreateDiagnosticGroupsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('display_name');
+            $table->enum('patient_type', ['adult', 'child']);
             $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();

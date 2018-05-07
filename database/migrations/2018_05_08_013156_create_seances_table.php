@@ -17,13 +17,15 @@ class CreateSeancesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('examination_id');
             $table->unsignedInteger('doctor_id')->nullable();
-            $table->unsignedInteger('patient_card_id');
             $table->unsignedInteger('test_id')->nullable();
+            $table->unsignedInteger('classifier_id')->nullable();
             $table->unsignedInteger('diagnostic_group_id')->nullable();
+            $table->boolean('is_approved')->nullable();
             $table->text('complains')->nullable();
             $table->string('diagnosis')->nullable();
-            $table->text('comment')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamp('started_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
             $table->timestamp('ended_at')->nullable();
             $table->softDeletes();
 
@@ -31,10 +33,12 @@ class CreateSeancesTable extends Migration
                 ->on('examinations')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('doctor_id')->references('id')
                 ->on('users')->onUpdate('cascade')->onDelete('set null');
-            $table->foreign('patient_card_id')->references('id')
-                ->on('patient_cards')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('test_id')->references('id')
                 ->on('tests')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('classifier_id')->references('id')
+                ->on('classifiers')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('diagnostic_group_id')->references('id')
+                ->on('diagnostic_groups')->onUpdate('cascade')->onDelete('set null');
         });
     }
 

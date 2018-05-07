@@ -19,9 +19,9 @@ class CreateAddressesTable extends Migration
             $table->unsignedInteger('region_id')->nullable();
             $table->unsignedInteger('city_id')->nullable();
             $table->unsignedInteger('street_id');
-            $table->string('house',10);
+            $table->string('building',10);
             $table->unsignedSmallInteger('flat')->nullable();
-            $table->string('post_index')->nullable();
+            $table->string('postal_code')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

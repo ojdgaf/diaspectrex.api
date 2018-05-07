@@ -15,13 +15,10 @@ class CreatePhonesTable extends Migration
     {
         Schema::create('phones', function (Blueprint $table) {
             $table->increments('id');
+            $table->morphs('phoneable');
             $table->string('phone', 13)->unique();
-            $table->unsignedInteger('user_id');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('user_id')->references('id')
-                ->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

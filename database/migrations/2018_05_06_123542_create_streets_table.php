@@ -15,8 +15,8 @@ class CreateStreetsTable extends Migration
     {
         Schema::create('streets', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
             $table->unsignedInteger('city_id')->nullable();
+            $table->string('name');
             $table->timestamps();
             $table->softDeletes();
 
