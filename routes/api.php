@@ -4,8 +4,8 @@ Route::prefix('auth')->namespace('Auth')->group(function () {
     Route::post('login',    'AuthController@login');
     Route::post('register', 'AuthController@register');
 
-    Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
-    Route::post('password/reset', 'ResetPasswordController@reset');
+    Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::post('password/reset', 'ResetPasswordController@reset')->name('password.reset');;
 
     Route::get('user',     'AuthController@user');
     Route::get('refresh',  'AuthController@refresh');
