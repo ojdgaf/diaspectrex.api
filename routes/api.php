@@ -7,7 +7,7 @@ Route::prefix('auth')->namespace('Auth')->group(function () {
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'ResetPasswordController@reset');
 
-    Route::post('user',     'AuthController@user');
-    Route::post('refresh',  'AuthController@refresh');
+    Route::get('user',     'AuthController@user');
+    Route::get('refresh',  'AuthController@refresh');
     Route::post('logout',   'AuthController@logout');
 });
