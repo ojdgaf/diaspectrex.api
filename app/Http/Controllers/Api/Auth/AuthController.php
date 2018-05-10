@@ -51,7 +51,10 @@ class AuthController extends Controller
     {
         $user = $this->createUser($request);
 
-        return $this->respondWithToken(auth()->login($user));
+        return response()->json([
+            'status' => 'success',
+            'data'   => $user,
+        ], 200);
     }
 
     /**
@@ -61,7 +64,10 @@ class AuthController extends Controller
      */
     public function user()
     {
-        return response()->json(auth()->user());
+        return response()->json([
+            'status' => 'success',
+            'data'   => auth()->user(),
+        ]);
     }
 
     /**
@@ -73,7 +79,10 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json([
+            'status' => 'success',
+            'msg'    => 'Logged out Successfully.',
+        ], 200);
     }
 
     /**
@@ -83,7 +92,9 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 
     /**
