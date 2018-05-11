@@ -8,6 +8,7 @@ use App\Http\Requests\Api\Auth\Register;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\AuthenticationException;
 
 /**
  * Class AuthController
@@ -30,13 +31,14 @@ class AuthController extends Controller
      *
      * @param Login $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws AuthenticationException
      */
     public function login(Login $request): JsonResponse
     {
         $credentials = $request->only(['email', 'password']);
 
         if (!$token = auth()->attempt($credentials))
-            return response()->json(['error' => 'Unauthorized'], 401);
+            throw new AuthenticationException();
 
         return $this->respondWithToken($token);
     }
