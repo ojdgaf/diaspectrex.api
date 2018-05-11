@@ -18,7 +18,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $fillable = [
         # common
-        'type', 'email', 'password', 'sex', 'phone',
+        'email', 'password', 'sex', 'phone',
         'first_name', 'middle_name', 'last_name',
         'birthday', 'passport', 'residence',
         # employee
@@ -70,7 +70,8 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Gets all patient's cards of user
+     * Gets all patient's cards of user.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function patientCards()
@@ -79,7 +80,8 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Gets the hospital of user if user has role employee, doctor, head doctor
+     * Gets the hospital of user if user has role employee, doctor, head doctor.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function hospital()
@@ -89,6 +91,7 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * Gets the address where user lives.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function address()
