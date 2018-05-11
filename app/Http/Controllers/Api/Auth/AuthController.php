@@ -35,7 +35,7 @@ class AuthController extends Controller
     {
         $credentials = $request->only(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials))
+        if (!$token = auth()->attempt($credentials))
             return response()->json(['error' => 'Unauthorized'], 401);
 
         return $this->respondWithToken($token);
@@ -52,9 +52,9 @@ class AuthController extends Controller
         $user = $this->createUser($request);
 
         return response()->json([
-            'status' => 'success',
-            'data'   => $user,
-        ], 200);
+            'success' => true,
+            'data'    => $user,
+        ]);
     }
 
     /**
@@ -65,8 +65,8 @@ class AuthController extends Controller
     public function user()
     {
         return response()->json([
-            'status' => 'success',
-            'data'   => auth()->user(),
+            'success' => true,
+            'data'    => auth()->user(),
         ]);
     }
 
@@ -80,9 +80,9 @@ class AuthController extends Controller
         auth()->logout();
 
         return response()->json([
-            'status' => 'success',
-            'msg'    => 'Logged out Successfully.',
-        ], 200);
+            'success' => true,
+            'message' => 'Logged out successfully.',
+        ]);
     }
 
     /**
@@ -93,7 +93,7 @@ class AuthController extends Controller
     public function refresh()
     {
         return response()->json([
-            'status' => 'success',
+            'success' => true,
         ]);
     }
 
@@ -107,6 +107,7 @@ class AuthController extends Controller
     protected function respondWithToken($token)
     {
         return response()->json([
+            'success'      => true,
             'access_token' => $token,
             'token_type'   => 'bearer',
             'expires_in'   => auth()->factory()->getTTL() * 60,

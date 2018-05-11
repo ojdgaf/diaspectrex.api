@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends Controller
@@ -20,14 +23,32 @@ class ResetPasswordController extends Controller
     }
 
     /**
+     * Reset the given user's password.
+     *
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword $user
+     * @param  string $password
+     * @return void
+     */
+    protected function resetPassword($user, $password)
+    {
+        $user->password = Hash::make($password);
+
+        $user->save();
+
+        event(new PasswordReset($user));
+
+        $this->guard()->login($user);
+    }
+
+    /**
      * Get the response for a successful password reset.
      *
-     * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse
+     * @param  string $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     protected function sendResetResponse($response)
     {
-        return $response()->json([
+        return response()->json([
             'success' => true,
             'message' => 'Password has been reset',
         ]);
@@ -37,13 +58,14 @@ class ResetPasswordController extends Controller
      * Get the response for a failed password reset.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse
+     * @param  string $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     protected function sendResetFailedResponse(Request $request, $response)
     {
         return response()->json([
             'success' => false,
+            'error'   => $response,
         ], 400);
     }
 }

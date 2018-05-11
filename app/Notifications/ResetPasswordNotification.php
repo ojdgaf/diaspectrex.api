@@ -45,7 +45,7 @@ class ResetPasswordNotification extends BasicResetPasswordNotification
     {
         return (new MailMessage)
             ->line('You are receiving this email because we received a password reset request for your account.')
-            ->action('Reset Password', $this->generatePasswordResetUrl())
+            ->action('Reset Password', $this->generatePasswordResetUrl($notifiable->email))
             ->line('If you did not request a password reset, no further action is required.');
     }
 
@@ -62,8 +62,12 @@ class ResetPasswordNotification extends BasicResetPasswordNotification
         ];
     }
 
-    protected function generatePasswordResetUrl()
+    protected function generatePasswordResetUrl(string $email)
     {
-        return config('app.app') . '/password/reset/' . $this->token;
+        return url(
+            config('app.app') .
+            '/password/reset/' . $this->token .
+            '?email='.urlencode($email)
+        );
     }
 }
