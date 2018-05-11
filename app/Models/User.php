@@ -8,6 +8,7 @@ use Spatie\Permission\Traits\HasRoles;
 use \App\Notifications\ResetPasswordNotification as CustomResetPasswordNotification;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Address\Address;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -59,8 +60,39 @@ class User extends Authenticatable implements JWTSubject
         $this->notify(new CustomResetPasswordNotification($token));
     }
 
-    public function diagnosticCard()
+    /**
+     * Gets all phones of user
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function phones()
     {
-        return $this->hasOne(Card::class, 'user_id');
+        return $this->morphMany(Phone::class, 'phoneable');
+    }
+
+    /**
+     * Gets all patient's cards of user
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function patientCards()
+    {
+        return $this->hasMany(PatientCard::class);
+    }
+
+    /**
+     * Gets the hospital of user if user has role employee, doctor, head doctor
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function hospital()
+    {
+        return $this->belongsTo(Hospital::class, 'hospital_id');
+    }
+
+    /**
+     * Gets the address where user lives.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function address()
+    {
+        return $this->belongsTo(Address::Class, 'address_id');
     }
 }
