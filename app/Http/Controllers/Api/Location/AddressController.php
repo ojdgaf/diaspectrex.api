@@ -23,9 +23,7 @@ class AddressController extends Controller
      */
     public function index()
     {
-        return new AddressesResource(
-            Address::paginate(static::LOCATION_PAGINATION)
-        );
+        return new AddressesResource(Address::fully()->paginate(static::LOCATION_PAGINATION));
     }
 
     /**
@@ -36,7 +34,7 @@ class AddressController extends Controller
     {
         $address = Address::create($request->all());
 
-        return new AddressResource($address);
+        return new AddressResource($address->full());
     }
 
     /**
@@ -45,7 +43,7 @@ class AddressController extends Controller
      */
     public function show(Address $address)
     {
-        return new AddressResource($address);
+        return new AddressResource($address->full());
     }
 
     /**
@@ -57,7 +55,7 @@ class AddressController extends Controller
     {
         $address->update($request->all());
 
-        return new AddressResource($address);
+        return new AddressResource($address->full());
     }
 
     /**

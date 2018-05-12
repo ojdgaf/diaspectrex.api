@@ -2,6 +2,7 @@
 
 namespace App\Models\Location;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -94,5 +95,26 @@ class Address extends Model
     public function hospitals()
     {
         return $this->hasMany(Hospital::class);
+    }
+
+    /**
+     * Attach specified relationships to the model instance.
+     *
+     * @return Address
+     */
+    public function full()
+    {
+        return $this->load('country', 'region', 'city', 'street');
+    }
+
+    /**
+     * Inform Query Builder to load additional relationships.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeFully(Builder $query)
+    {
+        return $query->with('country', 'region', 'city', 'street');
     }
 }
