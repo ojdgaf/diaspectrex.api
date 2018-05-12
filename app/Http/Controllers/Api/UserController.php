@@ -12,9 +12,8 @@ class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
      * @param Index $request
-     * @return \Illuminate\Http\Response
+     * @return UsersResource
      */
     public function index(Index $request)
     {
@@ -39,9 +38,8 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return UserResource
      */
     public function show(User $user)
     {
