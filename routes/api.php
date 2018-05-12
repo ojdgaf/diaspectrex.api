@@ -14,7 +14,8 @@ Route::prefix('auth')->namespace('Auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::apiResources([
-        'users' => 'UserController',
+        'users'     => 'UserController',
+        'hospitals' => 'HospitalController',
     ]);
 
     Route::namespace('Location')->group(function () {

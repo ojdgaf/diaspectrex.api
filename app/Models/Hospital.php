@@ -19,6 +19,7 @@ class Hospital extends Model
      * @var string
      */
     protected $table = 'hospitals';
+    protected $guarded = [];
 
     /**
      * @var array
