@@ -32,11 +32,11 @@ class Country extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
     public function cities()
     {
-        return $this->hasMany(City::class);
+        return $this->hasManyThrough(City::class, Region::class);
     }
 
     /**

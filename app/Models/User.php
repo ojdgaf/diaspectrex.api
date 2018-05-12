@@ -8,7 +8,8 @@ use Spatie\Permission\Traits\HasRoles;
 use \App\Notifications\ResetPasswordNotification as CustomResetPasswordNotification;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Models\Address\Address;
+
+use App\Models\Location\Address;
 
 class User extends Authenticatable implements JWTSubject
 {
