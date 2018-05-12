@@ -24,6 +24,13 @@ class Street extends Model
     protected $fillable = ['city_id', 'name'];
 
     /**
+     * @var array
+     */
+    protected $hidden = [
+        'created_at', 'updated_at', 'deleted_at',
+    ];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function city()

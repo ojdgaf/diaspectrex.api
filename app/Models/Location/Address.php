@@ -30,6 +30,13 @@ class Address extends Model
     ];
 
     /**
+     * @var array
+     */
+    protected $hidden = [
+        'created_at', 'updated_at', 'deleted_at',
+    ];
+
+    /**
      * Gets the country pointed in address.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

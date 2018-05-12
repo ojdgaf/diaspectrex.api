@@ -24,6 +24,13 @@ class Country extends Model
     protected $fillable = ['name'];
 
     /**
+     * @var array
+     */
+    protected $hidden = [
+        'created_at', 'updated_at', 'deleted_at',
+    ];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function regions()

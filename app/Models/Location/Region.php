@@ -24,6 +24,13 @@ class Region extends Model
     protected $fillable = ['country_id', 'name'];
 
     /**
+     * @var array
+     */
+    protected $hidden = [
+        'created_at', 'updated_at', 'deleted_at',
+    ];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function country()
