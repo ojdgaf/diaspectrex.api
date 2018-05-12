@@ -22,6 +22,8 @@ class CreateRegionsTable extends Migration
 
             $table->foreign('country_id')->references('id')
                 ->on('countries')->onUpdate('cascade')->onDelete('set null');
+
+            $table->unique(['country_id', 'name']);
         });
     }
 
