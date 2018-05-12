@@ -11,3 +11,7 @@ Route::prefix('auth')->namespace('Auth')->group(function () {
     Route::get('refresh',  'AuthController@refresh');
     Route::post('logout',   'AuthController@logout');
 });
+
+Route::middleware('auth')->group(function () {
+    Route::apiResource('users', 'UserController');
+});
