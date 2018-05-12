@@ -1,44 +1,67 @@
 <?php
 
-namespace App\Models\Address;
+namespace App\Models\Location;
 
-use App\Models\Hospital;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Models\User;
+use App\Models\Hospital;
+
+/**
+ * Class Address
+ * @package App\Models\Location
+ */
 class Address extends Model
 {
+    use SoftDeletes;
+
+    /**
+     * @var string
+     */
     protected $table = 'addresses';
 
     /**
-     * Gets the country pointed in address
+     * @var array
+     */
+    protected $fillable = [
+        'country_id', 'region_id', 'city_id', 'street_id',
+        'building', 'flat', 'postal_code',
+    ];
+
+    /**
+     * Gets the country pointed in address.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function country()
     {
-        return $this->belongsTo(Country::class, 'country_id');
+        return $this->belongsTo(Country::class);
     }
 
     /**
-     * Gets the region pointed in address
+     * Gets the region pointed in address.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function region()
     {
-        return $this->belongsTo(Region::class, 'region_id');
+        return $this->belongsTo(Region::class);
     }
 
     /**
-     * Gets the city pointed in address
+     * Gets the city pointed in address.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function city()
     {
-        return $this->belongsTo(City::class, 'city_id');
+        return $this->belongsTo(City::class);
     }
 
     /**
-     * Gets the street pointed in address
+     * Gets the street pointed in address.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function street()
@@ -47,7 +70,8 @@ class Address extends Model
     }
 
     /**
-     * Gets all users who live by this address
+     * Gets all users who live by this address.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function users()
@@ -56,7 +80,8 @@ class Address extends Model
     }
 
     /**
-     * Gets all hospitals located by this address
+     * Gets all hospitals located by this address.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function hospitals()
