@@ -14,9 +14,22 @@ Route::prefix('auth')->namespace('Auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::apiResources([
-        'users'     => 'UserController',
-
-        # Location namespace
-        'countries' => 'Location\CountryController',
+        'users' => 'UserController',
     ]);
+
+    Route::namespace('Location')->group(function () {
+        Route::apiResources([
+            'countries' => 'CountryController',
+            'regions'   => 'RegionController',
+            'cities'    => 'CityController',
+            'streets'   => 'StreetController',
+            'addresses' => 'AddressController',
+        ]);
+
+        Route::get('countries/{country}/regions', 'CountryController@getRegions');
+        Route::get('countries/{country}/cities',  'CountryController@getCities');
+        Route::get('regions/{region}/cities',     'RegionController@getCities');
+        Route::get('cities/{city}/streets',       'CityController@getStreets');
+        Route::get('streets/{street}/addresses',  'StreetController@getAddresses');
+    });
 });
