@@ -11,6 +11,7 @@ class Hospital extends Model
     use SoftDeletes;
 
     protected $table = 'hospitals';
+    protected $guarded = [];
 
     /**
      * Gets address where hospital is located
