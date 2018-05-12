@@ -9,9 +9,14 @@ Route::prefix('auth')->namespace('Auth')->group(function () {
 
     Route::get('user',     'AuthController@user');
     Route::get('refresh',  'AuthController@refresh');
-    Route::post('logout',   'AuthController@logout');
+    Route::post('logout',  'AuthController@logout');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::apiResource('users', 'UserController');
+    Route::apiResources([
+        'users'     => 'UserController',
+
+        # Location namespace
+        'countries' => 'Location\CountryController',
+    ]);
 });
