@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\Users\Index;
+use App\Http\Requests\User\Get;
 
 use App\Models\User;
 use App\Http\Resources\User as UserResource;
@@ -14,10 +14,10 @@ class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * @param Index $request
+     * @param Get $request
      * @return UsersResource
      */
-    public function index(Index $request)
+    public function index(Get $request)
     {
         $users = User::query();
 
