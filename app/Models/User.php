@@ -11,12 +11,27 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Models\Location\Address;
 
+/**
+ * Class User
+ * @package App\Models
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, HasRoles, CanResetPassword;
 
+    /**
+     * @var string
+     */
+    protected $guard_name = 'api';
+
+    /**
+     * @var string
+     */
     protected $table = 'users';
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         # common
         'email', 'password', 'sex', 'phone',
@@ -28,7 +43,12 @@ class User extends Authenticatable implements JWTSubject
         'degree',
     ];
 
-    protected $hidden = ['password'];
+    /**
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'created_at', 'updated_at', 'deleted_at'
+    ];
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

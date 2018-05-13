@@ -19,7 +19,6 @@ class Hospital extends Model
      * @var string
      */
     protected $table = 'hospitals';
-    protected $guarded = [];
 
     /**
      * @var array
@@ -27,6 +26,18 @@ class Hospital extends Model
     protected $fillable = [
         'address_id', 'name', 'description'
     ];
+
+    /**
+     * @var array
+     */
+    protected $hidden = [
+        'created_at', 'updated_at', 'deleted_at',
+    ];
+
+    /**
+     * @var array
+     */
+    public $with = ['address'];
 
     /**
      * Gets address where hospital is located.
