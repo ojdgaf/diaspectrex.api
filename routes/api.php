@@ -18,6 +18,8 @@ Route::middleware('auth')->group(function () {
         'hospitals' => 'HospitalController',
     ]);
 
+    Route::get('hospitals/{hospital}/employees', 'HospitalController@getEmployees');
+
     Route::namespace('Location')->group(function () {
         Route::apiResources([
             'countries' => 'CountryController',
