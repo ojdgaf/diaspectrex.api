@@ -63,7 +63,7 @@ return [
 
         'controller'        => 'App\Http\Controllers',
 
-        'api_controller'    => 'App\Http\Controllers\API',
+        'api_controller'    => 'App\Http\Controllers',
 
         'request'           => 'App\Http\Requests',
 
