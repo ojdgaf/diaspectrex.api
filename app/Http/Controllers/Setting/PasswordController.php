@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Settings;
+namespace App\Http\Controllers\Setting;
 
-use App\Http\Requests\Settings\UpdatePassword;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\JsonResponse;
+
+use App\Http\Requests\Setting\UpdatePassword;
 
 class PasswordController extends Controller
 {

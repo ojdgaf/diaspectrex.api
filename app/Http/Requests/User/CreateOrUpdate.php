@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Users;
+namespace App\Http\Requests\User;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -25,12 +25,12 @@ class CreateOrUpdate extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required|email', Rule::unique('users')->ignore($this->user)],
-            'first_name' => 'required|string|min:3',
+            'email'       => ['required|email', Rule::unique('users')->ignore($this->user)],
+            'first_name'  => 'required|string|min:3',
             'middle_name' => 'nullable|string|min:3',
-            'last_name' => 'required|string|min:3',
-            'sex' => 'required|string|in:Male,Female',
-            'birthday' => 'required|integer',
+            'last_name'   => 'required|string|min:3',
+            'sex'         => 'required|string|in:Male,Female',
+            'birthday'    => 'required|integer',
 
         ];
     }
