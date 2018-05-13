@@ -20,6 +20,19 @@ Route::middleware('auth')->group(function () {
 
     Route::get('hospitals/{hospital}/employees', 'HospitalController@getEmployees');
 
+    Route::namespace('Management')->group(function () {
+        Route::apiResources([
+            'roles' => 'RoleController',
+        ]);
+
+        Route::prefix('users/{user}')->group(function () {
+            Route::get('roles',    'RoleController@getForUser');
+            Route::post('roles',   'RoleController@assignToUser');
+            Route::put('roles',    'RoleController@syncWithUser');
+            Route::delete('roles', 'RoleController@removeFromUser');
+        });
+    });
+
     Route::namespace('Location')->group(function () {
         Route::apiResources([
             'countries' => 'CountryController',
