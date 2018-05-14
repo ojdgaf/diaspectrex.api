@@ -17,6 +17,11 @@ use Illuminate\Auth\AuthenticationException;
 class AuthController extends Controller
 {
     /**
+     * Roles that will be attached to every new user by default.
+     */
+    protected const DEFAULT_ROLES = ['patient'];
+
+    /**
      * Create a new AuthController instance.
      *
      * @return void
@@ -51,7 +56,7 @@ class AuthController extends Controller
      */
     public function register(Register $request): JsonResponse
     {
-        $user = $this->createUser($request);
+        $user = $this->createUser($request)->withRoleNames();
 
         return response()->json([
             'success' => true,
@@ -68,7 +73,7 @@ class AuthController extends Controller
     {
         return response()->json([
             'success' => true,
-            'data'    => auth()->user(),
+            'data'    => auth()->user()->withRoleNames(),
         ]);
     }
 
@@ -129,6 +134,8 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
 
         $user->save();
+
+        $user->syncRoles(static::DEFAULT_ROLES);
 
         return $user;
     }
