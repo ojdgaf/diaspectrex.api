@@ -26,10 +26,10 @@ Route::middleware('auth')->group(function () {
         ]);
 
         Route::prefix('users/{user}')->group(function () {
-            Route::get('roles',    'RoleController@getForUser');
-            Route::post('roles',   'RoleController@assignToUser');
-            Route::put('roles',    'RoleController@syncWithUser');
-            Route::delete('roles', 'RoleController@removeFromUser');
+            Route::get('roles',    'UserRoleController@get');
+            Route::post('roles',   'UserRoleController@assign');
+            Route::put('roles',    'UserRoleController@sync');
+            Route::delete('roles', 'UserRoleController@remove');
         });
     });
 

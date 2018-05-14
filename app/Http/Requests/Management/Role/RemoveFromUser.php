@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Class RemoveFromUser
  * @package App\Http\Requests\Management\Role
- * @property string $role
+ * @property string $roleName
  */
 class RemoveFromUser extends FormRequest
 {
@@ -29,7 +29,7 @@ class RemoveFromUser extends FormRequest
     public function rules()
     {
         return [
-            'role' => 'required|string|exists:roles,name',
+            'roleName' => 'required|string|exists:roles,name',
         ];
     }
 }

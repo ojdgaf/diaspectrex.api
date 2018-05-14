@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Management\Role\CreateOrUpdate;
-use App\Http\Requests\Management\Role\AttachToUser;
-use App\Http\Requests\Management\Role\SyncWithUser;
-use App\Http\Requests\Management\Role\RemoveFromUser;
 
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -71,50 +68,5 @@ class RoleController extends Controller
         $role->delete();
 
         sendResponse([]);
-    }
-
-    /**
-     * @param User $user
-     * @return RolesResource
-     */
-    public function getForUser(User $user)
-    {
-        return new RolesResource($user->getRoleNames());
-    }
-
-    /**
-     * @param AttachToUser $request
-     * @param User $user
-     * @return RolesResource
-     */
-    public function assignToUser(AttachToUser $request, User $user)
-    {
-        $user->assignRole($request->role);
-
-        return new RolesResource($user->getRoleNames());
-    }
-
-    /**
-     * @param SyncWithUser $request
-     * @param User $user
-     * @return RolesResource
-     */
-    public function syncWithUser(SyncWithUser $request, User $user)
-    {
-        $user->syncRoles($request->roles);
-
-        return new RolesResource($user->getRoleNames());
-    }
-
-    /**
-     * @param RemoveFromUser $request
-     * @param User $user
-     * @return RolesResource
-     */
-    public function removeFromUser(RemoveFromUser $request, User $user)
-    {
-        $user->removeRole($request->role);
-
-        return new RolesResource($user->getRoleNames());
     }
 }

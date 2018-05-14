@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Class SyncWithUser
  * @package App\Http\Requests\Management\Role
- * @property array $roles
+ * @property array $roleNames
  */
 class SyncWithUser extends FormRequest
 {
@@ -29,8 +29,8 @@ class SyncWithUser extends FormRequest
     public function rules()
     {
         return [
-            'roles'   => 'required|array',
-            'roles.*' => 'required|string|exists:roles,name',
+            'roleNames'   => 'required|array',
+            'roleNames.*' => 'required|string|exists:roles,name',
         ];
     }
 }
