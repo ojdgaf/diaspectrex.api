@@ -8,14 +8,14 @@ use InfyOm\Generator\Utils\ResponseUtil;
  *
  * @param mixed $result
  * @param string $message
- * @return \Illuminate\Http\JsonResponse
+ * @return void
  */
 if (! function_exists('sendResponse')) {
     function sendResponse($result, string $message = 'ok')
     {
-        return Response::json(
+        Response::json(
             ResponseUtil::makeResponse($message, $result)
-        )->send();
+        )->throwResponse();
     }
 }
 
@@ -25,14 +25,14 @@ if (! function_exists('sendResponse')) {
  * @param string $message
  * @param array $errors
  * @param int $code
- * @return \Illuminate\Http\JsonResponse
+ * @return void
  */
 if (! function_exists('sendError')) {
     function sendError(string $message, array $errors = [], $code = 404)
     {
-        return Response::json(
+        Response::json(
             ResponseUtil::makeError($message, $errors),
             $code
-        )->send();
+        )->throwResponse();
     }
 }
