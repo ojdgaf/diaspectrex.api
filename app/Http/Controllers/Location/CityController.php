@@ -33,7 +33,7 @@ class CityController extends Controller
      */
     public function store(CreateOrUpdate $request)
     {
-        $city = City::create($request->all());
+        $city = City::create($request->validated());
 
         return new CityResource($city);
     }
@@ -54,7 +54,7 @@ class CityController extends Controller
      */
     public function update(CreateOrUpdate $request, City $city)
     {
-        $city->update($request->all());
+        $city->update($request->validated());
 
         return new CityResource($city);
     }

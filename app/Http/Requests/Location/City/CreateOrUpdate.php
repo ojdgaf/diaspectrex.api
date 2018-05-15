@@ -24,7 +24,7 @@ class CreateOrUpdate extends FormRequest
     public function rules()
     {
         return [
-            'region_id' => 'required|integer|exists:regions,id',
+            'region_id' => 'required|integer|min:1|exists:regions,id',
             'name'      => 'required|string|min:3',
         ];
     }

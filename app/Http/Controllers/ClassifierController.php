@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Classifier\CreateOrUpdate;
 use App\Models\Classifier;
-use Illuminate\Http\Request;
 use App\Http\Resources\Classifier as ClassifierResource;
 use App\Http\Resources\Classifiers as ClassifiersResource;
 
@@ -28,7 +27,7 @@ class ClassifierController extends Controller
      */
     public function store(CreateOrUpdate $request)
     {
-        $classifier = Classifier::create($request->all());
+        $classifier = Classifier::create($request->validated());
 
         return new ClassifierResource($classifier);
     }
@@ -53,12 +52,14 @@ class ClassifierController extends Controller
      */
     public function update(CreateOrUpdate $request, Classifier $classifier)
     {
-        $classifier->update($request->all());
+        $classifier->update($request->validated());
 
         return new ClassifierResource($classifier);
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
      * @param Classifier $classifier
      */
     public function destroy(Classifier $classifier)

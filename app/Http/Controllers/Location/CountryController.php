@@ -34,7 +34,7 @@ class CountryController extends Controller
      */
     public function store(CreateOrUpdate $request)
     {
-        $country = Country::create($request->all());
+        $country = Country::create($request->validated());
 
         return new CountryResource($country);
     }
@@ -55,7 +55,7 @@ class CountryController extends Controller
      */
     public function update(CreateOrUpdate $request, Country $country)
     {
-        $country->update($request->all());
+        $country->update($request->validated());
 
         return new CountryResource($country);
     }

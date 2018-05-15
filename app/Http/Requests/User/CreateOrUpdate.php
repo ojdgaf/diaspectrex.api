@@ -26,10 +26,10 @@ class CreateOrUpdate extends FormRequest
     {
         return [
             'email'       => ['required|email', Rule::unique('users')->ignore($this->user)],
-            'first_name'  => 'required|string|min:3',
-            'middle_name' => 'nullable|string|min:3',
-            'last_name'   => 'required|string|min:3',
-            'sex'         => 'required|string|in:Male,Female',
+            'first_name'  => 'required|string|min:3|max:255',
+            'middle_name' => 'nullable|string|min:3|max:255',
+            'last_name'   => 'required|string|min:3|max:255',
+            'sex'         => 'required|string|in:male,female',
             'birthday'    => 'required|integer',
 
         ];

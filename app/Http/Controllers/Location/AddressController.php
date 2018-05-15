@@ -32,7 +32,7 @@ class AddressController extends Controller
      */
     public function store(CreateOrUpdate $request)
     {
-        $address = Address::create($request->all());
+        $address = Address::create($request->validated());
 
         return new AddressResource($address);
     }
@@ -53,7 +53,7 @@ class AddressController extends Controller
      */
     public function update(CreateOrUpdate $request, Address $address)
     {
-        $address->update($request->all());
+        $address->update($request->validated());
 
         return new AddressResource($address);
     }

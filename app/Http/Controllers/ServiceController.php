@@ -31,7 +31,7 @@ class ServiceController extends Controller
      */
     public function store(CreateOrUpdate $request)
     {
-        $service = Service::create($request->all());
+        $service = Service::create($request->validated());
 
         return new ServiceResource($service);
     }
@@ -56,7 +56,7 @@ class ServiceController extends Controller
      */
     public function update(CreateOrUpdate $request, Service $service)
     {
-        $service->update($request->all());
+        $service->update($request->validated());
 
         return new ServiceResource($service);
     }

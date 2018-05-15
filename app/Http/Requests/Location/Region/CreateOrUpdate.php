@@ -24,7 +24,7 @@ class CreateOrUpdate extends FormRequest
     public function rules()
     {
         return [
-            'country_id' => 'required|integer|exists:countries,id',
+            'country_id' => 'required|integer|min:1|exists:countries,id',
             'name'       => 'required|string|min:3',
         ];
     }

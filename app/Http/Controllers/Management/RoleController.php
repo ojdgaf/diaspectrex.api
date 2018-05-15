@@ -33,7 +33,7 @@ class RoleController extends Controller
      */
     public function store(CreateOrUpdate $request)
     {
-        $role = Role::create($request->all());
+        $role = Role::create($request->validated());
 
         return new RoleResource($role);
     }
@@ -54,7 +54,7 @@ class RoleController extends Controller
      */
     public function update(CreateOrUpdate $request, Role $role)
     {
-        $role->update($request->all());
+        $role->update($request->validated());
 
         return new RoleResource($role);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Location\Street;
+namespace App\Http\Requests\PatientCard;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,8 +24,11 @@ class CreateOrUpdate extends FormRequest
     public function rules()
     {
         return [
-            'city_id' => 'required|integer|min:1|exists:cities,id',
-            'name'    => 'required|string|min:3',
+            'patient_id'   => 'required|integer|min:1|exists:users,id|bail',
+            'code'         => 'required|string|min:1|max:255|bail',
+            'patient_type' => 'required|string|in:adult,child|bail',
+            'allergies'    => 'nullable|string|bail',
+            'diseases'     => 'nullable|string|bail'
         ];
     }
 }

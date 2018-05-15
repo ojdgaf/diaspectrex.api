@@ -33,7 +33,7 @@ class StreetController extends Controller
      */
     public function store(CreateOrUpdate $request)
     {
-        $street = Street::create($request->all());
+        $street = Street::create($request->validated());
 
         return new StreetResource($street);
     }
@@ -54,7 +54,7 @@ class StreetController extends Controller
      */
     public function update(CreateOrUpdate $request, Street $street)
     {
-        $street->update($request->all());
+        $street->update($request->validated());
 
         return new StreetResource($street);
     }

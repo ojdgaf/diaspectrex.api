@@ -24,10 +24,10 @@ class CreateOrUpdate extends FormRequest
     public function rules()
     {
         return [
-            'country_id'  => 'required|integer|exists:countries,id',
-            'region_id'   => 'required|integer|exists:regions,id',
-            'city_id'     => 'required|integer|exists:cities,id',
-            'street_id'   => 'required|integer|exists:streets,id',
+            'country_id'  => 'required|integer|min:1|exists:countries,id',
+            'region_id'   => 'required|integer|min:1|exists:regions,id',
+            'city_id'     => 'required|integer|min:1|exists:cities,id',
+            'street_id'   => 'required|integer|min:1|exists:streets,id',
             'building'    => 'required|integer|between:1,1000',
             'flat'        => 'nullable|integer|between:1,1000',
             'postal_code' => 'nullable|string|min:3',

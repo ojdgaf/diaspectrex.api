@@ -33,7 +33,7 @@ class RegionController extends Controller
      */
     public function store(CreateOrUpdate $request)
     {
-        $region = Region::create($request->all());
+        $region = Region::create($request->validated());
 
         return new RegionResource($region);
     }
@@ -54,7 +54,7 @@ class RegionController extends Controller
      */
     public function update(CreateOrUpdate $request, Region $region)
     {
-        $region->update($request->all());
+        $region->update($request->validated());
 
         return new RegionResource($region);
     }

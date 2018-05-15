@@ -24,7 +24,7 @@ class CreateOrUpdate extends FormRequest
     public function rules()
     {
         return [
-            'address_id'  => 'nullable|integer|exists:addresses,id',
+            'address_id'  => 'nullable|integer|min:1|exists:addresses,id',
             'name'        => 'required|string|min:2|max:255',
             'description' => 'nullable|string'
         ];
