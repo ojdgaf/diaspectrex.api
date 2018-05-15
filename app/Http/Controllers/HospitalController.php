@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests\Hospital\Store;
+use App\Http\Requests\Hospital\CreateOrUpdate;
 use App\Http\Requests\Hospital\GetEmployees;
 
 use App\Models\Hospital;
@@ -18,26 +16,20 @@ use App\Http\Resources\Users as UsersResource;
  */
 class HospitalController extends Controller
 {
-    /**
-     * Quantity of hospital items per response.
-     */
-    const HOSPITAL_PAGINATION = 100;
 
     /**
      * @return HospitalsResource
      */
     public function index()
     {
-        return new HospitalsResource(
-            Hospital::paginate(static::LOCATION_PAGINATION)
-        );
+        return new HospitalsResource(Hospital::paginate());
     }
 
     /**
-     * @param Store $request
+     * @param CreateOrUpdate $request
      * @return HospitalResource
      */
-    public function store(Store $request)
+    public function store(CreateOrUpdate $request)
     {
         $hospital = Hospital::create($request->all());
 
@@ -54,11 +46,11 @@ class HospitalController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param CreateOrUpdate $request
      * @param Hospital $hospital
      * @return HospitalResource
      */
-    public function update(Request $request, Hospital $hospital)
+    public function update(CreateOrUpdate $request, Hospital $hospital)
     {
         $hospital->update($request->all());
 

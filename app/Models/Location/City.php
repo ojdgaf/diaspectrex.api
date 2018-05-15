@@ -19,6 +19,8 @@ class City extends Model
     protected $table = 'cities';
 
     /**
+     * The attributes that are mass assignable
+     *
      * @var array
      */
     protected $fillable = [
@@ -26,11 +28,11 @@ class City extends Model
     ];
 
     /**
-     * @var array
+     * The number of models to return for pagination
+     *
+     * @var int
      */
-    protected $hidden = [
-        'created_at', 'updated_at', 'deleted_at',
-    ];
+    protected $perPage = 50;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

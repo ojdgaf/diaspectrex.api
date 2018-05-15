@@ -16,6 +16,7 @@ Route::middleware('auth')->group(function () {
     Route::apiResources([
         'users'     => 'UserController',
         'hospitals' => 'HospitalController',
+        'services'  => 'ServiceController'
     ]);
 
     Route::get('hospitals/{hospital}/employees', 'HospitalController@getEmployees');

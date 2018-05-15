@@ -22,6 +22,8 @@ class Address extends Model
     protected $table = 'addresses';
 
     /**
+     * The attributes that are mass assignable
+     *
      * @var array
      */
     protected $fillable = [
@@ -30,18 +32,20 @@ class Address extends Model
     ];
 
     /**
-     * @var array
-     */
-    protected $hidden = [
-        'created_at', 'updated_at', 'deleted_at',
-    ];
-
-    /**
+     * The relations to eager load on every query.
+     *
      * @var array
      */
     public $with = [
         'country', 'region', 'city', 'street'
     ];
+
+    /**
+     * The number of models to return for pagination
+     *
+     * @var int
+     */
+    protected $perPage = 50;
 
     /**
      * Gets the country pointed in address.

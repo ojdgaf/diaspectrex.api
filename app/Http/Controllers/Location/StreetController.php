@@ -24,9 +24,7 @@ class StreetController extends Controller
      */
     public function index()
     {
-        return new StreetsResource(
-            Street::paginate(static::LOCATION_PAGINATION)
-        );
+        return new StreetsResource(Street::paginate());
     }
 
     /**

@@ -24,9 +24,7 @@ class CityController extends Controller
      */
     public function index()
     {
-        return new CitiesResource(
-            City::paginate(static::LOCATION_PAGINATION)
-        );
+        return new CitiesResource(City::paginate());
     }
 
     /**

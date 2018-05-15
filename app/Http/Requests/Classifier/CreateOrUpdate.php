@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Hospital;
+namespace App\Http\Requests\Classifier;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Store extends FormRequest
+class CreateOrUpdate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class Store extends FormRequest
     public function rules()
     {
         return [
-            'address_id' => 'nullable|integer',
-            'name' => 'required|string|min:2|max:255',
-            'description' => 'nullable|string'
+            'name'        => 'required|string|min:2|max:255|bail',
+            'description' => 'nullable|string|bail'
         ];
     }
 }

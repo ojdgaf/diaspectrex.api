@@ -15,7 +15,7 @@ class CreateClassifiersTable extends Migration
     {
         Schema::create('classifiers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name', 255);
             $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();

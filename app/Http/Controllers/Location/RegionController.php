@@ -24,9 +24,7 @@ class RegionController extends Controller
      */
     public function index()
     {
-        return new RegionsResource(
-            Region::paginate(static::LOCATION_PAGINATION)
-        );
+        return new RegionsResource(Region::paginate());
     }
 
     /**

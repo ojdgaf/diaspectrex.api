@@ -23,7 +23,7 @@ class AddressController extends Controller
      */
     public function index()
     {
-        return new AddressesResource(Address::paginate(static::LOCATION_PAGINATION));
+        return new AddressesResource(Address::paginate());
     }
 
     /**

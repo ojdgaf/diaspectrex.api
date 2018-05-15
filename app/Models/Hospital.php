@@ -16,11 +16,15 @@ class Hospital extends Model
     use SoftDeletes;
 
     /**
+     * The table associated with the model
+     *
      * @var string
      */
     protected $table = 'hospitals';
 
     /**
+     * The attributes that are mass assignable
+     *
      * @var array
      */
     protected $fillable = [
@@ -28,13 +32,8 @@ class Hospital extends Model
     ];
 
     /**
-     * @var array
-     */
-    protected $hidden = [
-        'created_at', 'updated_at', 'deleted_at',
-    ];
-
-    /**
+     * The relations to eager load on every query.
+     *
      * @var array
      */
     public $with = ['address'];
@@ -69,11 +68,4 @@ class Hospital extends Model
         return $this->hasMany(User::class);
     }
 
-    public function headDoctors(){
-        $this->employees()->roles('head doctor')->get();
-    }
-
-    public function doctors(){
-        $this->employees()->roles('doctor')->get();
-    }
 }

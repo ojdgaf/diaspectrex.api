@@ -19,16 +19,20 @@ class Region extends Model
     protected $table = 'regions';
 
     /**
+     * The attributes that are mass assignable
+     *
      * @var array
      */
-    protected $fillable = ['country_id', 'name'];
+    protected $fillable = [
+        'country_id', 'name'
+    ];
 
     /**
-     * @var array
+     * The number of models to return for pagination
+     *
+     * @var int
      */
-    protected $hidden = [
-        'created_at', 'updated_at', 'deleted_at',
-    ];
+    protected $perPage = 50;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
