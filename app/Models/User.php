@@ -82,6 +82,16 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * @return $this
+     */
+    public function withRoleNames()
+    {
+        $this->roleNames = $this->getRoleNames();
+
+        return $this;
+    }
+
+    /**
      * Gets all phones of user
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
