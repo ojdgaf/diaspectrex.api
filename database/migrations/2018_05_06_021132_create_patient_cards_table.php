@@ -16,7 +16,7 @@ class CreatePatientCardsTable extends Migration
         Schema::create('patient_cards', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('patient_id');
-            $table->string('code',255)->nullable();
+            $table->string('code')->nullable();
             $table->enum('patient_type', ['adult', 'child']);
             $table->text('allergies')->nullable();
             $table->text('diseases')->nullable();
