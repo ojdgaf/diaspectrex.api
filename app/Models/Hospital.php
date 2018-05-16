@@ -9,7 +9,31 @@ use App\Models\Location\Address;
 
 /**
  * Class Hospital
+ *
  * @package App\Models
+ * @property int $id
+ * @property int|null $address_id
+ * @property string $name
+ * @property string|null $description
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read \App\Models\Location\Address|null $address
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $employees
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Phone[] $phones
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Hospital onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Hospital whereAddressId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Hospital whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Hospital whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Hospital whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Hospital whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Hospital whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Hospital whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Hospital withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Hospital withoutTrashed()
+ * @mixin \Eloquent
  */
 class Hospital extends Model
 {

@@ -6,7 +6,29 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class PatientCard
+ *
  * @package App\Models
+ * @property int $id
+ * @property int $patient_id
+ * @property string|null $code
+ * @property string $patient_type
+ * @property string|null $allergies
+ * @property string|null $diseases
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Examination[] $examinations
+ * @property-read \App\Models\User $patient
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereAllergies($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereDiseases($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard wherePatientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard wherePatientType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class PatientCard extends Model
 {
