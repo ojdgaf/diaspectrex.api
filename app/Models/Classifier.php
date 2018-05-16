@@ -6,7 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Classifier
+ *
  * @package App\Models
+ * @property int $id
+ * @property string $name
+ * @property string|null $description
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Seance[] $seances
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Classifier extends Model
 {

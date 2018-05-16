@@ -7,7 +7,29 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Service
+ *
  * @package App\Models
+ * @property int $id
+ * @property string $name
+ * @property string|null $description
+ * @property float $price
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Seance[] $seances
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Service onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Service whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Service whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Service whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Service whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Service whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Service wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Service whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Service withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Service withoutTrashed()
+ * @mixin \Eloquent
  */
 class Service extends Model
 {

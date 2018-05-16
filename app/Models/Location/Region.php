@@ -7,7 +7,29 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Region
+ *
  * @package App\Models\Location
+ * @property int $id
+ * @property int|null $country_id
+ * @property string $name
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Location\Address[] $addresses
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Location\City[] $cities
+ * @property-read \App\Models\Location\Country|null $country
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Location\Region onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Location\Region whereCountryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Location\Region whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Location\Region whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Location\Region whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Location\Region whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Location\Region whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Location\Region withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Location\Region withoutTrashed()
+ * @mixin \Eloquent
  */
 class Region extends Model
 {
