@@ -96,7 +96,17 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'created_at', 'updated_at', 'deleted_at'
+        'password', 'created_at', 'updated_at', 'deleted_at',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'birthday', 'hired_at', 'fired_at',
+        'created_at', 'updated_at', 'deleted_at',
     ];
 
     /**
