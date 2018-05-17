@@ -4,13 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-/**
- * Resource class for examination model collection.
- *
- * Class Examinations
- * @package App\Http\Resources
- */
-class Examinations extends ResourceCollection
+class Seances extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

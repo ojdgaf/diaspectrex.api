@@ -4,6 +4,12 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
+/**
+ * Resource class for classifier models collection.
+ *
+ * Class Classifiers
+ * @package App\Http\Resources
+ */
 class Classifiers extends ResourceCollection
 {
     /**

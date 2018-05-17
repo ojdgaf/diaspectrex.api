@@ -27,10 +27,41 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Examination extends Model
 {
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'examinations';
 
     /**
-     * Gets all seances related to this examination
+     * 	The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'patient_card_id', 'name', 'conclusion'
+    ];
+
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = [
+        'seances', 'patientCard'
+    ];
+
+    /**
+     * The number of models to return for pagination.
+     *
+     * @var int
+     */
+    protected $perPage = 25;
+
+    /**
+     * Returns the seances which are related to the examination.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function seances()
@@ -39,7 +70,8 @@ class Examination extends Model
     }
 
     /**
-     * Gets patient's card which contains this examination
+     * Returns patient's card which contains the examination.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function patientCard()

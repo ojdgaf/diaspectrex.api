@@ -12,11 +12,11 @@ class ClassifierController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return ClassifiersResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return new ClassifiersResource(Classifier::all());
+        return ClassifiersResource::collection(Classifier::all());
     }
 
     /**
@@ -29,7 +29,7 @@ class ClassifierController extends Controller
     {
         $classifier = Classifier::create($request->validated());
 
-        return new ClassifierResource($classifier);
+        return ClassifierResource::make($classifier);
     }
 
     /**
@@ -40,7 +40,7 @@ class ClassifierController extends Controller
      */
     public function show(Classifier $classifier)
     {
-        return new ClassifierResource($classifier);
+        return ClassifierResource::make($classifier);
     }
 
     /**
@@ -54,7 +54,7 @@ class ClassifierController extends Controller
     {
         $classifier->update($request->validated());
 
-        return new ClassifierResource($classifier);
+        return ClassifierResource::make($classifier);
     }
 
     /**

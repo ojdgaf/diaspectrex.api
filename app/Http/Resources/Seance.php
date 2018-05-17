@@ -4,13 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- * Resource class for classifier model.
- *
- * Class Classifier
- * @package App\Http\Resources
- */
-class Classifier extends JsonResource
+class Seance extends JsonResource
 {
     /**
      * Transform the resource into an array.

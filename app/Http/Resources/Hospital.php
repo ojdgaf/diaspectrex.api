@@ -7,6 +7,12 @@ use App\Http\Resources\Location\Address as AddressResource;
 use App\Http\Resources\Phones as PhonesResource;
 use App\Http\Resources\Users as UsersResource;
 
+/**
+ * Resource class for hospital model.
+ *
+ * Class Hospital
+ * @package App\Http\Resources
+ */
 class Hospital extends JsonResource
 {
     /**

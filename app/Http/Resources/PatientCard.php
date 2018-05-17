@@ -6,6 +6,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\PatientCard as PatientCardResource;
 use App\Http\Resources\Examinations as ExaminationsResource;
 
+/**
+ * Resource class for patient card model.
+ *
+ * Class PatientCard
+ * @package App\Http\Resources
+ */
 class PatientCard extends JsonResource
 {
     /**
@@ -18,7 +24,7 @@ class PatientCard extends JsonResource
     {
         return [
             'id'           => $this->id,
-            'patient'      => new PatientCardResource($this->patient),
+            'patient'      => PatientCardResource::make($this->patient),
             'patient_type' => $this->patient_type,
             'code'         => $this->code,
             'allergies'    => $this->allergies,
