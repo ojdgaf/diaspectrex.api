@@ -77,7 +77,7 @@ class RegionController extends Controller
     public function getCities(Region $region)
     {
         return CitiesResource::collection(
-            $region->cities()->paginate(static::LOCATION_PAGINATION)
+            $region->cities()->paginate()
         );
     }
 }

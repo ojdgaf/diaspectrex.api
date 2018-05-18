@@ -14,9 +14,13 @@ Route::prefix('auth')->namespace('Auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::apiResources([
-        'users'     => 'UserController',
-        'hospitals' => 'HospitalController',
-        'services'  => 'ServiceController'
+        'users'             => 'UserController',
+        'hospitals'         => 'HospitalController',
+        'services'          => 'ServiceController',
+        'classifiers'       => 'ClassifierController',
+        'examinations'      => 'ExaminationController',
+        'diagnostic_groups' => 'DiagnosticGroupController',
+        'patient_cards'     => 'PatientCardController'
     ]);
 
     Route::get('hospitals/{hospital}/employees', 'HospitalController@getEmployees');
@@ -49,4 +53,6 @@ Route::middleware('auth')->group(function () {
         Route::get('cities/{city}/streets',       'CityController@getStreets');
         Route::get('streets/{street}/addresses',  'StreetController@getAddresses');
     });
+
+    Route::get('diagnosticGroups/{diagnosticGroup}/tests', 'DiagnosticGroupController@getTests');
 });

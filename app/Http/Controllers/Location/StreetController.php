@@ -77,7 +77,7 @@ class StreetController extends Controller
     public function getAddresses(Street $street)
     {
         return AddressesResource::collection(
-            $street->addresses()->paginate(static::LOCATION_PAGINATION)
+            $street->addresses()->paginate()
         );
     }
 }

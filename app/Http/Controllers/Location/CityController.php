@@ -77,7 +77,7 @@ class CityController extends Controller
     public function getStreets(City $city)
     {
         return StreetsResource::make(
-            $city->streets()->paginate(static::LOCATION_PAGINATION)
+            $city->streets()->paginate()
         );
     }
 }
