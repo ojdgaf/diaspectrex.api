@@ -16,11 +16,11 @@ class ServiceController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return ServicesResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return new ServicesResource(Service::paginate());
+        return ServicesResource::collection(Service::paginate());
     }
 
     /**
@@ -33,7 +33,7 @@ class ServiceController extends Controller
     {
         $service = Service::create($request->validated());
 
-        return new ServiceResource($service);
+        return ServiceResource::make($service);
     }
 
     /**
@@ -44,7 +44,7 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        return new ServiceResource($service);
+        return ServiceResource::make($service);
     }
 
     /**
@@ -58,7 +58,7 @@ class ServiceController extends Controller
     {
         $service->update($request->validated());
 
-        return new ServiceResource($service);
+        return ServiceResource::make($service);
     }
 
     /**

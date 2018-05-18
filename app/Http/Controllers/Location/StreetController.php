@@ -20,11 +20,11 @@ use App\Http\Resources\Location\Addresses as AddressesResource;
 class StreetController extends Controller
 {
     /**
-     * @return StreetsResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return new StreetsResource(Street::paginate());
+        return StreetsResource::collection(Street::paginate());
     }
 
     /**
@@ -35,7 +35,7 @@ class StreetController extends Controller
     {
         $street = Street::create($request->validated());
 
-        return new StreetResource($street);
+        return StreetResource::make($street);
     }
 
     /**
@@ -44,7 +44,7 @@ class StreetController extends Controller
      */
     public function show(Street $street)
     {
-        return new StreetResource($street);
+        return StreetResource::make($street);
     }
 
     /**
@@ -56,7 +56,7 @@ class StreetController extends Controller
     {
         $street->update($request->validated());
 
-        return new StreetResource($street);
+        return StreetResource::make($street);
     }
 
     /**
@@ -72,11 +72,11 @@ class StreetController extends Controller
 
     /**
      * @param Street $street
-     * @return AddressesResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getAddresses(Street $street)
     {
-        return new AddressesResource(
+        return AddressesResource::collection(
             $street->addresses()->paginate(static::LOCATION_PAGINATION)
         );
     }

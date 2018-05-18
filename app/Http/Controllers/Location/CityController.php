@@ -24,7 +24,7 @@ class CityController extends Controller
      */
     public function index()
     {
-        return new CitiesResource(City::paginate());
+        return CitiesResource::collection(City::paginate());
     }
 
     /**
@@ -35,7 +35,7 @@ class CityController extends Controller
     {
         $city = City::create($request->validated());
 
-        return new CityResource($city);
+        return CityResource::make($city);
     }
 
     /**
@@ -44,7 +44,7 @@ class CityController extends Controller
      */
     public function show(City $city)
     {
-        return new CityResource($city);
+        return CityResource::make($city);
     }
 
     /**
@@ -56,7 +56,7 @@ class CityController extends Controller
     {
         $city->update($request->validated());
 
-        return new CityResource($city);
+        return CityResource::make($city);
     }
 
     /**
@@ -76,7 +76,7 @@ class CityController extends Controller
      */
     public function getStreets(City $city)
     {
-        return new StreetsResource(
+        return StreetsResource::make(
             $city->streets()->paginate(static::LOCATION_PAGINATION)
         );
     }

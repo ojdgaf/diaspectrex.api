@@ -12,11 +12,11 @@ class PatientCardController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return PatientCardsResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return new PatientCardsResource(PatientCard::paginate());
+        return PatientCardsResource::collection(PatientCard::paginate());
     }
 
     /**
@@ -29,7 +29,7 @@ class PatientCardController extends Controller
     {
         $patientCard = PatientCard::create($request->validated());
 
-        return new PatientCardResource($patientCard);
+        return PatientCardResource::make($patientCard);
     }
 
     /**
@@ -40,7 +40,7 @@ class PatientCardController extends Controller
      */
     public function show(PatientCard $patientCard)
     {
-        return new PatientCardResource($patientCard);
+        return PatientCardResource::make($patientCard);
     }
 
     /**
@@ -54,7 +54,7 @@ class PatientCardController extends Controller
     {
         $patientCard->update($request->validated());
 
-        return new PatientCardResource($patientCard);
+        return PatientCardResource::make($patientCard);
     }
 
     /**

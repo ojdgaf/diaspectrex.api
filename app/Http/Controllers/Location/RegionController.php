@@ -20,11 +20,11 @@ use App\Http\Resources\Location\Cities as CitiesResource;
 class RegionController extends Controller
 {
     /**
-     * @return RegionsResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return new RegionsResource(Region::paginate());
+        return RegionsResource::collection(Region::paginate());
     }
 
     /**
@@ -35,7 +35,7 @@ class RegionController extends Controller
     {
         $region = Region::create($request->validated());
 
-        return new RegionResource($region);
+        return RegionResource::make($region);
     }
 
     /**
@@ -44,7 +44,7 @@ class RegionController extends Controller
      */
     public function show(Region $region)
     {
-        return new RegionResource($region);
+        return RegionResource::make($region);
     }
 
     /**
@@ -56,7 +56,7 @@ class RegionController extends Controller
     {
         $region->update($request->validated());
 
-        return new RegionResource($region);
+        return RegionResource::make($region);
     }
 
     /**
@@ -72,11 +72,11 @@ class RegionController extends Controller
 
     /**
      * @param Region $region
-     * @return CitiesResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getCities(Region $region)
     {
-        return new CitiesResource(
+        return CitiesResource::collection(
             $region->cities()->paginate(static::LOCATION_PAGINATION)
         );
     }

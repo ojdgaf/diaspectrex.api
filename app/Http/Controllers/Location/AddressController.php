@@ -19,11 +19,11 @@ use App\Http\Resources\Location\Addresses as AddressesResource;
 class AddressController extends Controller
 {
     /**
-     * @return AddressesResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return new AddressesResource(Address::paginate());
+        return AddressesResource::collection(Address::paginate());
     }
 
     /**
@@ -34,7 +34,7 @@ class AddressController extends Controller
     {
         $address = Address::create($request->validated());
 
-        return new AddressResource($address);
+        return AddressResource::make($address);
     }
 
     /**
@@ -55,7 +55,7 @@ class AddressController extends Controller
     {
         $address->update($request->validated());
 
-        return new AddressResource($address);
+        return AddressResource::make($address);
     }
 
     /**

@@ -20,11 +20,11 @@ use App\Http\Resources\Management\Roles as RolesResource;
 class RoleController extends Controller
 {
     /**
-     * @return RolesResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return new RolesResource(Role::all());
+        return RolesResource::collection(Role::all());
     }
 
     /**
@@ -35,7 +35,7 @@ class RoleController extends Controller
     {
         $role = Role::create($request->validated());
 
-        return new RoleResource($role);
+        return RoleResource::make($role);
     }
 
     /**
@@ -44,7 +44,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        return new RoleResource($role);
+        return RoleResource::make($role);
     }
 
     /**
@@ -56,7 +56,7 @@ class RoleController extends Controller
     {
         $role->update($request->validated());
 
-        return new RoleResource($role);
+        return RoleResource::make($role);
     }
 
     /**

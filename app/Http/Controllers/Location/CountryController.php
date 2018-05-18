@@ -21,11 +21,11 @@ use App\Http\Resources\Location\Cities as CitiesResource;
 class CountryController extends Controller
 {
     /**
-     * @return CountriesResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return new CountriesResource(Country::paginate());
+        return CountriesResource::collection(Country::paginate());
     }
 
     /**
@@ -36,7 +36,7 @@ class CountryController extends Controller
     {
         $country = Country::create($request->validated());
 
-        return new CountryResource($country);
+        return CountryResource::make($country);
     }
 
     /**
@@ -45,7 +45,7 @@ class CountryController extends Controller
      */
     public function show(Country $country)
     {
-        return new CountryResource($country);
+        return CountryResource::make($country);
     }
 
     /**
@@ -57,7 +57,7 @@ class CountryController extends Controller
     {
         $country->update($request->validated());
 
-        return new CountryResource($country);
+        return CountryResource::make($country);
     }
 
     /**
@@ -73,23 +73,23 @@ class CountryController extends Controller
 
     /**
      * @param Country $country
-     * @return RegionsResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getRegions(Country $country)
     {
-        return new RegionsResource(
-            $country->regions()->paginate(static::LOCATION_PAGINATION)
+        return RegionsResource::collection(
+            $country->regions()->paginate()
         );
     }
 
     /**
      * @param Country $country
-     * @return CitiesResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getCities(Country $country)
     {
-        return new CitiesResource(
-            $country->cities()->with('region')->paginate(static::LOCATION_PAGINATION)
+        return CitiesResource::collection(
+            $country->cities()->with('region')->paginate()
         );
     }
 }

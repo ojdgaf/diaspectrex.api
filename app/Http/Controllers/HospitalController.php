@@ -18,11 +18,11 @@ class HospitalController extends Controller
 {
 
     /**
-     * @return HospitalsResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return new HospitalsResource(Hospital::paginate());
+        return HospitalsResource::collection(Hospital::paginate());
     }
 
     /**
@@ -33,7 +33,7 @@ class HospitalController extends Controller
     {
         $hospital = Hospital::create($request->validated());
 
-        return new HospitalResource($hospital);
+        return HospitalResource::make($hospital);
     }
 
     /**
@@ -42,7 +42,7 @@ class HospitalController extends Controller
      */
     public function show(Hospital $hospital)
     {
-        return new HospitalResource($hospital);
+        return HospitalResource::make($hospital);
     }
 
     /**
@@ -54,7 +54,7 @@ class HospitalController extends Controller
     {
         $hospital->update($request->validated());
 
-        return new HospitalResource($hospital);
+        return HospitalResource::make($hospital);
     }
 
     /**
@@ -71,7 +71,7 @@ class HospitalController extends Controller
     /**
      * @param GetEmployees $request
      * @param Hospital $hospital
-     * @return UsersResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getEmployees(GetEmployees $request, Hospital $hospital)
     {
@@ -80,6 +80,6 @@ class HospitalController extends Controller
         if ($request->has('role'))
             $users->role($request->role);
 
-        return new UsersResource($users->get());
+        return UsersResource::collection($users->get());
     }
 }
