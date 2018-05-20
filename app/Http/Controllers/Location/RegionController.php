@@ -24,7 +24,7 @@ class RegionController extends Controller
      */
     public function index()
     {
-        return RegionsResource::collection(Region::paginate());
+        return RegionsResource::make(Region::paginate());
     }
 
     /**
@@ -76,7 +76,7 @@ class RegionController extends Controller
      */
     public function getCities(Region $region)
     {
-        return CitiesResource::collection(
+        return CitiesResource::make(
             $region->cities()->paginate()
         );
     }

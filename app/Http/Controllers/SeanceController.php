@@ -16,7 +16,7 @@ class SeanceController extends Controller
      */
     public function index()
     {
-        return SeancesResource::collection(Seance::all());
+        return SeancesResource::make(Seance::all());
     }
 
     /**

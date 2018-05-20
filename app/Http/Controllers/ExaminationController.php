@@ -20,7 +20,7 @@ class ExaminationController extends Controller
      */
     public function index()
     {
-        return ExaminationsResource::collection(Examination::paginate());
+        return ExaminationsResource::make(Examination::paginate());
     }
 
     /**

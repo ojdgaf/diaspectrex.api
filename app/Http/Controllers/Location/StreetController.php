@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Location;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Location\Street\CreateOrUpdate;
@@ -24,7 +23,7 @@ class StreetController extends Controller
      */
     public function index()
     {
-        return StreetsResource::collection(Street::paginate());
+        return StreetsResource::make(Street::paginate());
     }
 
     /**
@@ -76,7 +75,7 @@ class StreetController extends Controller
      */
     public function getAddresses(Street $street)
     {
-        return AddressesResource::collection(
+        return AddressesResource::make(
             $street->addresses()->paginate()
         );
     }

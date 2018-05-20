@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\Phone as PhoneResource;
 
 class Phones extends ResourceCollection
 {
@@ -14,6 +15,8 @@ class Phones extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => PhoneResource::collection($this->collection)
+        ];
     }
 }

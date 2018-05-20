@@ -27,7 +27,7 @@ class Examination extends JsonResource
             'name'         => $this->name,
             'conclusion'   => $this->conclusion,
             'patient_card' => PatientCardResource::make($this->patientCard),
-            'seances'      => SeancesResource::collection($this->seances),
+            'seances'      => SeancesResource::make($this->seances),
             'started_at'   => $this->started_at,
             'ended_at'     => $this->ended_at,
         ];

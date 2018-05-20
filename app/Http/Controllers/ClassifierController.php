@@ -16,7 +16,7 @@ class ClassifierController extends Controller
      */
     public function index()
     {
-        return ClassifiersResource::collection(Classifier::all());
+        return ClassifiersResource::make(Classifier::all());
     }
 
     /**

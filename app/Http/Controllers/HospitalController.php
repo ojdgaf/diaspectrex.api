@@ -22,7 +22,7 @@ class HospitalController extends Controller
      */
     public function index()
     {
-        return HospitalsResource::collection(Hospital::paginate());
+        return HospitalsResource::make(Hospital::paginate());
     }
 
     /**

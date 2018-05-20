@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\Examination as ExaminationResource;
 
 /**
  * Resource class for examination model collection.
@@ -20,6 +21,8 @@ class Examinations extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => ExaminationResource::collection($this->collection)
+        ];
     }
 }

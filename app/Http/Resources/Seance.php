@@ -27,7 +27,7 @@ class Seance extends JsonResource
             'test'             => TestResource::make($this->test),
             'classifier'       => ClassifierResource::make($this->classifier),
             'diagnostic_group' => DiagnosticGroupResource::make($this->diagnosticGroup),
-            'services'         => ServicesResource::collection($this->services),
+            'services'         => ServicesResource::make($this->services),
             'is_approved'      => $this->is_approved,
             'complains'        => $this->complains,
             'diagnosis'        => $this->diagnosis,

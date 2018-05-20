@@ -24,7 +24,7 @@ class CityController extends Controller
      */
     public function index()
     {
-        return CitiesResource::collection(City::paginate());
+        return CitiesResource::make(City::paginate());
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\DiagnosticGroup as DiagnosticGroupResource;
 
 class DiagnosticGroups extends ResourceCollection
 {
@@ -14,6 +15,8 @@ class DiagnosticGroups extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => DiagnosticGroupResource::collection($this->collection)
+        ];
     }
 }

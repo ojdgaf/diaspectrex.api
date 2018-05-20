@@ -29,7 +29,7 @@ class PatientCard extends JsonResource
             'code'         => $this->code,
             'allergies'    => $this->allergies,
             'diseases'     => $this->diseases,
-            'examinations' => ExaminationsResource::collection($this->examinations),
+            'examinations' => ExaminationsResource::make($this->examinations),
             'created_at'   => $this->created_at,
             'updated_at'   => $this->updated_at,
         ];

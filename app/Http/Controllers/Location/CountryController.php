@@ -25,7 +25,7 @@ class CountryController extends Controller
      */
     public function index()
     {
-        return CountriesResource::collection(Country::paginate());
+        return CountriesResource::make(Country::paginate());
     }
 
     /**

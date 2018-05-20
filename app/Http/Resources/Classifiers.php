@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\Classifier as ClassifierResource;
 
 /**
  * Resource class for classifier models collection.
@@ -20,6 +21,8 @@ class Classifiers extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => ClassifierResource::collection($this->collection)
+        ];
     }
 }

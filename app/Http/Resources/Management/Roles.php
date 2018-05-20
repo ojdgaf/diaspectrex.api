@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Management;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\Management\Role as RoleResource;
 
 class Roles extends ResourceCollection
 {
@@ -14,6 +15,8 @@ class Roles extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => RoleResource::collection($this->collection)
+        ];
     }
 }

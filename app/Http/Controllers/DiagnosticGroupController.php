@@ -17,7 +17,7 @@ class DiagnosticGroupController extends Controller
      */
     public function index()
     {
-        return DiagnosticGroupsResource::collection(DiagnosticGroup::all());
+        return DiagnosticGroupsResource::make(DiagnosticGroup::all());
     }
 
     /**
@@ -78,7 +78,7 @@ class DiagnosticGroupController extends Controller
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getTests(DiagnosticGroup $diagnosticGroup){
-        return TestsResource::collection(
+        return TestsResource::make(
             $diagnosticGroup->tests
         );
     }

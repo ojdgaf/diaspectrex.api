@@ -20,7 +20,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        return ServicesResource::collection(Service::paginate());
+        return ServicesResource::make(Service::paginate());
     }
 
     /**

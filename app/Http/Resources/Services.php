@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\Service as ServiceResource;
 
 class Services extends ResourceCollection
 {
@@ -14,6 +15,8 @@ class Services extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => ServiceResource::collection($this->collection)
+        ];
     }
 }

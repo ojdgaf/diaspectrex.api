@@ -20,10 +20,10 @@ class Address extends JsonResource
     {
         return [
             'id'          => $this->id,
-            'country'     => new CountryResource($this->country),
-            'region'      => new RegionResource($this->region),
-            'city'        => new CityResource($this->city),
-            'street'      => new StreetResource($this->street),
+            'country'     => CountryResource::make($this->country),
+            'region'      => RegionResource::make($this->region),
+            'city'        => CityResource::make($this->city),
+            'street'      => StreetResource::make($this->street),
             'building'    => $this->building,
             'flat'        => $this->flat,
             'postal_code' => $this->postal_code

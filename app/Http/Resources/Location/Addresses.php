@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Location;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\Location\Address as AddressResource;
 
 class Addresses extends ResourceCollection
 {
@@ -14,6 +15,8 @@ class Addresses extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => AddressResource::collection($this->collection)
+        ];
     }
 }

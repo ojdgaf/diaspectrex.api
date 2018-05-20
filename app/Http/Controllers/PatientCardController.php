@@ -16,7 +16,7 @@ class PatientCardController extends Controller
      */
     public function index()
     {
-        return PatientCardsResource::collection(PatientCard::paginate());
+        return PatientCardsResource::make(PatientCard::paginate());
     }
 
     /**

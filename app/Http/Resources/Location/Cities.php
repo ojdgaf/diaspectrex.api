@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Location;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\Location\City as CityResource;
 
 class Cities extends ResourceCollection
 {
@@ -14,6 +15,8 @@ class Cities extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => CityResource::collection($this->collection)
+        ];
     }
 }

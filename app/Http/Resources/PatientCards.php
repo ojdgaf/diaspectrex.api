@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\PatientCard as PatientCardResource;
 
 class PatientCards extends ResourceCollection
 {
@@ -14,6 +15,8 @@ class PatientCards extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => PatientCardResource::collection($this->collection)
+        ];
     }
 }

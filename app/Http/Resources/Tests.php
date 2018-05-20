@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\Test as TestResource;
 
 class Tests extends ResourceCollection
 {
@@ -14,6 +15,8 @@ class Tests extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => TestResource::collection($this->collection)
+        ];
     }
 }

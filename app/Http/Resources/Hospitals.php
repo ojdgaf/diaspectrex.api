@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\Hospital as HospitalResource;
 
 /**
  * Resource class for hospital models collection.
@@ -20,6 +21,8 @@ class Hospitals extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => HospitalResource::collection($this->collection)
+        ];
     }
 }

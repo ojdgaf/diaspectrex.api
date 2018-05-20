@@ -27,9 +27,9 @@ class Hospital extends JsonResource
             'id'          => $this->id,
             'name'        => $this->name,
             'description' => $this->description,
-            'address'     => new AddressResource($this->address),
-            'phones'      => PhonesResource::collection($this->phones),
-            'employees'   => UsersResource::collection($this->employees)
+            'address'     => AddressResource::make($this->address),
+            'phones'      => PhonesResource::make($this->phones),
+            'employees'   => UsersResource::make($this->employees)
         ];
     }
 }

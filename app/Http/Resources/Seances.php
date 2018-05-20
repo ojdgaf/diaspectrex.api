@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\Seance as SeanceResource;
 
 class Seances extends ResourceCollection
 {
@@ -14,6 +15,8 @@ class Seances extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => SeanceResource::collection($this->collection)
+        ];
     }
 }

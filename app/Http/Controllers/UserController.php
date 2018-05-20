@@ -24,7 +24,7 @@ class UserController extends Controller
         if ($request->has('role'))
             $users->role($request->role);
 
-        return new UsersResource($users->get());
+        return UsersResource::make($users->get());
     }
 
     /**
