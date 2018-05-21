@@ -26,6 +26,8 @@ class Address extends JsonResource
             'street'      => StreetResource::make($this->street),
             'building'    => $this->building,
             'flat'        => $this->flat,
+            'full'        => $this->country->name . ', ' . $this->region->name . ', '
+                            . $this->city->name . ', ' . $this->street->name . ', ' . $this->building,
             'postal_code' => $this->postal_code
         ];
     }
