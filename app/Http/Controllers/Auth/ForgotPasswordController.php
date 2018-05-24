@@ -41,7 +41,7 @@ class ForgotPasswordController extends Controller
     {
         return response()->json([
             'success' => true,
-            'message' => 'Link has been sent',
+            'message' => 'We have e-mailed your password reset link',
         ]);
     }
 
