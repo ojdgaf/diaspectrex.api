@@ -18,7 +18,8 @@
         "nanigans/single-table-inheritance": "0.8.*",
         "spatie/laravel-activitylog": "^2.5",
         "spatie/laravel-permission": "^2.12",
-        "tymon/jwt-auth": "^1.0.0"
+        "tymon/jwt-auth": "^1.0.0",
+        "orangehill/iseed": "dev-master"
     },
     "require-dev": {
         "barryvdh/laravel-cors": "^0.11.0",

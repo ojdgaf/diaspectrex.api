@@ -25,7 +25,7 @@ class CountryController extends Controller
      */
     public function index()
     {
-        return CountriesResource::make(Country::paginate());
+        return CountriesResource::make(Country::all());
     }
 
     /**
@@ -77,8 +77,8 @@ class CountryController extends Controller
      */
     public function getRegions(Country $country)
     {
-        return RegionsResource::collection(
-            $country->regions()->paginate()
+        return RegionsResource::make(
+            $country->regions
         );
     }
 
@@ -88,7 +88,7 @@ class CountryController extends Controller
      */
     public function getCities(Country $country)
     {
-        return CitiesResource::collection(
+        return CitiesResource::make(
             $country->cities()->with('region')->paginate()
         );
     }

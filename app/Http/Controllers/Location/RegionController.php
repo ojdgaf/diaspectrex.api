@@ -77,7 +77,7 @@ class RegionController extends Controller
     public function getCities(Region $region)
     {
         return CitiesResource::make(
-            $region->cities()->paginate()
+            $region->cities
         );
     }
 }
