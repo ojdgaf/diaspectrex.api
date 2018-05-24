@@ -45,7 +45,11 @@ class AuthController extends Controller
         if (!$token = auth()->attempt($credentials))
             throw new AuthenticationException();
 
-        return $this->respondWithToken($token);
+        sendResponse([
+            'access_token' => $token,
+            'token_type'   => 'bearer',
+            'expires_in'   => auth()->factory()->getTTL() * 60,
+        ]);
     }
 
     /**
@@ -56,12 +60,7 @@ class AuthController extends Controller
      */
     public function register(Register $request): JsonResponse
     {
-        $user = $this->createUser($request)->withRoleNames();
-
-        return response()->json([
-            'success' => true,
-            'data'    => $user,
-        ]);
+        sendResponse($this->createUser($request)->withRoleNames());
     }
 
     /**
@@ -71,10 +70,7 @@ class AuthController extends Controller
      */
     public function user()
     {
-        return response()->json([
-            'success' => true,
-            'data'    => auth()->user()->withRoleNames(),
-        ]);
+        sendResponse(auth()->user()->withRoleNames());
     }
 
     /**
@@ -86,10 +82,7 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Logged out successfully.',
-        ]);
+        sendResponse([], 'Logged out successfully');
     }
 
     /**
@@ -99,28 +92,7 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return response()->json([
-            'success' => true,
-        ]);
-    }
-
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'success' => true,
-            'data'    => [
-                'access_token' => $token,
-                'token_type'   => 'bearer',
-                'expires_in'   => auth()->factory()->getTTL() * 60,
-            ],
-        ]);
+        sendResponse([]);
     }
 
     /**

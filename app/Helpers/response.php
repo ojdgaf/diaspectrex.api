@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Response;
-use InfyOm\Generator\Utils\ResponseUtil;
-
 /**
  * Create and send successful JSON response through HTTP.
  *
@@ -13,9 +10,10 @@ use InfyOm\Generator\Utils\ResponseUtil;
 if (! function_exists('sendResponse')) {
     function sendResponse($result, string $message = 'ok')
     {
-        Response::json(
-            ResponseUtil::makeResponse($message, $result)
-        )->throwResponse();
+        Response::json([
+            'data'    => $result,
+            'message' => $message,
+        ])->throwResponse();
     }
 }
 
@@ -30,9 +28,11 @@ if (! function_exists('sendResponse')) {
 if (! function_exists('sendError')) {
     function sendError(string $message, array $errors = [], $code = 404)
     {
-        Response::json(
-            ResponseUtil::makeError($message, $errors),
-            $code
-        )->throwResponse();
+        $response = ['message' => $message];
+
+        if (! empty($errors))
+            $response['data'] = $errors;
+
+        Response::json($response, $code)->throwResponse();
     }
 }
