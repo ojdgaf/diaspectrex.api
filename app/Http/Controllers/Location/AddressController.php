@@ -32,7 +32,7 @@ class AddressController extends Controller
      */
     public function store(CreateOrUpdate $request)
     {
-        $address = Address::create($request->validated());
+        $address = Address::firstOrCreate($request->validated());
 
         return AddressResource::make($address);
     }
