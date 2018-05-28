@@ -10,6 +10,7 @@ use App\Http\Requests\Management\Role\SyncWithUser;
 use App\Http\Requests\Management\Role\RemoveFromUser;
 
 use App\Models\User;
+use App\Http\Resources\Management\Role as RoleResource;
 
 /**
  * Class UserRoleController
@@ -19,10 +20,11 @@ class UserRoleController extends Controller
 {
     /**
      * @param User $user
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function get(User $user)
     {
-        sendResponse($user->getRoleNames());
+        return RoleResource::collection($user->roles);
     }
 
     /**

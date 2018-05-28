@@ -8,14 +8,19 @@ use App\Http\Requests\User\Get;
 
 use App\Models\User;
 use App\Http\Resources\User as UserResource;
-use App\Http\Resources\Users as UsersResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+/**
+ * Class UserController
+ * @package App\Http\Controllers
+ */
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
      * @param Get $request
-     * @return UsersResource
+     * @return AnonymousResourceCollection
      */
     public function index(Get $request)
     {
@@ -24,18 +29,20 @@ class UserController extends Controller
         if ($request->has('role'))
             $users->role($request->role);
 
-        return UsersResource::make($users->get());
+        return UserResource::collection($users->get());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @return UserResource
      */
     public function store(Request $request)
     {
-        //
+        $user = User::create($request->all());
+
+        return UserResource::make($user);
     }
 
     /**
@@ -51,8 +58,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -61,13 +68,30 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return UserResource
      */
-    public function destroy($id)
+    public function changePresentStatus(User $user)
     {
-        //
+        $user->update([
+            'is_present' => ! $user->is_present,
+        ]);
+
+        // TODO migrate?
+
+        return new UserResource($user);
+    }
+
+    /**
+     * @param User $user
+     * @throws \Exception
+     */
+    public function destroy(User $user)
+    {
+        // TODO migrate related patients and all responsibilities to another user
+
+        $user->delete();
+
+        sendResponse([], $user->last_name . ' has been deleted');
     }
 }

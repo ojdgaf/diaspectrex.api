@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
         'patient_cards'     => 'PatientCardController'
     ]);
 
+    Route::patch('users/{user}/present-status', 'UserController@changePresentStatus');
     Route::get('hospitals/{hospital}/employees', 'HospitalController@getEmployees');
 
     Route::namespace('Management')->group(function () {

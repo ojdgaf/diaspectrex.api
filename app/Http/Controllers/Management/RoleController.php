@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Management\Role\CreateOrUpdate;
 
+use App\Models\User;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use App\Http\Resources\Management\Role as RoleResource;
-use App\Http\Resources\Management\Roles as RolesResource;
 
 /**
  * Class RoleController
@@ -24,7 +22,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return RolesResource::make(Role::all());
+        return RoleResource::collection(Role::all());
     }
 
     /**
