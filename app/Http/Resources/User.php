@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Location\Address as AddressResource;
+use App\Http\Resources\Management\Role;
+use App\Http\Resources\Management\Permission;
 
 class User extends JsonResource
 {
@@ -23,7 +25,7 @@ class User extends JsonResource
             'middle_name' => $this->middle_name,
             'first_name'  => $this->first_name,
             'sex'         => $this->sex,
-            'birthday'    => $this->birthday->toFormattedDateString(),
+            'birthday'    => $this->birthday->toIso8601ZuluString(),
             'address_id'  => $this->address_id,
             'address'     => AddressResource::make($this->whenLoaded('address')),
 
@@ -39,6 +41,9 @@ class User extends JsonResource
             $this->mergeWhen($this->hasPermissionTo('have doctor attributes'), [
                 'degree' => $this->degree,
             ]),
+
+            'role_names'       => $this->getRoleNames(),
+            'permission_names' => $this->getPermissionNames(),
         ];
     }
 }

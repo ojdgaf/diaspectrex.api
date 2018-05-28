@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles;
+use App\Traits\HasACL;
 use \App\Notifications\ResetPasswordNotification as CustomResetPasswordNotification;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -66,7 +69,7 @@ use App\Models\Location\Address;
  */
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, HasRoles, CanResetPassword;
+    use SoftDeletes, Notifiable, HasACL, CanResetPassword;
 
     /**
      * @var string
@@ -74,11 +77,22 @@ class User extends Authenticatable implements JWTSubject
     protected $guard_name = 'api';
 
     /**
+     * The table associated with the model.
+     *
      * @var string
      */
     protected $table = 'users';
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['roles.permissions', 'permissions'];
+
+    /**
+     * The attributes that are mass assignable.
+     *
      * @var array
      */
     protected $fillable = [
@@ -93,6 +107,8 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
      * @var array
      */
     protected $hidden = [
@@ -107,6 +123,15 @@ class User extends Authenticatable implements JWTSubject
     protected $dates = [
         'birthday', 'hired_at', 'fired_at',
         'created_at', 'updated_at', 'deleted_at',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_present' => 'boolean',
     ];
 
     /**
@@ -138,16 +163,6 @@ class User extends Authenticatable implements JWTSubject
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new CustomResetPasswordNotification($token));
-    }
-
-    /**
-     * @return $this
-     */
-    public function withRoleNames()
-    {
-        $this->roleNames = $this->getRoleNames();
-
-        return $this;
     }
 
     /**
