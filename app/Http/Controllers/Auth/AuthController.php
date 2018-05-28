@@ -7,8 +7,8 @@ use App\Http\Requests\Auth\Login;
 use App\Http\Requests\Auth\Register;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\AuthenticationException;
+use App\Http\Resources\User as UserResource;
 
 /**
  * Class AuthController
@@ -35,10 +35,9 @@ class AuthController extends Controller
      * Get a JWT via given credentials.
      *
      * @param Login $request
-     * @return \Illuminate\Http\JsonResponse
      * @throws AuthenticationException
      */
-    public function login(Login $request): JsonResponse
+    public function login(Login $request)
     {
         $credentials = $request->only(['email', 'password']);
 
@@ -56,27 +55,26 @@ class AuthController extends Controller
      * Create the user and return JWT token.
      *
      * @param Register $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return UserResource
      */
-    public function register(Register $request): JsonResponse
+    public function register(Register $request)
     {
-        sendResponse($this->createUser($request)->withRoleNames());
+        return new UserResource($this->createUser($request));
     }
 
     /**
      * Get the authenticated User.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return UserResource
      */
     public function user()
     {
-        sendResponse(auth()->user()->withRoleNames());
+        return new UserResource(auth()->user());
     }
 
     /**
      * Log the user out (Invalidate the token).
      *
-     * @return \Illuminate\Http\JsonResponse
      */
     public function logout()
     {
@@ -88,7 +86,6 @@ class AuthController extends Controller
     /**
      * Refresh a token.
      *
-     * @return \Illuminate\Http\JsonResponse
      */
     public function refresh()
     {
