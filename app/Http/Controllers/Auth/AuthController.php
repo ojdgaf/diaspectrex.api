@@ -98,7 +98,7 @@ class AuthController extends Controller
      */
     protected function createUser(Register $request): User
     {
-        $user = new User($request->all());
+        $user = new User($request->validated());
 
         $user->password = Hash::make($request->password);
 
