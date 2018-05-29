@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 use App\Http\Requests\User\Get;
+use App\Http\Requests\User\CreateOrUpdate;
 
 use App\Models\User;
 use App\Http\Resources\User as UserResource;
@@ -35,36 +37,47 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  CreateOrUpdate $request
      * @return UserResource
      */
-    public function store(Request $request)
+    public function store(CreateOrUpdate $request)
     {
-        $user = User::create($request->all());
+        $user = new User($request->validated());
+
+        $user->password = Hash::make($request->password);
+
+        $user->save();
+
+        $user->syncRoles($request->roles_ids);
 
         return UserResource::make($user);
     }
 
     /**
      * Display the specified resource.
+     *
      * @param User $user
      * @return UserResource
      */
     public function show(User $user)
     {
-        return new UserResource($user);
+        return UserResource::make($user);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param  CreateOrUpdate $request
+     * @param  User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateOrUpdate $request, User $user)
     {
-        //
+        $user->update($request->validated());
+
+        $user->syncRoles($request->roles_ids);
+
+        return UserResource::make($user);
     }
 
     /**
@@ -79,7 +92,7 @@ class UserController extends Controller
 
         // TODO migrate?
 
-        return new UserResource($user);
+        return UserResource::make($user);
     }
 
     /**

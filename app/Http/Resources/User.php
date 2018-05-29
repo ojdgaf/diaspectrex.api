@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Location\Address as AddressResource;
 use App\Http\Resources\Management\Role;
 use App\Http\Resources\Management\Permission;
+use App\Http\Resources\Hospital as HospitalResource;
 
 class User extends JsonResource
 {
@@ -25,25 +26,25 @@ class User extends JsonResource
             'middle_name' => $this->middle_name,
             'first_name'  => $this->first_name,
             'sex'         => $this->sex,
-            'birthday'    => $this->birthday->toIso8601ZuluString(),
+            'birthday'    => $this->birthday->timestamp,
             'address_id'  => $this->address_id,
             'address'     => AddressResource::make($this->whenLoaded('address')),
 
-            $this->mergeWhen($this->hasAnyPermission(['have employee attributes', 'have doctor attributes']), [
+            $this->mergeWhen($this->hasAnyPermission(['be support', 'be employee', 'be doctor', 'be head']), [
                 'passport'    => $this->passport,
                 'hospital_id' => $this->hospital_id,
+                'hospital'    => HospitalResource::make($this->whenLoaded('hospital')),
                 'is_present'  => $this->is_present,
                 'about'       => $this->about,
-                'hired_at'    => $this->hired_at ? $this->hired_at->toDayDateTimeString() : null,
-                'fired_at'    => $this->fired_at ? $this->fired_at->toDayDateTimeString() : null,
+                'hired_at'    => $this->hired_at ? $this->hired_at->timestamp : null,
+                'fired_at'    => $this->fired_at ? $this->fired_at->timestamp : null,
             ]),
 
-            $this->mergeWhen($this->hasPermissionTo('have doctor attributes'), [
+            $this->mergeWhen($this->hasAnyPermission(['be doctor', 'be head']), [
                 'degree' => $this->degree,
             ]),
 
-            'role_names'       => $this->getRoleNames(),
-            'permission_names' => $this->getPermissionNames(),
+            'roles' => Role::collection($this->roles),
         ];
     }
 }

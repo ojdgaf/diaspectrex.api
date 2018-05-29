@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Requests\Auth\Login;
 use App\Http\Requests\Auth\Register;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\AuthenticationException;
 use App\Http\Resources\User as UserResource;
