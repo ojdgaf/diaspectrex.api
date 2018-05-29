@@ -16,56 +16,62 @@ class PermissionsTableSeeder extends Seeder
         DB::table('permissions')->insert([
             # attributes
             [
-                'name'       => 'have patient attributes',
+                'name'       => 'be support',
                 'guard_name' => 'api',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'name'       => 'have employee attributes',
+                'name'       => 'be patient',
                 'guard_name' => 'api',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'name'       => 'have doctor attributes',
+                'name'       => 'be employee',
                 'guard_name' => 'api',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'name'       => 'have head attributes',
+                'name'       => 'be doctor',
+                'guard_name' => 'api',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'name'       => 'be head',
                 'guard_name' => 'api',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             # pages
             [
-                'name'       => 'have access to support pages',
+                'name'       => 'access support pages',
                 'guard_name' => 'api',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'name'       => 'have access to patient pages',
+                'name'       => 'access patient pages',
                 'guard_name' => 'api',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'name'       => 'have access to employee pages',
+                'name'       => 'access employee pages',
                 'guard_name' => 'api',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'name'       => 'have access to doctor pages',
+                'name'       => 'access doctor pages',
                 'guard_name' => 'api',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'name'       => 'have access to head pages',
+                'name'       => 'access head pages',
                 'guard_name' => 'api',
                 'created_at' => $now,
                 'updated_at' => $now,
@@ -75,42 +81,41 @@ class PermissionsTableSeeder extends Seeder
 
             # users
             [
-                'name'       => 'see user',
-                'guard_name' => 'api',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
                 'name'       => 'see users',
                 'guard_name' => 'api',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'name'       => 'create user',
+                'name'       => 'manage supports',
                 'guard_name' => 'api',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'name'       => 'update user',
+                'name'       => 'manage patients',
                 'guard_name' => 'api',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'name'       => 'delete user',
+                'name'       => 'manage employees',
                 'guard_name' => 'api',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'name'       => 'interact with user',
+                'name'       => 'manage doctors',
                 'guard_name' => 'api',
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
-
+            [
+                'name'       => 'manage heads',
+                'guard_name' => 'api',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
         ]);
     }
 }

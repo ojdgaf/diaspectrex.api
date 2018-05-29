@@ -23,34 +23,35 @@ class RolePermissionTableSeeder extends Seeder
         $support->syncPermissions(Permission::all()->pluck('name'));
 
         $patient->syncPermissions([
-            'have patient attributes',
+            'be patient',
 
-            'have access to patient pages'
+            'access patient pages',
+
+            'see users'
         ]);
 
         $employee->syncPermissions([
-            'have employee attributes',
+            'be employee',
 
-            'have access to employee pages',
+            'access employee pages',
 
-            'see user', 'see users', 'create user', 'update user', 'interact with user',
+            'see users', 'manage patients', 'manage employees',
         ]);
 
         $doctor->syncPermissions([
-            'have employee attributes', 'have doctor attributes',
+            'be employee', 'be doctor',
 
-            'have access to employee pages', 'have access to doctor pages',
+            'access employee pages', 'access doctor pages',
 
-            'see user', 'see users', 'create user', 'update user', 'delete user', 'interact with user',
+            'see users', 'manage patients', 'manage employees', 'manage doctors'
         ]);
 
         $head->syncPermissions([
-            'have employee attributes', 'have doctor attributes', 'have head attributes',
+            'be employee', 'be doctor', 'be head',
 
-            'have access to employee pages', 'have access to doctor pages',
-            'have access to head pages',
+            'access employee pages', 'access doctor pages', 'access head pages',
 
-            'see user', 'see users', 'create user', 'update user', 'delete user', 'interact with user',
+            'see users', 'manage patients', 'manage employees', 'manage doctors', 'manage heads'
         ]);
     }
 }
