@@ -8,7 +8,7 @@
  * @return void
  */
 if (! function_exists('sendResponse')) {
-    function sendResponse($result, string $message = 'ok')
+    function sendResponse($result, string $message = '')
     {
         Response::json([
             'data'    => $result,
