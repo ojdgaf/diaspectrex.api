@@ -60,7 +60,11 @@ class AuthController extends Controller
      */
     public function register(Register $request)
     {
-        return new UserResource($this->createUser($request));
+        $user = $this->createUser($request);
+
+        auth()->login($user);
+
+        return $this->user();
     }
 
     /**
@@ -70,7 +74,7 @@ class AuthController extends Controller
      */
     public function user()
     {
-        return new UserResource(auth()->user());
+        return new UserResource(auth()->user()->loadPermissionNames());
     }
 
     /**

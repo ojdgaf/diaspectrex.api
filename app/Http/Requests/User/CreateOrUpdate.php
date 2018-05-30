@@ -12,7 +12,7 @@ use Spatie\Permission\Models\Role;
  * Class CreateOrUpdate
  * @package App\Http\Requests\User
  * @property null|Collection $rules
- * @property array $roles_ids
+ * @property array $role_ids
  * @property string $password
  */
 class CreateOrUpdate extends FormRequest
@@ -49,8 +49,8 @@ class CreateOrUpdate extends FormRequest
     protected function validateRoles()
     {
         $validator = Validator::make($this->all(), [
-            'roles_ids'   => 'required|array',
-            'roles_ids.*' => 'required|integer|exists:roles,id',
+            'role_ids'   => 'required|array',
+            'role_ids.*' => 'required|integer|exists:roles,id',
         ]);
 
         if ($validator->fails())
@@ -58,12 +58,12 @@ class CreateOrUpdate extends FormRequest
     }
 
     /**
-     * @param array $roles_ids
+     * @param array $role_ids
      * @return Collection
      */
-    protected function getRolesPermissions(array $roles_ids)
+    protected function getRolesPermissions(array $role_ids)
     {
-        $roles = Role::with('permissions')->whereIn('id', $roles_ids)->get();
+        $roles = Role::with('permissions')->whereIn('id', $role_ids)->get();
 
         return $roles->pluck('permissions')->flatten()->pluck('name')->unique();
     }
@@ -77,8 +77,8 @@ class CreateOrUpdate extends FormRequest
         $eighteenYearsAgo = now()->subYears(18)->timestamp;
 
         $this->rules = collect([
-            'roles_ids'   => 'required|array',
-            'roles_ids.*' => 'required|integer|exists:roles,id',
+            'role_ids'   => 'required|array',
+            'role_ids.*' => 'required|integer|exists:roles,id',
 
             'email'       => ['required', 'email', Rule::unique('users')->ignore($this->user)],
             'first_name'  => 'required|string|min:3|max:255',
@@ -86,6 +86,7 @@ class CreateOrUpdate extends FormRequest
             'last_name'   => 'required|string|min:3|max:255',
             'sex'         => 'required|string|in:male,female',
             'birthday'    => "required|integer|between:$hundredYearsAgo,$eighteenYearsAgo",
+            'address_id'  => 'required|integer|exists:addresses,id',
         ]);
 
         if ($this->method() === 'POST')
@@ -99,7 +100,7 @@ class CreateOrUpdate extends FormRequest
     {
         $authenticated = auth()->user();
 
-        $newUserPermissions = $this->getRolesPermissions($this->roles_ids);
+        $newUserPermissions = $this->getRolesPermissions($this->role_ids);
 
         if ($newUserPermissions->contains('be patient'))
             if ($authenticated->can('manage patients'))
@@ -149,7 +150,6 @@ class CreateOrUpdate extends FormRequest
         $monthAhead = now()->addMonth()->timestamp;
 
         $this->rules = $this->rules->merge([
-            'address_id'  => 'required|integer|exists:addresses,id',
             'hospital_id' => 'required|integer|exists:hospitals,id',
             'passport'    => 'required|string|min:4',
             'is_present'  => 'required|boolean',

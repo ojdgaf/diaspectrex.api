@@ -14,13 +14,12 @@ Route::prefix('auth')->namespace('Auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::apiResources([
-        'users'             => 'UserController',
         'hospitals'         => 'HospitalController',
         'services'          => 'ServiceController',
         'classifiers'       => 'ClassifierController',
         'examinations'      => 'ExaminationController',
         'diagnostic_groups' => 'DiagnosticGroupController',
-        'patient_cards'     => 'PatientCardController'
+        'patient_cards'     => 'PatientCardController',
     ]);
 
     Route::patch('users/{user}/present-status', 'UserController@changePresentStatus');
@@ -28,6 +27,7 @@ Route::middleware('auth')->group(function () {
 
     Route::namespace('Management')->group(function () {
         Route::apiResources([
+            'users' => 'UserController',
             'roles' => 'RoleController',
         ]);
 

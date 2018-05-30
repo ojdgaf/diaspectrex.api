@@ -44,7 +44,8 @@ class User extends JsonResource
                 'degree' => $this->degree,
             ]),
 
-            'roles' => Role::collection($this->roles),
+            'roles'            => Role::collection($this->roles),
+            'permission_names' => $this->when(isset($this->permission_names), $this->permission_names),
         ];
     }
 }

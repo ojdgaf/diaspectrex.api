@@ -23,6 +23,9 @@ class Register extends FormRequest
      */
     public function rules()
     {
+        $hundredYearsAgo = now()->subYears(100)->timestamp;
+        $yearAgo = now()->subYear()->timestamp;
+
         return [
             'email'                 => 'required|email|unique:users,email',
             'password'              => 'required|string|min:6|confirmed',
@@ -30,7 +33,8 @@ class Register extends FormRequest
             'first_name'            => 'required|string|min:2',
             'middle_name'           => 'nullable|string|min:2',
             'last_name'             => 'required|string|min:2',
-            'sex'                   => 'required|string|in:Male,Female',
+            'sex'                   => 'required|string|in:male,female',
+            'birthday'              => "required|integer|between:$hundredYearsAgo,$yearAgo",
         ];
     }
 }

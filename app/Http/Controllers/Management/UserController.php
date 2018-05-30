@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Management;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
 
 use App\Http\Requests\User\Get;
 use App\Http\Requests\User\CreateOrUpdate;
@@ -48,7 +49,7 @@ class UserController extends Controller
 
         $user->save();
 
-        $user->syncRoles($request->roles_ids);
+        $user->syncRoles($request->role_ids);
 
         return UserResource::make($user);
     }
@@ -75,7 +76,7 @@ class UserController extends Controller
     {
         $user->update($request->validated());
 
-        $user->syncRoles($request->roles_ids);
+        $user->syncRoles($request->role_ids);
 
         return UserResource::make($user);
     }
