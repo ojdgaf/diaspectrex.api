@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Location;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Location\Address\CreateOrUpdate;
@@ -18,6 +17,7 @@ use App\Http\Resources\Location\Addresses as AddressesResource;
  */
 class AddressController extends Controller
 {
+
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */

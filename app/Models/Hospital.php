@@ -10,7 +10,7 @@ use App\Models\Location\Address;
 /**
  * Class Hospital
  *
- * @package App\Models
+ * @package App\Observers
  * @property int $id
  * @property int|null $address_id
  * @property string $name

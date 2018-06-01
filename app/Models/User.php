@@ -17,7 +17,7 @@ use App\Models\Location\Address;
 /**
  * Class User
  *
- * @package App\Models
+ * @package App\Observers
  * @property int $id
  * @property string $email
  * @property string $first_name

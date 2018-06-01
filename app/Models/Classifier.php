@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Classifier
  *
- * @package App\Models
+ * @package App\Observers
  * @property int $id
  * @property string $name
  * @property string|null $description

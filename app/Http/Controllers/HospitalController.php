@@ -9,6 +9,8 @@ use App\Models\Hospital;
 use App\Http\Resources\Hospital as HospitalResource;
 use App\Http\Resources\Hospitals as HospitalsResource;
 use App\Http\Resources\Users as UsersResource;
+use App\Services\HospitalService;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class HospitalController
@@ -22,7 +24,7 @@ class HospitalController extends Controller
      */
     public function index()
     {
-        return HospitalsResource::make(Hospital::paginate());
+        return HospitalsResource::make(Hospital::all());
     }
 
     /**
@@ -31,9 +33,7 @@ class HospitalController extends Controller
      */
     public function store(CreateOrUpdate $request)
     {
-        $hospital = Hospital::create($request->validated());
-
-        return HospitalResource::make($hospital);
+        HospitalService::store($request->validated());
     }
 
     /**
@@ -52,9 +52,11 @@ class HospitalController extends Controller
      */
     public function update(CreateOrUpdate $request, Hospital $hospital)
     {
-        $hospital->update($request->validated());
+        HospitalService::update($request->validated(), $hospital);
 
-        return HospitalResource::make($hospital);
+        /*$hospital->update($request->validated());
+
+        return HospitalResource::make($hospital);*/
     }
 
     /**
@@ -63,9 +65,7 @@ class HospitalController extends Controller
      */
     public function destroy(Hospital $hospital)
     {
-        $hospital->delete();
-
-        sendResponse([]);
+        HospitalService::destroy($hospital);
     }
 
     /**

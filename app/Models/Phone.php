@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Phone
+ * App\Observers\Phone
  *
  * @property int $id
  * @property string $phoneable_type
@@ -26,7 +26,21 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Phone extends Model
 {
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'phones';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'phoneable_type', 'phoneable_id', 'number'
+    ];
 
     /**
      * Gets the entity which has a phone

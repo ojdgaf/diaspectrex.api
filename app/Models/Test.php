@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Test
+ * App\Observers\Test
  *
  * @property int $id
  * @property int $diagnostic_group_id

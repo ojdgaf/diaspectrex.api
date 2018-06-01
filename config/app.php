@@ -162,6 +162,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Observers
+         */
+        App\Providers\Observers\PhoneModelServiceProvider::class
     ],
 
     /*

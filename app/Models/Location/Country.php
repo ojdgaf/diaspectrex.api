@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Country
  *
- * @package App\Models\Location
+ * @package App\Observers\Location
  * @property int $id
  * @property string $name
  * @property \Carbon\Carbon|null $created_at

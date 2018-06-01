@@ -13,7 +13,7 @@ return [
 
         'migration'         => base_path('database/migrations/'),
 
-        'model'             => app_path('Models/'),
+        'model'             => app_path('Observers/'),
 
         'datatables'        => app_path('DataTables/'),
 
@@ -174,7 +174,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Save model files to `App/Models` when use `--prefix`. see #208
+    | Save model files to `App/Observers` when use `--prefix`. see #208
     |--------------------------------------------------------------------------
     |
     */

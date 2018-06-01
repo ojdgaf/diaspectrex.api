@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Location\Address as AddressResource;
-use App\Http\Resources\Phones as PhonesResource;
+use App\Http\Resources\Phone as PhoneResource;
 use App\Http\Resources\Users as UsersResource;
 
 /**
@@ -28,7 +28,7 @@ class Hospital extends JsonResource
             'name'        => $this->name,
             'description' => $this->description,
             'address'     => AddressResource::make($this->address),
-            'phones'      => PhonesResource::make($this->phones),
+            'phones'      => PhoneResource::collection($this->phones),
             'success'     => true
             //'employees'   => UsersResource::make($this->employees)
         ];

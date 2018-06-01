@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Examination
+ * App\Observers\Examination
  *
  * @property int $id
  * @property int $patient_card_id

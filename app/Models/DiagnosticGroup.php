@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class DiagnosticGroup
  *
- * @package App\Models
+ * @package App\Observers
  * @property int $id
  * @property string $name
  * @property string $display_name

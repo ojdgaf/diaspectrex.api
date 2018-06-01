@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Requests\Hospital;
+namespace App\Http\Requests\Phone;
 
-use App\Http\Requests\Rules;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -26,28 +25,18 @@ class CreateOrUpdate extends FormRequest
      */
     public function rules()
     {
-        return array_merge(
-            [
-                'name'        => 'required|string|min:2|max:255|bail',
-                'description' => 'nullable|string|bail'
-            ],
-            Rules::getAddressRules(),
-            Rules::getPhonesRules()
-        );
+        return [
+            'phones.*.phoneable_type' => 'required|string|in:Hospital,User|bail',
+            'phones.*.phoneable_id'   => 'required|integer|min:1|bail',
+            'phones.*.number'         => 'required|numeric|regex:/^[0-9]{10,20}$/|unique:phones,number|bail'
+        ];
     }
 
-    /**
-     * Throws exception as response if validation is failed.
-     *
-     * @param Validator $validator
-     */
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'data' => [
-                'success' => false,
-                'message' => $validator->errors()->first()
-            ]
+            'success' => false,
+            'message' => $validator->errors()->first()
         ]));
     }
 }

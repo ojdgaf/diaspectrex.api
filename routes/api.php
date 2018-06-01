@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
         'examinations'      => 'ExaminationController',
         'diagnostic_groups' => 'DiagnosticGroupController',
         'patient_cards'     => 'PatientCardController',
+        'phones'            => 'PhoneController'
     ]);
 
     Route::patch('users/{user}/present-status', 'UserController@changePresentStatus');

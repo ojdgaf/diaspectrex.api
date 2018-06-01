@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class City
  *
- * @package App\Models\Location
+ * @package App\Observers\Location
  * @property int $id
  * @property int|null $region_id
  * @property string $name

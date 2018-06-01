@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class PatientCard
  *
- * @package App\Models
+ * @package App\Observers
  * @property int $id
  * @property int $patient_id
  * @property string|null $code

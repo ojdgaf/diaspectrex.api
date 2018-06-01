@@ -11,7 +11,7 @@ use App\Models\Hospital;
 /**
  * Class Address
  *
- * @package App\Models\Location
+ * @package App\Observers\Location
  * @property int $id
  * @property int|null $country_id
  * @property int|null $region_id
