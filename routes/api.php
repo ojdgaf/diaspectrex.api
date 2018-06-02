@@ -18,12 +18,11 @@ Route::middleware('auth')->group(function () {
         'services'          => 'ServiceController',
         'classifiers'       => 'ClassifierController',
         'examinations'      => 'ExaminationController',
-        'diagnostic_groups' => 'DiagnosticGroupController',
-        'patient_cards'     => 'PatientCardController',
+        'diagnostic-groups' => 'DiagnosticGroupController',
+        'patient-cards'     => 'PatientCardController',
         'phones'            => 'PhoneController'
     ]);
 
-    Route::patch('users/{user}/present-status', 'UserController@changePresentStatus');
     Route::get('hospitals/{hospital}/employees', 'HospitalController@getEmployees');
 
     Route::namespace('Management')->group(function () {
@@ -38,6 +37,8 @@ Route::middleware('auth')->group(function () {
             Route::put('roles',    'UserRoleController@sync');
             Route::delete('roles', 'UserRoleController@remove');
         });
+
+        Route::patch('users/{user}/present-status', 'UserController@changePresentStatus');
     });
 
     Route::namespace('Location')->group(function () {

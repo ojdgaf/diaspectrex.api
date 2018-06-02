@@ -10,7 +10,6 @@ use App\Http\Resources\Hospital as HospitalResource;
 use App\Http\Resources\Hospitals as HospitalsResource;
 use App\Http\Resources\Users as UsersResource;
 use App\Services\HospitalService;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Class HospitalController
