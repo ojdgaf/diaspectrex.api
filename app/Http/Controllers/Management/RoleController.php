@@ -18,6 +18,11 @@ use App\Http\Resources\Management\Role as RoleResource;
 class RoleController extends Controller
 {
     /**
+     * Roles that will be attached to the user without any role.
+     */
+    protected const DEFAULT_ROLES = ['patient'];
+
+    /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
@@ -31,7 +36,9 @@ class RoleController extends Controller
      */
     public function store(CreateOrUpdate $request)
     {
-        $role = Role::create($request->validated());
+        $role = Role::create($request->only('name', 'display_name', 'description'));
+
+        $role->syncPermissions($request->permission_ids);
 
         return RoleResource::make($role);
     }
@@ -52,7 +59,9 @@ class RoleController extends Controller
      */
     public function update(CreateOrUpdate $request, Role $role)
     {
-        $role->update($request->validated());
+        $role->update($request->only('name', 'display_name', 'description'));
+
+        $role->syncPermissions($request->permission_ids);
 
         return RoleResource::make($role);
     }
@@ -65,6 +74,10 @@ class RoleController extends Controller
     {
         $role->delete();
 
-        sendResponse([]);
+        User::doesntHave('roles')->get()->each(function ($user) {
+            $user->syncRoles(static::DEFAULT_ROLES);
+        });
+
+        sendResponse([], 'Role has been deleted');
     }
 }

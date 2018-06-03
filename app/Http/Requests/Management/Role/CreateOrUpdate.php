@@ -7,6 +7,10 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Class CreateOrUpdate
  * @package App\Http\Requests\Management\Role
+ * @property string name
+ * @property string display_name
+ * @property string description
+ * @property array permission_ids
  */
 class CreateOrUpdate extends FormRequest
 {
@@ -28,9 +32,12 @@ class CreateOrUpdate extends FormRequest
     public function rules()
     {
         return [
-            'name'         => 'required|string',
-            'display_name' => 'required|string',
+            'name'         => 'required|string|min:3',
+            'display_name' => 'required|string|min:3',
             'description'  => 'nullable|string',
+
+            'permission_ids'   => 'required|array|min:1',
+            'permission_ids.*' => 'required|integer|exists:permissions,id',
         ];
     }
 }

@@ -77,7 +77,7 @@ class CreateOrUpdate extends FormRequest
         $eighteenYearsAgo = now()->subYears(18)->timestamp;
 
         $this->rules = collect([
-            'role_ids'   => 'required|array',
+            'role_ids'   => 'required|array|min:1',
             'role_ids.*' => 'required|integer|exists:roles,id',
 
             'email'       => ['required', 'email', Rule::unique('users')->ignore($this->user)],

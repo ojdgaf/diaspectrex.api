@@ -3,10 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Location\Address as AddressResource;
+use App\Http\Resources\Location\Address;
 use App\Http\Resources\Management\Role;
-use App\Http\Resources\Management\Permission;
-use App\Http\Resources\Hospital as HospitalResource;
 
 class User extends JsonResource
 {
@@ -28,12 +26,12 @@ class User extends JsonResource
             'sex'         => $this->sex,
             'birthday'    => $this->birthday->timestamp,
             'address_id'  => $this->address_id,
-            'address'     => AddressResource::make($this->address),
+            'address'     => Address::make($this->address),
 
             $this->mergeWhen($this->hasAnyPermission(['be support', 'be employee', 'be doctor', 'be head']), [
                 'passport'    => $this->passport,
                 'hospital_id' => $this->hospital_id,
-                'hospital'    => HospitalResource::make($this->hospital),
+                'hospital'    => Hospital::make($this->hospital),
                 'is_present'  => $this->is_present,
                 'about'       => $this->about,
                 'hired_at'    => $this->hired_at ? $this->hired_at->timestamp : null,

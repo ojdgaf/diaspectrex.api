@@ -31,12 +31,7 @@ Route::middleware('auth')->group(function () {
             'roles' => 'RoleController',
         ]);
 
-        Route::prefix('users/{user}')->group(function () {
-            Route::get('roles',    'UserRoleController@get');
-            Route::post('roles',   'UserRoleController@assign');
-            Route::put('roles',    'UserRoleController@sync');
-            Route::delete('roles', 'UserRoleController@remove');
-        });
+        Route::apiResource('permissions', 'PermissionController')->only(['index']);
 
         Route::patch('users/{user}/present-status', 'UserController@changePresentStatus');
     });
