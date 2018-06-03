@@ -28,12 +28,12 @@ class User extends JsonResource
             'sex'         => $this->sex,
             'birthday'    => $this->birthday->timestamp,
             'address_id'  => $this->address_id,
-            'address'     => AddressResource::make($this->whenLoaded('address')),
+            'address'     => AddressResource::make($this->address),
 
             $this->mergeWhen($this->hasAnyPermission(['be support', 'be employee', 'be doctor', 'be head']), [
                 'passport'    => $this->passport,
                 'hospital_id' => $this->hospital_id,
-                'hospital'    => HospitalResource::make($this->whenLoaded('hospital')),
+                'hospital'    => HospitalResource::make($this->hospital),
                 'is_present'  => $this->is_present,
                 'about'       => $this->about,
                 'hired_at'    => $this->hired_at ? $this->hired_at->timestamp : null,
