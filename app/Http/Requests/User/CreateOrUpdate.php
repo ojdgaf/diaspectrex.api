@@ -81,9 +81,9 @@ class CreateOrUpdate extends FormRequest
             'role_ids.*' => 'required|integer|exists:roles,id',
 
             'email'       => ['required', 'email', Rule::unique('users')->ignore($this->user)],
-            'first_name'  => 'required|string|min:3|max:255',
-            'middle_name' => 'nullable|string|min:3|max:255',
-            'last_name'   => 'required|string|min:3|max:255',
+            'first_name'  => 'required|string|alpha|between:2,255',
+            'middle_name' => 'nullable|string|alpha|between:2,255',
+            'last_name'   => 'required|string|alpha|between:2,255',
             'sex'         => 'required|string|in:male,female',
             'birthday'    => "required|integer|between:$hundredYearsAgo,$eighteenYearsAgo",
             'address_id'  => 'required|integer|exists:addresses,id',
