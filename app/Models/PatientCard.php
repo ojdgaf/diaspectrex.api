@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\ActivePatientCardScope;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -50,6 +51,15 @@ class PatientCard extends Model
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    /**
      * The relations to eager load on every query.
      *
      * @var array
@@ -64,6 +74,18 @@ class PatientCard extends Model
      * @var int
      */
     protected $perPage = 50;
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new ActivePatientCardScope);
+    }
 
     /**
      * Return the patient(user) who is owner of card.

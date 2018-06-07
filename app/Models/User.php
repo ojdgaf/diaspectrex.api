@@ -175,13 +175,13 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Gets all patient's cards of user.
+     * Gets current active patient's card of user.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function patientCards()
+    public function patientCard()
     {
-        return $this->hasMany(PatientCard::class, 'patient_id');
+        return $this->hasOne(PatientCard::class, 'patient_id');
     }
 
     /**

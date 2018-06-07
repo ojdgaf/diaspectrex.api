@@ -1,5 +1,9 @@
 <?php
 
+Route::get('test', function () {
+
+});
+
 Route::prefix('auth')->namespace('Auth')->group(function () {
     Route::post('login',    'AuthController@login');
     Route::post('register', 'AuthController@register');
