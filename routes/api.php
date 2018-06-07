@@ -36,6 +36,12 @@ Route::middleware('auth')->group(function () {
         Route::patch('users/{user}/present-status', 'UserController@changePresentStatus');
     });
 
+    Route::namespace('Diagnosing')->group(function () {
+        Route::apiResources([
+            'tests' => 'TestController',
+        ]);
+    });
+
     Route::namespace('Location')->group(function () {
         Route::apiResources([
             'countries' => 'CountryController',

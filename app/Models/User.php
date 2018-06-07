@@ -181,7 +181,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function patientCards()
     {
-        return $this->hasMany(PatientCard::class);
+        return $this->hasMany(PatientCard::class, 'patient_id');
     }
 
     /**

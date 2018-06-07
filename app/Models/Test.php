@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * App\Observers\Test
  *
  * @property int $id
  * @property int $diagnostic_group_id
+ * @property string $file_path
  * @property float $D2
  * @property float $D3
  * @property float $D4
@@ -86,13 +88,39 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Test extends Model
 {
+    /**
+     * @var string
+     */
     protected $table = 'tests';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'diagnostic_group_id', 'file_path',
+        'd2', 'd3', 'd4', 'd5', 'd6', 'd8', 'd11', 'd15', 'd20', 'd26', 'd36',
+        'd40', 'd65', 'd85', 'd120', 'd150', 'd210', 'd290', 'd300', 'd520',
+        'd700', 'd950', 'd1300', 'd1700', 'd2300', 'd3100', 'd4200', 'd5600',
+        'd7600', 'd10200', 'd13800', 'd18500',
+    ];
 
     /**
      * Gets the diagnostic group which the test related to
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function diagnosticGroup(){
+    public function diagnosticGroup()
+    {
         return $this->belongsTo(DiagnosticGroup::class, 'diagnostic_group_id');
+    }
+
+    /**
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function file()
+    {
+        return Storage::get('tests/' . $this->file_path);
     }
 }

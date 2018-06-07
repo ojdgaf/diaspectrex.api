@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Diagnosing;
 
+use App\Models\Test;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use App\Models\Users\Patient;
-use App\Models\Diagnosing\Test;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Services\FileUploading\Test\Service as TestService;
 
 class TestController
 {
@@ -25,26 +24,14 @@ class TestController
         ];
     }
 
-    public function createTestFromFile(Request $request)
+    public function store(Request $request)
     {
-        $patient = Patient::findOrFail($request->user_id);
+        $patient = User::permission('be patient')->findOrFail($request->user_id);
 
-        $test = $this->getTestModelFromFile($request->test);
+        $tests = (new TestService())->getParser($request->file('test'))->getModels();
 
-        $patient->diagnosticCard->tests()->save($test);
+//        $patient->patientCards->first()->tests()->saveMany($tests);
 
-        return [
-            'success' => true,
-            'message' => 'File has been successfully uploaded and attached to the patient',
-            'data' => [],
-        ];
-    }
-    protected function getTestModelFromFile(UploadedFile $file): Test
-    {
-        $data = Excel::load($file)->get();
-
-        $row = $data->toArray()[0][0];
-
-        return new Test($row);
+        sendResponse([], 'ok');
     }
 }
