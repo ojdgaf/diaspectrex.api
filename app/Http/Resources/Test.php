@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class Test extends JsonResource
 {
@@ -14,6 +15,16 @@ class Test extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $array = parent::toArray($request);
+
+        $array = array_merge($array, [
+            'diagnostic_group' => DiagnosticGroup::make($this->diagnosticGroup)
+        ]);
+
+        $array = array_merge($array, [
+            'download_file_url' => Storage::url($this->file_path)
+        ]);
+
+        return $array;
     }
 }

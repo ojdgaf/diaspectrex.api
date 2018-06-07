@@ -44,7 +44,7 @@ class Service
     public function validateWithThrow(UploadedFile $file)
     {
         if (! $this->validate($file))
-            sendError('Unsupported test file extension', 422);
+            sendError('Unsupported test file extension', [], 422);
     }
 
     /**

@@ -2,36 +2,78 @@
 
 namespace App\Http\Controllers\Diagnosing;
 
+use App\Http\Requests\Test\Update;
+use App\Models\Seance;
+use Illuminate\Http\Request;
 use App\Models\Test;
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Services\FileUploading\Test\Service as TestService;
+use App\Http\Resources\Test as TestResource;
+use App\Http\Requests\Test\Create;
 
+/**
+ * Class TestController
+ * @package App\Http\Controllers\Diagnosing
+ */
 class TestController
 {
-    public function createTestManually(Request $request)
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function index()
     {
-        $patient = Patient::findOrFail($request->user_id);
-
-        $test = new Test($request->all());
-
-        $patient->diagnosticCard->tests()->save($test);
-
-        return [
-            'success' => true,
-            'message' => 'Test has been successfully attached to the patient',
-            'data' => [],
-        ];
+        return TestResource::collection(Test::all());
     }
 
-    public function store(Request $request)
+    /**
+     * @param Create $request
+     * @return TestResource
+     */
+    public function store(Create $request)
     {
-        $patient = User::permission('be patient')->findOrFail($request->user_id);
+        $seance = Seance::findOrFail($request->seance_id);
 
-        $tests = (new TestService())->getParser($request->file('test'))->getModels();
+        $test = $request->hasFile('test') ?
+            (new TestService())->getParser($request->file('test'))->getFirstModel() :
+            new Test($request->validated());
 
-//        $patient->patientCards->first()->tests()->saveMany($tests);
+        $test->save();
+        $test->seance()->save($seance);
 
-        sendResponse([], 'ok');
+        return TestResource::make($test)->additional([
+            'message' => 'Test file has been uploaded and attached to the seance',
+        ]);
+    }
+
+    /**
+     * @param Test $test
+     * @return TestResource
+     */
+    public function show(Test $test)
+    {
+        return TestResource::make($test);
+    }
+
+    /**
+     * @param Update $request
+     * @param Test $test
+     * @return TestResource
+     */
+    public function update(Update $request, Test $test)
+    {
+        $test->update($request->validated());
+
+        return TestResource::make($test);
+    }
+
+    /**
+     * @param Test $test
+     * @throws \Exception
+     */
+    public function destroy(Test $test)
+    {
+        $test->delete();
+
+        sendResponse([], 'Test has been deleted');
     }
 }

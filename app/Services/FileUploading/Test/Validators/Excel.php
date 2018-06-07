@@ -66,7 +66,11 @@ class Excel
     public function validateHeading(array $heading)
     {
         if (collect(static::HEADING)->diff($heading)->isNotEmpty())
-            sendError('Invalid heading in uploaded file: sheet # ' . $this->currentSheet);
+            sendError(
+                'Invalid heading in uploaded file:' .
+                ' sheet # ' . $this->currentSheet,
+                [], 422
+            );
     }
 
     /**
@@ -81,7 +85,8 @@ class Excel
             sendError(
                 'Invalid row in uploaded file:' .
                 ' sheet # ' . $this->currentSheet .
-                ' row # ' . $this->currentRow
+                ' row # ' . $this->currentRow,
+                [], 422
             );
 
         $row->each([$this, 'validateCell']);
@@ -100,7 +105,8 @@ class Excel
                 'Invalid data in uploaded file:' .
                 ' sheet # ' . $this->currentSheet .
                 ' row # ' . $this->currentRow .
-                ' cell # ' . $this->currentCell
+                ' cell # ' . $this->currentCell,
+                [], 422
             );
     }
 }

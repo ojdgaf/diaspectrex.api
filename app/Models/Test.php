@@ -116,6 +116,14 @@ class Test extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function seance()
+    {
+        return $this->hasOne(Seance::class, 'test_id');
+    }
+
+    /**
      * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */

@@ -30,7 +30,6 @@ class Factory
 
     /**
      * @param UploadedFile $file
-     *
      * @return ParserInterface
      */
     public function findParser(UploadedFile $file): ParserInterface

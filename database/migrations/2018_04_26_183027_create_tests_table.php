@@ -15,8 +15,8 @@ class CreateTestsTable extends Migration
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('diagnostic_group_id');
-            $table->string('file_path');
+            $table->unsignedInteger('diagnostic_group_id')->nullable();
+            $table->string('file_path')->nullable();
 
             $table->float('d2');
             $table->float('d3');
