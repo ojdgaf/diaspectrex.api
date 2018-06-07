@@ -45,8 +45,8 @@ class PatientCard extends Model
      * @var array
      */
     protected $fillable = [
-        'patient_id', 'code', 'patient_type',
-        'allergies', 'diseases'
+        'code', 'patient_id', 'patient_type',
+        'allergies', 'diseases', 'is_active'
     ];
 
     /**
