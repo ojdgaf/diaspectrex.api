@@ -50,7 +50,7 @@ class HospitalService
                 ], 500);
         }
         if ($validatedData['phones']) {
-            $success = PhoneService::storeMany($validatedData['phones'], $hospital->id);
+            $success = PhoneService::storeMany($validatedData['phones'], $hospital);
             if (!$success){
                 DB::rollBack();
                 sendError('Server error occurs when trying to create hospital!',
@@ -107,7 +107,7 @@ class HospitalService
             }
         }
 
-        $success = PhoneService::storeMany($validatedData['phones'], $hospital->id);
+        $success = PhoneService::storeMany($validatedData['phones'], $hospital);
         if (!$success){
             DB::rollBack();
             sendError('Server error occurs when trying to create hospital!',

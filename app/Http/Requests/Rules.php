@@ -24,10 +24,8 @@ class Rules
 
     public static function getPhonesRules()
     {
-        //TODO check if unique but think about update when phone that exists can be received
         return [
             'phones'                  => 'nullable',
-            'phones.*.phoneable_type' => 'required_with:phones|string|bail',
             'phones.*.number'         => 'required_with:phones|numeric|regex:/^[0-9]{10,20}$/|bail'
         ];
     }

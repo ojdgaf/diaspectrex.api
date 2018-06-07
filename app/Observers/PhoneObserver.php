@@ -19,7 +19,6 @@ class PhoneObserver
      */
     public function creating(Phone $phone)
     {
-        if (strpos($phone->phoneable_type, "App\\Models\\") == false)
-            $phone->phoneable_type = "App\\Models\\" . $phone->phoneable_type;
+        // something
     }
 }

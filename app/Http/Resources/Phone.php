@@ -15,8 +15,7 @@ class Phone extends JsonResource
     public function toArray($request)
     {
         return [
-            'phoneable_type' => $this->phoneable_type,
-            'number'         => $this->number
+            'number' => $this->number
         ];
     }
 }

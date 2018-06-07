@@ -2,7 +2,7 @@
 namespace App\Services;
 
 use App\Models\Phone;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Service to create Phone models.
@@ -12,20 +12,17 @@ use Illuminate\Support\Facades\DB;
  */
 class PhoneService
 {
-    public static function storeMany(array $phones, int $phoneableId){
-        DB::beginTransaction();
+    public static function storeMany(array $phones, Model $phoneable)
+    {
+        $phones = self::createPhonesCollection($phones);
 
-        foreach ($phones as &$phone){
-            $phone['phoneable_id'] = $phoneableId;
-            $savedPhone = Phone::create($phone);
-            if (empty($savedPhone->id)){
-                DB::rollBack();
-                return false;
-            }
-        }
+        return $phoneable->phones()->saveMany($phones);
+    }
 
-        DB::commit();
-
-        return true;
+    public static function createPhonesCollection(array $phones)
+    {
+        return collect($phones)->map(function ($phone){
+            return new Phone($phone);
+        });
     }
 }

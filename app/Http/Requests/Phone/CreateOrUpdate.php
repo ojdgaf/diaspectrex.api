@@ -26,9 +26,7 @@ class CreateOrUpdate extends FormRequest
     public function rules()
     {
         return [
-            'phones.*.phoneable_type' => 'required|string|in:Hospital,User|bail',
-            'phones.*.phoneable_id'   => 'required|integer|min:1|bail',
-            'phones.*.number'         => 'required|numeric|regex:/^[0-9]{10,20}$/|unique:phones,number|bail'
+            'phones.*.number' => 'required|numeric|regex:/^[0-9]{10,20}$/|unique:phones,number|bail'
         ];
     }
 

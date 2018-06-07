@@ -39,7 +39,7 @@ class Phone extends Model
      * @var array
      */
     protected $fillable = [
-        'phoneable_type', 'phoneable_id', 'number'
+        'number'
     ];
 
     /**

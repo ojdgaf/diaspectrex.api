@@ -12,11 +12,11 @@ class PatientCardController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return static
      */
     public function index()
     {
-        return PatientCardsResource::make(PatientCard::paginate());
+        return PatientCardsResource::make(PatientCard::all());
     }
 
     /**
@@ -65,8 +65,11 @@ class PatientCardController extends Controller
      */
     public function destroy(PatientCard $patientCard)
     {
-        $patientCard->delete();
+        $success = $patientCard->delete();
 
-        sendResponse([]);
+        sendResponse([
+            'success'       => $success,
+            'patient_cards' => PatientCard::all()
+        ]);
     }
 }
