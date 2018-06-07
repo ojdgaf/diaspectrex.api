@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Service\CreateOrUpdate;
 use App\Models\Service;
 use App\Http\Resources\Service as ServiceResource;
-use App\Http\Resources\Services as ServicesResource;
 
 /**
  * Class ServiceController
@@ -20,7 +19,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        return ServicesResource::make(Service::paginate());
+        return ServiceResource::collection(Service::all());
     }
 
     /**
@@ -31,9 +30,7 @@ class ServiceController extends Controller
      */
     public function store(CreateOrUpdate $request)
     {
-        $service = Service::create($request->validated());
-
-        return ServiceResource::make($service);
+        return ServiceResource::make(Service::create($request->validated()));
     }
 
     /**
@@ -65,11 +62,12 @@ class ServiceController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Service $service
+     * @throws
      */
     public function destroy(Service $service)
     {
         $service->delete();
 
-        sendResponse([]);
+        sendResponse([], 'Service has been deleted');
     }
 }
