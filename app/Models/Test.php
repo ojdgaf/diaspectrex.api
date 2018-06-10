@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -105,6 +106,19 @@ class Test extends Model
         'd700', 'd950', 'd1300', 'd1700', 'd2300', 'd3100', 'd4200', 'd5600',
         'd7600', 'd10200', 'd13800', 'd18500',
     ];
+
+    /**
+     * Get values that describe condensate of exhaled air humidity.
+     *
+     * @return Collection
+     */
+    public function getDValues(): Collection
+    {
+        return collect($this->getAttributes())->except([
+            'id', 'diagnostic_group_id', 'file_path',
+            'created_at', 'updated_at', 'deleted_at',
+        ]);
+    }
 
     /**
      * Gets the diagnostic group which the test related to

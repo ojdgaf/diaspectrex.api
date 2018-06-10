@@ -163,9 +163,14 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /*
+         * Custom Service Providers...
+         */
+        App\Providers\ClassificationProvider::class,
+
+        /*
          * Observers
          */
-        App\Providers\Observers\PhoneModelServiceProvider::class
+        App\Providers\Observers\PhoneModelServiceProvider::class,
     ],
 
     /*
