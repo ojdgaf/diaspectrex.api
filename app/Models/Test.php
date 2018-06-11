@@ -8,47 +8,48 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * App\Observers\Test
+ * App\Models\Test
  *
  * @property int $id
- * @property int $diagnostic_group_id
- * @property string $file_path
- * @property float $D2
- * @property float $D3
- * @property float $D4
- * @property float $D5
- * @property float $D6
- * @property float $D8
- * @property float $D11
- * @property float $D15
- * @property float $D20
- * @property float $D26
- * @property float $D36
- * @property float $D40
- * @property float $D65
- * @property float $D85
- * @property float $D120
- * @property float $D150
- * @property float $D210
- * @property float $D290
- * @property float $D300
- * @property float $D520
- * @property float $D700
- * @property float $D950
- * @property float $D1300
- * @property float $D1700
- * @property float $D2300
- * @property float $D3100
- * @property float $D4200
- * @property float $D5600
- * @property float $D7600
- * @property float $D10200
- * @property float $D13800
- * @property float $D18500
+ * @property string|null $file_path
+ * @property float $d2
+ * @property float $d3
+ * @property float $d4
+ * @property float $d5
+ * @property float $d6
+ * @property float $d8
+ * @property float $d11
+ * @property float $d15
+ * @property float $d20
+ * @property float $d26
+ * @property float $d36
+ * @property float $d40
+ * @property float $d65
+ * @property float $d85
+ * @property float $d120
+ * @property float $d150
+ * @property float $d210
+ * @property float $d290
+ * @property float $d300
+ * @property float $d520
+ * @property float $d700
+ * @property float $d950
+ * @property float $d1300
+ * @property float $d1700
+ * @property float $d2300
+ * @property float $d3100
+ * @property float $d4200
+ * @property float $d5600
+ * @property float $d7600
+ * @property float $d10200
+ * @property float $d13800
+ * @property float $d18500
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property string|null $deleted_at
- * @property-read \App\Models\DiagnosticGroup $diagnosticGroup
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Test onlyTrashed()
+ * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Test whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Test whereD10200($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Test whereD11($value)
@@ -83,9 +84,11 @@ use Illuminate\Support\Facades\Storage;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Test whereD85($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Test whereD950($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Test whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Test whereDiagnosticGroupId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Test whereFilePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Test whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Test whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Test withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Test withoutTrashed()
  * @mixin \Eloquent
  */
 class Test extends Model

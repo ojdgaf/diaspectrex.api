@@ -6,23 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Classifier
+ * App\Models\Classifier
  *
- * @package App\Observers
  * @property int $id
+ * @property int $patient_type_id
  * @property string $name
  * @property string $display_name
  * @property string|null $description
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
  * @property string|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Seance[] $seances
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier whereCreatedAt($value)
+ * @property-read \App\Models\PatientType $patientType
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Classifier onlyTrashed()
+ * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier whereDisplayName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier wherePatientTypeId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Classifier withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Classifier withoutTrashed()
  * @mixin \Eloquent
  */
 class Classifier extends Model

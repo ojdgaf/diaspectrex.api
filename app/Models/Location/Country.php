@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Country
+ * App\Models\Location\Country
  *
- * @package App\Observers\Location
  * @property int $id
  * @property string $name
+ * @property string $code
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property string|null $deleted_at
@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Location\Country onlyTrashed()
  * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Location\Country whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Location\Country whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Location\Country whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Location\Country whereId($value)

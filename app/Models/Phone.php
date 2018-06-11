@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Observers\Phone
+ * App\Models\Phone
  *
  * @property int $id
  * @property string $phoneable_type
  * @property int $phoneable_id
- * @property string $phone
+ * @property string $number
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property string|null $deleted_at
@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Phone whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Phone whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Phone whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Phone wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Phone whereNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Phone wherePhoneableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Phone wherePhoneableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Phone whereUpdatedAt($value)

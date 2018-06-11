@@ -5,6 +5,42 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * App\Models\Prediction
+ *
+ * @property int $id
+ * @property int $seance_id
+ * @property int $classifier_id
+ * @property int $diagnostic_group_id
+ * @property int|null $test_id
+ * @property bool $is_approved
+ * @property float|null $raw_value
+ * @property string|null $info
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property-read \App\Models\Classifier $classifier
+ * @property-read \App\Models\DiagnosticGroup $diagnosticGroup
+ * @property-read \App\Models\Seance $seance
+ * @property-read \App\Models\Test|null $test
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Prediction onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prediction whereClassifierId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prediction whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prediction whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prediction whereDiagnosticGroupId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prediction whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prediction whereInfo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prediction whereIsApproved($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prediction whereRawValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prediction whereSeanceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prediction whereTestId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prediction whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Prediction withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Prediction withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Prediction extends Model
 {
     use SoftDeletes;

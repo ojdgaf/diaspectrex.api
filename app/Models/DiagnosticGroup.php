@@ -6,27 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class DiagnosticGroup
+ * App\Models\DiagnosticGroup
  *
- * @package App\Observers
  * @property int $id
+ * @property int $patient_type_id
  * @property string $name
  * @property string $display_name
- * @property string $patient_type
  * @property string|null $description
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
  * @property string|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Seance[] $seances
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Test[] $tests
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DiagnosticGroup whereCreatedAt($value)
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DiagnosticGroup onlyTrashed()
+ * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DiagnosticGroup whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DiagnosticGroup whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DiagnosticGroup whereDisplayName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DiagnosticGroup whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DiagnosticGroup whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DiagnosticGroup wherePatientType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DiagnosticGroup whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\DiagnosticGroup wherePatientTypeId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DiagnosticGroup withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\DiagnosticGroup withoutTrashed()
  * @mixin \Eloquent
  */
 class DiagnosticGroup extends Model

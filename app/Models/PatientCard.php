@@ -7,29 +7,36 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class PatientCard
+ * App\Models\PatientCard
  *
- * @package App\Observers
  * @property int $id
- * @property int $patient_id
  * @property string|null $code
- * @property string $patient_type
+ * @property int $patient_id
+ * @property int $patient_type_id
  * @property string|null $allergies
  * @property string|null $diseases
+ * @property bool $is_active
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property string|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Examination[] $examinations
  * @property-read \App\Models\User $patient
+ * @property-read \App\Models\PatientType $patientType
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\PatientCard onlyTrashed()
+ * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereAllergies($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereDiseases($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereIsActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard wherePatientId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard wherePatientType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard wherePatientTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PatientCard whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\PatientCard withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\PatientCard withoutTrashed()
  * @mixin \Eloquent
  */
 class PatientCard extends Model

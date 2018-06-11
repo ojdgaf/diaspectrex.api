@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Observers\Examination
+ * App\Models\Examination
  *
  * @property int $id
  * @property int $patient_card_id
@@ -17,6 +17,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $deleted_at
  * @property-read \App\Models\PatientCard $patientCard
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Seance[] $seances
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Examination onlyTrashed()
+ * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Examination whereConclusion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Examination whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Examination whereEndedAt($value)
@@ -24,6 +27,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Examination whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Examination wherePatientCardId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Examination whereStartedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Examination withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Examination withoutTrashed()
  * @mixin \Eloquent
  */
 class Examination extends Model

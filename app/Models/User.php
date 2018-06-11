@@ -15,36 +15,38 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Location\Address;
 
 /**
- * Class User
+ * App\Models\User
  *
- * @package App\Observers
  * @property int $id
  * @property string $email
  * @property string $first_name
  * @property string|null $middle_name
  * @property string $last_name
  * @property string $sex
- * @property string $birthday
+ * @property \Carbon\Carbon $birthday
  * @property int|null $address_id
  * @property int|null $hospital_id
  * @property string|null $passport
- * @property int|null $is_present
+ * @property bool $is_present
  * @property string|null $about
- * @property string|null $hired_at
- * @property string|null $fired_at
+ * @property \Carbon\Carbon|null $hired_at
+ * @property \Carbon\Carbon|null $fired_at
  * @property string|null $degree
  * @property string $password
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
- * @property string|null $deleted_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property-read \App\Models\Location\Address|null $address
  * @property-read \App\Models\Hospital|null $hospital
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PatientCard[] $patientCards
+ * @property-read \App\Models\PatientCard $patientCard
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Phone[] $phones
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User permission($permissions)
+ * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User role($roles)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereAbout($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereAddressId($value)
@@ -65,6 +67,8 @@ use App\Models\Location\Address;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereSex($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User withoutTrashed()
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements JWTSubject
