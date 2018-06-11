@@ -31,17 +31,14 @@ class TestController
      */
     public function store(Create $request)
     {
-        $seance = Seance::findOrFail($request->seance_id);
-
         $test = $request->hasFile('test') ?
             (new TestService())->getParser($request->file('test'))->getFirstModel() :
             new Test($request->validated());
 
         $test->save();
-        $test->seance()->save($seance);
 
         return TestResource::make($test)->additional([
-            'message' => 'Test file has been uploaded and attached to the seance',
+            'message' => 'Test file has been uploaded',
         ]);
     }
 

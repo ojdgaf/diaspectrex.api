@@ -31,8 +31,6 @@ class Create extends FormRequest
     public function rules()
     {
         return [
-            'seance_id' => 'required|integer|exists:seances,id',
-
             'test' => 'nullable|file|mimes:xls,xlsx',
 
             'd2'     => 'required_without:test|numeric',

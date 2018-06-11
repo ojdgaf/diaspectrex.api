@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Observers\Examination
@@ -27,6 +28,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Examination extends Model
 {
+    use SoftDeletes;
+
     /**
      * The table associated with the model.
      *
@@ -41,15 +44,6 @@ class Examination extends Model
      */
     protected $fillable = [
         'patient_card_id', 'name', 'conclusion'
-    ];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = [
-        'seances', 'patientCard'
     ];
 
     /**

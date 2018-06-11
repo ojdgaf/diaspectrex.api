@@ -12,21 +12,14 @@ use App\Services\Classification\Classifiers\AWSMachineLearning;
 class ClassifierFactory implements ClassifierFactoryInterface
 {
     protected const CLASSIFIERS = [
-        'neural network'        => AWSMachineLearning::class,
+        'aws machine learning'  => AWSMachineLearning::class,
         'discriminant analysis' => DiscriminantAnalysis::class,
     ];
 
-    public function getClassifierInstances(): Collection
-    {
-        return collect(static::CLASSIFIERS)->map(function (ClassifierInterface $classifier) {
-            return new $classifier;
-        });
-    }
-
     public function getClassifierInstance(Classifier $classifierModel): ClassifierInterface
     {
-        $classifierClass = collect(static::CLASSIFIERS)->get($classifierModel->name);
+        $classifier = collect(static::CLASSIFIERS)->get($classifierModel->name);
 
-        return new $classifierClass;
+        return (new $classifier)->setModel($classifierModel);
     }
 }

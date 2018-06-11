@@ -18,6 +18,11 @@ use Spatie\Permission\Models\Role;
 class CreateOrUpdate extends FormRequest
 {
     /**
+     * @var Collection
+     */
+    protected $rules;
+
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -31,12 +36,13 @@ class CreateOrUpdate extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function rules()
     {
         $this->validateRoles();
 
-        $this->createBasicRules();
+        $this->attachBasicRules();
 
         $this->adjustRules();
 
@@ -45,16 +51,17 @@ class CreateOrUpdate extends FormRequest
 
     /**
      * Pre-validate new user's roles from input.
+     *
+     * @throws \Illuminate\Validation\ValidationException
      */
     protected function validateRoles()
     {
-        $validator = Validator::make($this->all(), [
+        $this->rules = collect([
             'role_ids'   => 'required|array',
             'role_ids.*' => 'required|integer|exists:roles,id',
         ]);
 
-        if ($validator->fails())
-            sendError('Roles did not pass validation', [], 422);
+        Validator::make($this->all(), $this->rules->toArray())->validate();
     }
 
     /**
@@ -71,12 +78,12 @@ class CreateOrUpdate extends FormRequest
     /**
      * Apply rules for basic attributes which are shared across all users in the system.
      */
-    protected function createBasicRules()
+    protected function attachBasicRules()
     {
         $hundredYearsAgo  = now()->subYears(100)->timestamp;
         $eighteenYearsAgo = now()->subYears(18)->timestamp;
 
-        $this->rules = collect([
+        $this->rules = $this->rules->merge([
             'role_ids'   => 'required|array|min:1',
             'role_ids.*' => 'required|integer|exists:roles,id',
 

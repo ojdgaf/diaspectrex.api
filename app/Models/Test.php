@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
@@ -89,6 +90,8 @@ use Illuminate\Support\Facades\Storage;
  */
 class Test extends Model
 {
+    use SoftDeletes;
+
     /**
      * @var string
      */
@@ -100,7 +103,7 @@ class Test extends Model
      * @var array
      */
     protected $fillable = [
-        'diagnostic_group_id', 'file_path',
+        'file_path',
         'd2', 'd3', 'd4', 'd5', 'd6', 'd8', 'd11', 'd15', 'd20', 'd26', 'd36',
         'd40', 'd65', 'd85', 'd120', 'd150', 'd210', 'd290', 'd300', 'd520',
         'd700', 'd950', 'd1300', 'd1700', 'd2300', 'd3100', 'd4200', 'd5600',
@@ -118,23 +121,6 @@ class Test extends Model
             'id', 'diagnostic_group_id', 'file_path',
             'created_at', 'updated_at', 'deleted_at',
         ]);
-    }
-
-    /**
-     * Gets the diagnostic group which the test related to
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function diagnosticGroup()
-    {
-        return $this->belongsTo(DiagnosticGroup::class, 'diagnostic_group_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function seance()
-    {
-        return $this->hasOne(Seance::class, 'test_id');
     }
 
     /**

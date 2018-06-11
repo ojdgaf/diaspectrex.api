@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Classifier
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App\Observers
  * @property int $id
  * @property string $name
+ * @property string $display_name
  * @property string|null $description
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
@@ -25,6 +27,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Classifier extends Model
 {
+    use SoftDeletes;
+
     /**
      * The table associated with the model
      *
@@ -38,24 +42,14 @@ class Classifier extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description'
+        'patient_type_id', 'name', 'display_name', 'description'
     ];
 
     /**
-     * The relations to eager load on every query.
-     *
-     * @var array
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    protected $with = [
-        'seances'
-    ];
-
-    /**
-     * Gets all seances where this classifier was used
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function seances()
+    public function patientType()
     {
-        return $this->hasMany(Seance::class);
+        return $this->belongsTo(PatientType::class, 'patient_type_id');
     }
 }

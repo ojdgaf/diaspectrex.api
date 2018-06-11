@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder
             AddressesTableSeeder::class,
 
             HospitalsTableSeeder::class,
+            PatientTypesTableSeeder::class,
+            DiagnosticGroupsTableSeeder::class,
+            ClassifiersTableSeeder::class,
 
             RolesTableSeeder::class,
             PermissionsTableSeeder::class,

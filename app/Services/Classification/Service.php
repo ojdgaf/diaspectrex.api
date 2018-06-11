@@ -21,9 +21,4 @@ class Service implements ServiceInterface
     {
         return $this->classifierFactory->getClassifierInstance($classifier);
     }
-
-    public function getAllClassifiers(): Collection
-    {
-        return $this->classifierFactory->getClassifierInstances();
-    }
 }

@@ -24,11 +24,11 @@ class CreateOrUpdate extends FormRequest
     public function rules()
     {
         return [
-            'patient_id'   => 'required|integer|min:1|exists:users,id|bail',
-            'code'         => 'required|string|min:1|max:255|bail',
-            'patient_type' => 'required|string|in:adult,child|bail',
-            'allergies'    => 'nullable|string|bail',
-            'diseases'     => 'nullable|string|bail'
+            'code'            => 'required|string|min:1|max:255|bail',
+            'patient_id'      => 'required|integer|min:1|exists:users,id|bail',
+            'patient_type_id' => 'required|integer|exists:patient_types,id',
+            'allergies'       => 'nullable|string|bail',
+            'diseases'        => 'nullable|string|bail',
         ];
     }
 }

@@ -16,9 +16,4 @@ interface ServiceInterface
      * @return ClassifierInterface
      */
     public function getClassifier(Classifier $classifierModel): ClassifierInterface;
-
-    /**
-     * @return Collection
-     */
-    public function getAllClassifiers(): Collection;
 }

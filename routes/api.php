@@ -42,7 +42,8 @@ Route::middleware('auth')->group(function () {
 
     Route::namespace('Diagnosing')->group(function () {
         Route::apiResources([
-            'tests' => 'TestController',
+            'tests'       => 'TestController',
+            'predictions' => 'PredictionController',
         ]);
     });
 

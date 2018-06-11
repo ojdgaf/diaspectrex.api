@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class DiagnosticGroup
@@ -30,6 +31,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class DiagnosticGroup extends Model
 {
+    use SoftDeletes;
+
     /**
      * The table associated with the model.
      *

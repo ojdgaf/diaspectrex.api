@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'aws' => [
+    'aws machine learning' => [
         'client' => [
             'credentials' => [
                 'key'    => env('AWS_ACCESS_KEY_ID'),
@@ -11,35 +11,26 @@ return [
             'region'      => 'eu-west-1',
         ],
 
-        'tree' => [
-            [
-                'group'    => [
-                    'name' => 'bronchitis',
-                    'type' => 'adult',
+        'trees' => [
+            'child' => [],
+            'adult' => [
+                'bronchitis' => [
+                    'endpoint' => [
+                        'MLModelId'       => 'ml-MsqH0SFgckb',
+                        'PredictEndpoint' => 'https://realtime.machinelearning.eu-west-1.amazonaws.com',
+                    ],
                 ],
-                'endpoint' => [
-                    'MLModelId'       => 'ml-MsqH0SFgckb',
-                    'PredictEndpoint' => 'https://realtime.machinelearning.eu-west-1.amazonaws.com',
+                'pneumonia' => [
+                    'endpoint' => [
+                        'MLModelId'       => 'ml-J9bd1OQW3O1',
+                        'PredictEndpoint' => 'https://realtime.machinelearning.eu-west-1.amazonaws.com',
+                    ],
                 ],
-            ],
-            [
-                'group'    => [
-                    'name' => 'pneumonia',
-                    'type' => 'adult',
-                ],
-                'endpoint' => [
-                    'MLModelId'       => 'ml-J9bd1OQW3O1',
-                    'PredictEndpoint' => 'https://realtime.machinelearning.eu-west-1.amazonaws.com',
-                ],
-            ],
-            [
-                'group' => [
-                    'name' => 'standard',
-                    'type' => 'adult',
-                ],
-                'endpoint' => [
-                    'MLModelId'       => 'ml-Wxp861rELAy',
-                    'PredictEndpoint' => 'https://realtime.machinelearning.eu-west-1.amazonaws.com',
+                'standard' => [
+                    'endpoint' => [
+                        'MLModelId'       => 'ml-Wxp861rELAy',
+                        'PredictEndpoint' => 'https://realtime.machinelearning.eu-west-1.amazonaws.com',
+                    ],
                 ],
             ],
         ],

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Scopes\ActivePatientCardScope;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class PatientCard
@@ -33,6 +34,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PatientCard extends Model
 {
+    use SoftDeletes;
+
     /**
      * The table associated with the model.
      *
@@ -46,7 +49,7 @@ class PatientCard extends Model
      * @var array
      */
     protected $fillable = [
-        'code', 'patient_id', 'patient_type',
+        'code', 'patient_id', 'patient_type_id',
         'allergies', 'diseases', 'is_active'
     ];
 
@@ -57,15 +60,6 @@ class PatientCard extends Model
      */
     protected $casts = [
         'is_active' => 'boolean',
-    ];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = [
-        'patient', 'examinations'
     ];
 
     /**
@@ -98,12 +92,20 @@ class PatientCard extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function patientType()
+    {
+        return $this->belongsTo(PatientType::class, 'patient_type_id');
+    }
+
+    /**
      * Return the examinations which is contained in the card
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function examinations()
     {
-        return $this->hasMany(Examination::class);
+        return $this->hasMany(Examination::class, 'patient_card_id');
     }
 }

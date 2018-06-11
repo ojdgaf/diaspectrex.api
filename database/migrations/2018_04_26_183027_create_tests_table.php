@@ -15,7 +15,6 @@ class CreateTestsTable extends Migration
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('diagnostic_group_id')->nullable();
             $table->string('file_path')->nullable();
 
             $table->float('d2');
@@ -53,10 +52,6 @@ class CreateTestsTable extends Migration
 
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('diagnostic_group_id')
-                ->references('id')->on('diagnostic_groups')
-                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Observers\Seance
@@ -45,7 +46,25 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Seance extends Model
 {
+    use SoftDeletes;
+
+    /**
+     * The table associated with the model
+     *
+     * @var string
+     */
     protected $table = 'seances';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'examination_id', 'doctor_id',
+        'complaints', 'diagnosis', 'notes',
+        'started_at', 'ended_at'
+    ];
 
     /**
      * Gets examination which contains seance
@@ -66,30 +85,11 @@ class Seance extends Model
     }
 
     /**
-     * Gets the test which is related to seance. Can be empty
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function test()
+    public function predictions()
     {
-        return $this->belongsTo(Test::class, 'test_id');
-    }
-
-    /**
-     * Get the classifier used during seance. Can be empty
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function classifier()
-    {
-        return $this->belongsTo(Classifier::class, 'classifier_id');
-    }
-
-    /**
-     * Gets the diagnostic group detected during seance. Can be empty
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function diagnosticGroup()
-    {
-        return $this->belongsTo(DiagnosticGroup::class, 'diagnostic_group_id');
+        return $this->hasMany(Prediction::class, 'seance_id');
     }
 
     /**

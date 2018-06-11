@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateClassifiersTable extends Migration
+class CreatePatientTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,11 @@ class CreateClassifiersTable extends Migration
      */
     public function up()
     {
-        Schema::create('classifiers', function (Blueprint $table) {
+        Schema::create('patient_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('patient_type_id');
             $table->string('name');
             $table->string('display_name');
-            $table->text('description')->nullable();
             $table->softDeletes();
-
-            $table->foreign('patient_type_id')->references('id')
-                ->on('patient_types')->onUpdate('cascade')->omDelete('cascade');
         });
     }
 
@@ -33,6 +28,6 @@ class CreateClassifiersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('classifiers');
+        Schema::dropIfExists('patient_types');
     }
 }
