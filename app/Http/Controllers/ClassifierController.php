@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Classifier\CreateOrUpdate;
 use App\Models\Classifier;
 use App\Http\Resources\Classifier as ClassifierResource;
-use App\Http\Resources\Classifiers as ClassifiersResource;
 
 class ClassifierController extends Controller
 {
@@ -16,7 +15,7 @@ class ClassifierController extends Controller
      */
     public function index()
     {
-        return ClassifiersResource::make(Classifier::all());
+        return ClassifierResource::collection(Classifier::all());
     }
 
     /**

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DiagnosticGroup\CreateOrUpdate;
 use App\Models\DiagnosticGroup;
 use App\Http\Resources\DiagnosticGroup as DiagnosticGroupResource;
-use App\Http\Resources\DiagnosticGroups as DiagnosticGroupsResource;
 use App\Http\Resources\Tests as TestsResource;
 
 class DiagnosticGroupController extends Controller
@@ -17,7 +16,7 @@ class DiagnosticGroupController extends Controller
      */
     public function index()
     {
-        return DiagnosticGroupsResource::make(DiagnosticGroup::all());
+        return DiagnosticGroupResource::collection(DiagnosticGroup::all());
     }
 
     /**

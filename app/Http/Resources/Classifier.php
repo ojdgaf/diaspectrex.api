@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\PatientType as PatientTypeResource;
 
 /**
  * Resource class for classifier model.
@@ -20,6 +21,12 @@ class Classifier extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id'           => $this->id,
+            'patient_type' => PatientTypeResource::make($this->patientType),
+            'name'         => $this->name,
+            'display_name' => $this->display_name,
+            'description'  => $this->description,
+        ];
     }
 }
