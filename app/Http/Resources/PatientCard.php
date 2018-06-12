@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Examinations as ExaminationsResource;
 use App\Http\Resources\User as UserResource;
+use App\Http\Resources\PatientType as PatientTypeResource;
 
 /**
  * Resource class for patient card model.
@@ -25,7 +26,7 @@ class PatientCard extends JsonResource
         return [
             'id'           => $this->id,
             'patient'      => UserResource::make($this->patient),
-            'patient_type' => $this->patient_type,
+            'patient_type' => PatientTypeResource::make($this->patientType),
             'code'         => $this->code,
             'allergies'    => $this->allergies,
             'diseases'     => $this->diseases,

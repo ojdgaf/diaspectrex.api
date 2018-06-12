@@ -108,4 +108,5 @@ class UserController extends Controller
 
         sendResponse([], $user->last_name . ' has been deleted');
     }
+
 }

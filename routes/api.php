@@ -24,7 +24,8 @@ Route::middleware('auth')->group(function () {
         'examinations'      => 'ExaminationController',
         'diagnostic-groups' => 'DiagnosticGroupController',
         'patient-cards'     => 'PatientCardController',
-        'phones'            => 'PhoneController'
+        'phones'            => 'PhoneController',
+        'patient-types'     => 'PatientTypeController'
     ]);
 
     Route::get('hospitals/{hospital}/employees', 'HospitalController@getEmployees');

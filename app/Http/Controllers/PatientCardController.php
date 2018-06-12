@@ -10,13 +10,11 @@ use App\Http\Resources\PatientCards as PatientCardsResource;
 class PatientCardController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return static
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return PatientCardsResource::make(PatientCard::all());
+        return PatientCardResource::collection(PatientCard::all());
     }
 
     /**
@@ -29,7 +27,11 @@ class PatientCardController extends Controller
     {
         $patientCard = PatientCard::create($request->validated());
 
-        return PatientCardResource::make($patientCard);
+        if (!empty($patientCard->id))
+            sendResponse([
+                'success' => true,
+                'patient_card' => PatientCardResource::make($patientCard)
+            ], 'Patient\'s card was successfully created!');
     }
 
     /**
@@ -52,9 +54,13 @@ class PatientCardController extends Controller
      */
     public function update(CreateOrUpdate $request, PatientCard $patientCard)
     {
-        $patientCard->update($request->validated());
+        $success = $patientCard->update($request->validated());
 
-        return PatientCardResource::make($patientCard);
+        if ($success)
+            sendResponse([
+                'success' => true,
+                'patient_card' => PatientCardResource::make($patientCard)
+            ], 'Patient\'s card was successfully updated!');
     }
 
     /**
