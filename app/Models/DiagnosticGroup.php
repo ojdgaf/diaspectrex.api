@@ -67,4 +67,14 @@ class DiagnosticGroup extends Model
     {
         return $this->hasMany(Seance::class);
     }
+
+    /**
+     * Returns patient type which diagnostic group related to.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function patientType()
+    {
+        return $this->belongsTo(PatientType::class, 'patient_type_id');
+    }
 }
