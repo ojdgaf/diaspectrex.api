@@ -170,12 +170,12 @@ class AWSMachineLearning implements ClassifierInterface
 
     protected function getClientConfig(): array
     {
-        return config('neural-network.aws machine learning.client');
+        return config('classifier.aws machine learning.client');
     }
 
     protected function getConfigTree(): array
     {
-        $trees = config('neural-network.aws machine learning.trees');
+        $trees = config('classifier.aws machine learning.trees');
 
         return $trees[ $this->model->patientType->name ];
     }
