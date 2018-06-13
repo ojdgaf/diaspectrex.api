@@ -55,7 +55,7 @@ class PredictionController extends Controller
 
             $classifier = $this->service->getClassifier($classifierModel);
 
-            $prediction = $classifier->setTest($test)->classify();
+            $prediction = $classifier->classify($test);
         }
 
         if ($prediction->successful())

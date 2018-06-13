@@ -10,9 +10,7 @@ interface ClassifierInterface
 {
     public function setModel(Classifier $classifier): ClassifierInterface;
 
-    public function setTest(Test $test): ClassifierInterface;
+    public function classify(Test $test): Prediction;
 
-    public function getModel(): Classifier;
-
-    public function classify(): Prediction;
+    public function retrain(): ClassifierInterface;
 }

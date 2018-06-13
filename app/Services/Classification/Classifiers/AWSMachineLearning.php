@@ -62,39 +62,36 @@ class AWSMachineLearning implements ClassifierInterface
         return $this;
     }
 
-    public function setTest(Test $test): ClassifierInterface
+    public function classify(Test $test): Prediction
     {
         $this->test = $test;
 
-        return $this;
-    }
-
-    public function getModel(): Model
-    {
-        return $this->model;
-    }
-
-    public function classify(): Prediction
-    {
         $configTree = $this->getConfigTree();
 
-        $predictions = $this->callModelsToPredict($configTree);
+        $predictions = $this->predictAll($configTree);
 
         return $this->getFinalPrediction($predictions)
                     ->loadMissing('classifier', 'diagnosticGroup');
     }
 
-    protected function callModelsToPredict(array $configTree): Collection
+    public function retrain(): ClassifierInterface
+    {
+        // Not implemented yet.
+
+        return $this;
+    }
+
+    protected function predictAll(array $configTree): Collection
     {
         return collect($configTree)->map(
             function (array $configBranch, string $diagnosticGroupName) {
                 return $this->setCurrentDiagnosticGroup($diagnosticGroupName)
-                    ->callModelToPredict($configBranch);
+                            ->predict($configBranch);
             }
         );
     }
 
-    protected function callModelToPredict(array $configBranch): Prediction
+    protected function predict(array $configBranch): Prediction
     {
         try {
             $response = $this->client->predict(
