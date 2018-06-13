@@ -26,7 +26,7 @@ class Update extends FormRequest
      */
     public function rules()
     {
-        return collect(Test::D_Values)->mapWithKeys(function (string $key) {
+        return collect(Test::D_VALUES)->mapWithKeys(function (string $key) {
             return [$key => 'required|numeric'];
         })->toArray();
     }
