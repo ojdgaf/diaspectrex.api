@@ -2,12 +2,11 @@
 
 namespace App\Services\Classification;
 
-use Illuminate\Support\Collection;
 use App\Models\Classifier;
 use App\Services\Classification\Contracts\ClassifierFactoryInterface;
 use App\Services\Classification\Contracts\ClassifierInterface;
-use App\Services\Classification\Classifiers\DiscriminantAnalysis;
 use App\Services\Classification\Classifiers\AWSMachineLearning;
+use App\Services\Classification\Classifiers\DiscriminantAnalysis\Classifier as DiscriminantAnalysis;
 
 class ClassifierFactory implements ClassifierFactoryInterface
 {
@@ -20,6 +19,6 @@ class ClassifierFactory implements ClassifierFactoryInterface
     {
         $classifier = collect(static::CLASSIFIERS)->get($classifierModel->name);
 
-        return (new $classifier)->setModel($classifierModel);
+        return app()->makeWith($classifier, ['classifierModel' => $classifierModel]);
     }
 }

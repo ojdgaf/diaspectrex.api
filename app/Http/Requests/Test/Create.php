@@ -33,7 +33,7 @@ class Create extends FormRequest
     {
         $rules = ['test' => 'nullable|file|mimes:xls,xlsx'];
 
-        $dValuesRules = collect(Test::D_VALUES)->mapWithKeys(function (string $key) {
+        $dValuesRules = collect(Test::DATA_LABELS)->mapWithKeys(function (string $key) {
             return [$key => 'required_without:test|numeric'];
         })->toArray();
 

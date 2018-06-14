@@ -43,7 +43,7 @@ class PredictionController extends Controller
         $seance = Seance::findOrFail($request->seance_id);
         $classifierModel = Classifier::findOrFail($request->classifier_id);
 
-        if ($classifierModel->name === 'doctor') {
+        if ($classifierModel->isManual()) {
             $prediction = new Prediction([
                 'seance_id'           => $seance->id,
                 'classifier_id'       => $classifierModel->id,
@@ -60,6 +60,8 @@ class PredictionController extends Controller
 
         if ($prediction->successful())
             $seance->predictions()->save($prediction);
+        else
+            $prediction->seance()->associate($seance);
 
         return PredictionResource::make($prediction);
     }

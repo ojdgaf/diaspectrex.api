@@ -37,7 +37,7 @@ class AWSMachineLearning implements ClassifierInterface
     /**
      * @var Model
      */
-    protected $model;
+    protected $classifierModel;
 
     /**
      * @var Test
@@ -49,17 +49,10 @@ class AWSMachineLearning implements ClassifierInterface
      */
     protected $currentDiagnosticGroup;
 
-    public function __construct()
+    public function __construct(Model $classifierModel, MachineLearningClient $client)
     {
-        $this->client = new MachineLearningClient($this->getClientConfig());
-    }
-
-    public function setModel(Model $classifier): ClassifierInterface
-    {
-        if (!$this->model)
-            $this->model = $classifier;
-
-        return $this;
+        $this->classifierModel = $classifierModel;
+        $this->client = $client;
     }
 
     public function classify(Test $test): Prediction
@@ -99,7 +92,7 @@ class AWSMachineLearning implements ClassifierInterface
             );
         } catch (\Exception $e) {
             return new Prediction([
-                'classifier_id' => $this->model->id,
+                'classifier_id' => $this->classifierModel->id,
                 'test_id'       => $this->test->id,
                 'info'          => $this->getConnectionErrorMessage(),
             ]);
@@ -112,7 +105,7 @@ class AWSMachineLearning implements ClassifierInterface
         $rawValue = (float) $response['Prediction']['predictedScores'][ $predictedLabel ];
 
         return new Prediction([
-            'classifier_id'       => $this->model->id,
+            'classifier_id'       => $this->classifierModel->id,
             'diagnostic_group_id' => optional($diagnosticGroup)->id,
             'test_id'             => $this->test->id,
             'raw_value'           => $rawValue,
@@ -162,28 +155,23 @@ class AWSMachineLearning implements ClassifierInterface
         });
 
         return new Prediction([
-            'classifier_id' => $this->model->id,
+            'classifier_id' => $this->classifierModel->id,
             'test_id'       => $this->test->id,
             'info'          => $message,
         ]);
     }
 
-    protected function getClientConfig(): array
-    {
-        return config('classifier.aws machine learning.client');
-    }
-
     protected function getConfigTree(): array
     {
-        $trees = config('classifier.aws machine learning.trees');
+        $groupTypes = config('classifier.aws machine learning.types');
 
-        return $trees[ $this->model->patientType->name ];
+        return $groupTypes[ $this->classifierModel->patientType->name ]['groups'];
     }
 
     protected function setCurrentDiagnosticGroup(string $diagnosticGroupName): ClassifierInterface
     {
         $this->currentDiagnosticGroup = DiagnosticGroup::where([
-            'patient_type_id' => $this->model->patientType->id,
+            'patient_type_id' => $this->classifierModel->patientType->id,
             'name'            => $diagnosticGroupName,
         ])->firstOrFail();
 
@@ -193,7 +181,7 @@ class AWSMachineLearning implements ClassifierInterface
     protected function getRecord(): array
     {
         return [
-            'Record' => $this->test->getDValues()->map(function (float $value) {
+            'Record' => $this->test->data()->map(function (float $value) {
                 return (string) $value;
             })->toArray(),
         ];

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -23,6 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\DiagnosticGroup $diagnosticGroup
  * @property-read \App\Models\Seance $seance
  * @property-read \App\Models\Test|null $test
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prediction approved()
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Prediction onlyTrashed()
  * @method static bool|null restore()
@@ -72,6 +74,24 @@ class Prediction extends Model
     ];
 
     /**
+     * @return bool
+     */
+    public function successful(): bool
+    {
+        return ! is_null($this->diagnosticGroup);
+    }
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeApproved(Builder $query)
+    {
+        return $query->where('is_approved', true);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function seance()
@@ -84,7 +104,7 @@ class Prediction extends Model
      */
     public function classifier()
     {
-        return $this->belongsTo(Classifier::class, 'classifier_id');
+        return $this->belongsTo(Classifier::class);
     }
 
     /**
@@ -92,7 +112,7 @@ class Prediction extends Model
      */
     public function diagnosticGroup()
     {
-        return $this->belongsTo(DiagnosticGroup::class, 'diagnostic_group_id');
+        return $this->belongsTo(DiagnosticGroup::class);
     }
 
     /**
@@ -100,14 +120,6 @@ class Prediction extends Model
      */
     public function test()
     {
-        return $this->belongsTo(Test::class, 'test_id');
-    }
-
-    /**
-     * @return bool
-     */
-    public function successful(): bool
-    {
-        return ! is_null($this->diagnosticGroup);
+        return $this->belongsTo(Test::class);
     }
 }

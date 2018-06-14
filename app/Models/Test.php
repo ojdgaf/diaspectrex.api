@@ -46,6 +46,7 @@ use Illuminate\Support\Facades\Storage;
  * @property float $d18500
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Prediction[] $predictions
  * @property string|null $deleted_at
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Test onlyTrashed()
@@ -98,7 +99,7 @@ class Test extends Model
     /**
      * @var array
      */
-    public const D_VALUES = [
+    public const DATA_LABELS = [
         'd2', 'd3', 'd4', 'd5', 'd6', 'd8', 'd11', 'd15', 'd20', 'd26',
         'd36', 'd40', 'd65', 'd85', 'd120', 'd150', 'd210', 'd290', 'd300',
         'd520', 'd700', 'd950', 'd1300', 'd1700', 'd2300', 'd3100', 'd4200',
@@ -126,9 +127,17 @@ class Test extends Model
      */
     public function __construct(array $attributes = [])
     {
-        $this->fillable = array_merge($this->fillable, static::D_VALUES);
+        $this->fillable = array_merge($this->fillable, static::DATA_LABELS);
 
         parent::__construct($attributes);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasApprovedPrediction()
+    {
+        return $this->predictions()->approved()->exists();
     }
 
     /**
@@ -136,7 +145,7 @@ class Test extends Model
      *
      * @return Collection
      */
-    public function getDValues(): Collection
+    public function data(): Collection
     {
         return collect($this->getAttributes())->except([
             'id', 'diagnostic_group_id', 'file_path',
@@ -144,12 +153,8 @@ class Test extends Model
         ]);
     }
 
-    /**
-     * @return string
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
-    public function file()
+    public function predictions()
     {
-        return Storage::get('tests/' . $this->file_path);
+        return $this->hasMany(Prediction::class);
     }
 }

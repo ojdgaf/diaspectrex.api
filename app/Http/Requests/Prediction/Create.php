@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Prediction;
 
 use App\Models\DiagnosticGroup;
+use App\Models\Test;
 use Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
@@ -48,10 +49,10 @@ class Create extends FormRequest
 
         $this->validateClassifier($classifier);
 
-        if ($classifier->name === 'doctor')
+        if ($classifier->isManual())
             $this->validateDiagnosticGroup($classifier);
         else
-            $this->attachTestRule();
+            $this->validateTest();
 
         return $this->rules->toArray();
     }
@@ -96,8 +97,18 @@ class Create extends FormRequest
             sendError('Patient type of diagnostic group must be equal to patient type of classifier', [], 422);
     }
 
-    protected function attachTestRule()
+    /**
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function validateTest()
     {
         $this->rules->put('test_id', 'required|integer|exists:tests,id');
+
+        Validator::make($this->all(), $this->rules->toArray())->validate();
+
+        $test = Test::findOrFail($this->test_id);
+
+        if ($test->hasApprovedPrediction())
+            sendError('Test already has a classification approved by a doctor', [], 422);
     }
 }

@@ -14,8 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $display_name
  * @property string|null $description
  * @property string|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Seance[] $seances
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Test[] $tests
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Prediction[] $predictions
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\DiagnosticGroup onlyTrashed()
  * @method static bool|null restore()
@@ -51,24 +50,6 @@ class DiagnosticGroup extends Model
     ];
 
     /**
-     * Gets all test related to this diagnostic group
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function tests()
-    {
-        return $this->hasMany(Test::class);
-    }
-
-    /**
-     * Gets all seances when this diagnostic group was detected
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function seances()
-    {
-        return $this->hasMany(Seance::class);
-    }
-
-    /**
      * Returns patient type which diagnostic group related to.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -76,5 +57,13 @@ class DiagnosticGroup extends Model
     public function patientType()
     {
         return $this->belongsTo(PatientType::class, 'patient_type_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function predictions()
+    {
+        return $this->hasMany(Prediction::class);
     }
 }

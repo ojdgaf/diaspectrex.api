@@ -18,7 +18,7 @@ class CreateTestsTable extends Migration
             $table->increments('id');
             $table->string('file_path')->nullable();
 
-            collect(Test::D_VALUES)->each(function (string $column) use ($table) {
+            collect(Test::DATA_LABELS)->each(function (string $column) use ($table) {
                 $table->float($column);
             });
 

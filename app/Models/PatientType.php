@@ -12,6 +12,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $name
  * @property string $display_name
  * @property string|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Classifier[] $classifiers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\DiagnosticGroup[] $diagnosticGroups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Prediction[] $predictions
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\PatientType onlyTrashed()
  * @method static bool|null restore()
@@ -42,4 +45,28 @@ class PatientType extends Model
     protected $fillable = [
         'name', 'display_name'
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function classifiers()
+    {
+        return $this->hasMany(Classifier::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function diagnosticGroups()
+    {
+        return $this->hasMany(DiagnosticGroup::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function predictions()
+    {
+        return $this->hasManyThrough(Prediction::class, Classifier::class);
+    }
 }

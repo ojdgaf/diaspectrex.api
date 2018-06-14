@@ -56,7 +56,7 @@ class Excel
      */
     public function validateHeading(array $heading)
     {
-        if (collect(Test::D_VALUES)->diff($heading)->isNotEmpty())
+        if (collect(Test::DATA_LABELS)->diff($heading)->isNotEmpty())
             sendError(
                 'Invalid heading in uploaded file:' .
                 ' sheet # ' . $this->currentSheet,

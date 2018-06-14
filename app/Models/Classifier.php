@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $description
  * @property string|null $deleted_at
  * @property-read \App\Models\PatientType $patientType
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Prediction[] $predictions
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Classifier onlyTrashed()
  * @method static bool|null restore()
@@ -49,10 +50,26 @@ class Classifier extends Model
     ];
 
     /**
+     * @return bool
+     */
+    public function isManual()
+    {
+        return $this->name === 'doctor';
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function patientType()
     {
         return $this->belongsTo(PatientType::class, 'patient_type_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function predictions()
+    {
+        return $this->hasMany(Prediction::class);
     }
 }
