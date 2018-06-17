@@ -26,13 +26,13 @@ class CreatePredictionsTable extends Migration
             $table->softDeletes();
 
             $table->foreign('seance_id')->references('id')
-                ->on('seances')->onUpdate('cascade');
+                ->on('seances')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('classifier_id')->references('id')
-                ->on('classifiers')->onUpdate('cascade');
+                ->on('classifiers')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('diagnostic_group_id')->references('id')
-                ->on('diagnostic_groups')->onUpdate('cascade');
+                ->on('diagnostic_groups')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('test_id')->references('id')
-                ->on('tests')->onUpdate('cascade');
+                ->on('tests')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

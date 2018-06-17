@@ -45,6 +45,8 @@ class Create extends FormRequest
     {
         $this->preValidate();
 
+        $this->validateSeance();
+
         $classifier = Classifier::findOrFail($this->classifier_id);
 
         $this->validateClassifier($classifier);
@@ -68,6 +70,14 @@ class Create extends FormRequest
         ]);
 
         Validator::make($this->all(), $this->rules->toArray())->validate();
+    }
+
+    protected function validateSeance()
+    {
+        $seance = Seance::findOrFail($this->seance_id);
+
+        if ($seance->isClosed())
+            sendError('Seance is already closed', [], 422);
     }
 
     /**

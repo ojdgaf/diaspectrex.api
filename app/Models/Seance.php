@@ -62,6 +62,22 @@ class Seance extends Model
     ];
 
     /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return is_null($this->ended_at);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isClosed()
+    {
+        return ! $this->isActive();
+    }
+
+    /**
      * Gets examination which contains seance
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
