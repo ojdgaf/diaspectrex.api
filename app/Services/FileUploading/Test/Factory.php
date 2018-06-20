@@ -2,6 +2,7 @@
 
 namespace App\Services\FileUploading\Test;
 
+use App\Services\FileUploading\Test\Contracts\ParserInterface;
 use Illuminate\Http\UploadedFile;
 use App\Services\FileUploading\Test\Parsers\Excel;
 
@@ -21,6 +22,7 @@ class Factory
 
     /**
      * @param UploadedFile $file
+     *
      * @return bool
      */
     public function validate(UploadedFile $file)
@@ -30,12 +32,13 @@ class Factory
 
     /**
      * @param UploadedFile $file
+     *
      * @return ParserInterface
      */
-    public function findParser(UploadedFile $file): ParserInterface
+    public function getParserInstance(UploadedFile $file): ParserInterface
     {
-        $handler = static::PARSERS[ $file->extension() ];
+        $parser = static::PARSERS[ $file->extension() ];
 
-        return new $handler();
+        return app()->make($parser);
     }
 }

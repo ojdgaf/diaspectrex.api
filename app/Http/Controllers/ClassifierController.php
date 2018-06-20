@@ -2,12 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Classifier\CreateOrUpdate;
+use App\Http\Requests\Classifier\Train;
+use App\Services\Classification\Service;
+use App\Http\Requests\Classifier\Update;
 use App\Models\Classifier;
 use App\Http\Resources\Classifier as ClassifierResource;
 
+/**
+ * Class ClassifierController
+ * @package App\Http\Controllers
+ */
 class ClassifierController extends Controller
 {
+    /**
+     * @var Service
+     */
+    protected $service;
+
+    /**
+     * PredictionController constructor.
+     *
+     * @param Service $service
+     */
+    public function __construct(Service $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,22 +40,10 @@ class ClassifierController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param CreateOrUpdate $request
-     * @return ClassifierResource
-     */
-    public function store(CreateOrUpdate $request)
-    {
-        $classifier = Classifier::create($request->validated());
-
-        return ClassifierResource::make($classifier);
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param Classifier $classifier
+     *
      * @return ClassifierResource
      */
     public function show(Classifier $classifier)
@@ -45,11 +54,12 @@ class ClassifierController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param CreateOrUpdate $request
+     * @param Update $request
      * @param Classifier $classifier
+     *
      * @return ClassifierResource
      */
-    public function update(CreateOrUpdate $request, Classifier $classifier)
+    public function update(Update $request, Classifier $classifier)
     {
         $classifier->update($request->validated());
 
@@ -57,14 +67,16 @@ class ClassifierController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param Classifier $classifier
+     * @param Train $request
      */
-    public function destroy(Classifier $classifier)
+    public function train(Train $request)
     {
-        $classifier->delete();
+        $classifierModel = Classifier::findOrFail($request->classifier_id);
 
-        sendResponse([]);
+        $classifier = $this->service->getClassifier($classifierModel);
+
+        $classifier->train();
+
+        sendResponse([], 'Successfully trained');
     }
 }

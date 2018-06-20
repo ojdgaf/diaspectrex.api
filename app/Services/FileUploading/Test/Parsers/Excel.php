@@ -2,11 +2,12 @@
 
 namespace App\Services\FileUploading\Test\Parsers;
 
+use App\Models\Prediction;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel as Reader;
 use App\Models\Test;
-use App\Services\FileUploading\Test\ParserInterface;
+use App\Services\FileUploading\Test\Contracts\ParserInterface;
 use App\Services\FileUploading\Test\Validators\Excel as Validator;
 
 /**
@@ -24,24 +25,35 @@ class Excel implements ParserInterface
      * @var Collection
      */
     protected $content;
+
     /**
-     * @var null
+     * @var Collection
      */
-    public $filePath = null;
+    protected $extraTestAttributes;
+
+    /**
+     * @var Collection
+     */
+    protected $extraPredictionAttributes;
 
     /**
      * Excel constructor.
+     *
+     * @param Validator $validator
      */
-    public function __construct()
+    public function __construct(Validator $validator)
     {
-        $this->validator = new Validator();
+        $this->validator = $validator;
+        $this->extraTestAttributes = collect([]);
+        $this->extraPredictionAttributes = collect([]);
     }
 
     /**
      * @param UploadedFile $file
+     *
      * @return $this
      */
-    public function setFile(UploadedFile $file): ParserInterface
+    public function parse(UploadedFile $file): ParserInterface
     {
         $content = $this->getContent($file);
 
@@ -53,14 +65,51 @@ class Excel implements ParserInterface
     }
 
     /**
-     * @param string $filePath
-     * @return $this
+     * @param Collection $attributes
+     *
+     * @return ParserInterface
      */
-    public function setFilePath(string $filePath): ParserInterface
+    public function setExtraTestAttributes(Collection $attributes): ParserInterface
     {
-        $this->filePath = $filePath;
+        $this->extraTestAttributes = $attributes;
 
         return $this;
+    }
+
+    /**
+     * @param Collection $attributes
+     *
+     * @return ParserInterface
+     */
+    public function setExtraPredictionAttributes(Collection $attributes): ParserInterface
+    {
+        $this->extraPredictionAttributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getTests(): Collection
+    {
+        return $this->content->map(function (Collection $sheet) {
+            return $sheet->map(function (Collection $row) {
+                return $this->getTestFromRow($row);
+            });
+        })->flatten();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPredictions(): Collection
+    {
+        return $this->content->map(function (Collection $sheet) {
+            return $sheet->map(function (Collection $row) {
+                return $this->getPredictionFromRow($row);
+            });
+        })->flatten();
     }
 
     /**
@@ -73,24 +122,36 @@ class Excel implements ParserInterface
     }
 
     /**
+     * @param Collection $row
+     *
      * @return Test
      */
-    public function getFirstModel(): Test
+    protected function getTestFromRow(Collection $row): Test
     {
-        $row = $this->content->first()->first();
+        $attributes = $row->transform(function ($value) {
+            return (float) $value;
+        })->only(Test::DATA_LABELS)->union($this->extraTestAttributes);
 
-        return new Test($row->merge(['file_path' => $this->filePath])->toArray());
+        return new Test($attributes->toArray());
     }
 
     /**
-     * @return Collection
+     * @param Collection $row
+     *
+     * @return Prediction
      */
-    public function getModels(): Collection
+    protected function getPredictionFromRow(Collection $row): Prediction
     {
-        return $this->content->map(function (Collection $sheet) {
-            return $sheet->map(function (Collection $row) {
-                return new Test($row->merge(['file_path' => $this->filePath])->toArray());
-            });
-        })->flatten();
+        $test = $this->getTestFromRow($row);
+
+        $attributes = $row->only('diagnostic_group_id')->union($this->extraPredictionAttributes);
+
+        $prediction = new Prediction($attributes->toArray());
+
+        $prediction->loadMissing('seance', 'classifier', 'diagnosticGroup')
+                    ->test()
+                    ->associate($test);
+
+        return $prediction;
     }
 }

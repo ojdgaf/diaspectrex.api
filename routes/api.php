@@ -20,13 +20,15 @@ Route::middleware('auth')->group(function () {
     Route::apiResources([
         'hospitals'         => 'HospitalController',
         'services'          => 'ServiceController',
-        'classifiers'       => 'ClassifierController',
         'examinations'      => 'ExaminationController',
         'diagnostic-groups' => 'DiagnosticGroupController',
         'patient-cards'     => 'PatientCardController',
         'phones'            => 'PhoneController',
         'patient-types'     => 'PatientTypeController'
     ]);
+
+    Route::post('classifiers/training', 'ClassifierController@train');
+    Route::apiResource('classifiers', 'ClassifierController')->only(['index', 'show', 'update']);
 
     Route::get('hospitals/{hospital}/employees', 'HospitalController@getEmployees');
 
@@ -43,9 +45,10 @@ Route::middleware('auth')->group(function () {
 
     Route::namespace('Diagnosing')->group(function () {
         Route::apiResources([
-            'tests'       => 'TestController',
-            'predictions' => 'PredictionController',
+            'tests' => 'TestController',
         ]);
+
+        Route::apiResource('predictions', 'PredictionController')->only('store', 'show');
     });
 
     Route::namespace('Location')->group(function () {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -16,6 +17,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $deleted_at
  * @property-read \App\Models\PatientType $patientType
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Prediction[] $predictions
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier manual()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Classifier automated()
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Classifier onlyTrashed()
  * @method static bool|null restore()
@@ -55,6 +58,26 @@ class Classifier extends Model
     public function isManual()
     {
         return $this->name === 'doctor';
+    }
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeManual(Builder $query)
+    {
+        return $query->where('classifiers.name', 'doctor');
+    }
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeAutomated(Builder $query)
+    {
+        return $query->where('classifiers.name', '!=', 'doctor');
     }
 
     /**

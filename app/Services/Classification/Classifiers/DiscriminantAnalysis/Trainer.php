@@ -40,7 +40,7 @@ class Trainer extends Core
     {
         $this->classifierModel = $classifierModel;
 
-        $this->setMatrix();
+        $this->setMatrix()->validateMatrix();
 
         $labels = $this->findLabelsOfEmptyColumnsInAllTests($this->matrix);
 
@@ -56,9 +56,20 @@ class Trainer extends Core
      */
     protected function setMatrix(): Trainer
     {
-        $collection = $this->loader->getTestsValuesGroupedByDiagnosticGroups($this->classifierModel);
+        $collection = $this->loader->getTrainDataForClassifier($this->classifierModel);
 
         $this->matrix = new Matrix($collection);
+
+        return $this;
+    }
+
+    protected function validateMatrix(): Trainer
+    {
+        if ($this->matrix->isEmpty())
+            sendError('Empty matrix: no approved predictions find for specified patient type');
+
+        if ($this->matrix->groupsCount() < 2)
+            sendError('Not sufficient groups count (less that two)');
 
         return $this;
     }

@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Diagnosing;
 
-use App\Http\Requests\Test\Update;
-use App\Models\Seance;
-use Illuminate\Http\Request;
-use App\Models\Test;
-use App\Models\User;
-use App\Services\FileUploading\Test\Service as TestService;
-use App\Http\Resources\Test as TestResource;
+use App\Services\FileUploading\Test\Contracts\ServiceInterface;
 use App\Http\Requests\Test\Create;
+use App\Http\Requests\Test\Update;
+use App\Models\Test;
+use App\Http\Resources\Test as TestResource;
 
 /**
  * Class TestController
@@ -17,6 +14,21 @@ use App\Http\Requests\Test\Create;
  */
 class TestController
 {
+    /**
+     * @var ServiceInterface
+     */
+    protected $service;
+
+    /**
+     * PredictionController constructor.
+     *
+     * @param ServiceInterface $service
+     */
+    public function __construct(ServiceInterface $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
@@ -27,12 +39,13 @@ class TestController
 
     /**
      * @param Create $request
+     *
      * @return TestResource
      */
     public function store(Create $request)
     {
         $test = $request->hasFile('test') ?
-            (new TestService())->getParser($request->file('test'))->getFirstModel() :
+            $this->service->getParser($request->file('test'))->getTests()->first() :
             new Test($request->validated());
 
         $test->save();
@@ -44,6 +57,7 @@ class TestController
 
     /**
      * @param Test $test
+     *
      * @return TestResource
      */
     public function show(Test $test)
@@ -54,6 +68,7 @@ class TestController
     /**
      * @param Update $request
      * @param Test $test
+     *
      * @return TestResource
      */
     public function update(Update $request, Test $test)
@@ -65,6 +80,7 @@ class TestController
 
     /**
      * @param Test $test
+     *
      * @throws \Exception
      */
     public function destroy(Test $test)

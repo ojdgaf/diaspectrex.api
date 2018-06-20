@@ -3,6 +3,7 @@
 namespace App\Services\FileUploading\Test\Validators;
 
 use Illuminate\Support\Collection;
+use App\Models\DiagnosticGroup;
 use App\Models\Test;
 
 /**
@@ -11,6 +12,16 @@ use App\Models\Test;
  */
 class Excel
 {
+    /**
+     * @var string
+     */
+    protected const DIAGNOSTIC_GROUP_LABEL = 'diagnostic_group_id';
+
+    /**
+     * @var Collection
+     */
+    protected $diagnosticGroupIds;
+
     /**
      * @var int
      */
@@ -27,6 +38,14 @@ class Excel
     protected $currentCell = 0;
 
     /**
+     * Excel constructor.
+     */
+    public function __construct()
+    {
+        $this->diagnosticGroupIds = DiagnosticGroup::pluck('id');
+    }
+
+    /**
      * @param Collection $sheets
      */
     public function validateContent(Collection $sheets)
@@ -37,14 +56,13 @@ class Excel
     /**
      * @param Collection $sheet
      * @param int $key
-     * @return int
      */
     public function validateSheet(Collection $sheet, int $key)
     {
         if ($sheet->isEmpty())
-            return
+            return;
 
-        $this->currentSheet = $key;
+        $this->currentSheet = $key + 1;
 
         $this->validateHeading($sheet->getHeading());
 
@@ -56,9 +74,31 @@ class Excel
      */
     public function validateHeading(array $heading)
     {
-        if (collect(Test::DATA_LABELS)->diff($heading)->isNotEmpty())
+        $length = count($heading);
+
+        if ($length !== 32 && $length !== 33)
             sendError(
-                'Invalid heading in uploaded file:' .
+                'Invalid heading length in uploaded file:' .
+                ' sheet # ' . $this->currentSheet,
+                [], 422
+            );
+
+        $dataLabels = collect(Test::DATA_LABELS);
+        $dataLabelsWithGroupId = $dataLabels->concat([static::DIAGNOSTIC_GROUP_LABEL]);
+
+        $testsOnly = $dataLabels->diff($heading)->isEmpty();
+        $testsWithResults = $dataLabelsWithGroupId->diff($heading)->isEmpty();
+
+        if ($length === 32 && !$testsOnly)
+            sendError(
+                'Invalid heading (data labels) in uploaded file:' .
+                ' sheet # ' . $this->currentSheet,
+                [], 422
+            );
+
+        if ($length === 33 && !$testsWithResults)
+            sendError(
+                'Invalid heading (data or group labels) in uploaded file:' .
                 ' sheet # ' . $this->currentSheet,
                 [], 422
             );
@@ -70,11 +110,11 @@ class Excel
      */
     public function validateRow(Collection $row, int $key)
     {
-        $this->currentRow = $key;
+        $this->currentRow = $key + 1;
 
-        if ($row->count() !== 32)
+        if ($row->count() !== 32 && $row->count() !== 33)
             sendError(
-                'Invalid row in uploaded file:' .
+                'Invalid row length in uploaded file:' .
                 ' sheet # ' . $this->currentSheet .
                 ' row # ' . $this->currentRow,
                 [], 422
@@ -84,19 +124,28 @@ class Excel
     }
 
     /**
-     * @param $cell
+     * @param $value
      * @param $key
      */
-    public function validateCell($cell, $key)
+    public function validateCell($value, $key)
     {
         $this->currentCell = $key;
 
-        if (! is_numeric($cell))
+        if (! is_numeric($value))
             sendError(
                 'Invalid data in uploaded file:' .
                 ' sheet # ' . $this->currentSheet .
                 ' row # ' . $this->currentRow .
-                ' cell # ' . $this->currentCell,
+                ' column # ' . $this->currentCell,
+                [], 422
+            );
+
+        if ($key === static::DIAGNOSTIC_GROUP_LABEL && ! $this->diagnosticGroupIds->contains($value))
+            sendError(
+                'Invalid diagnostic group id in uploaded file:' .
+                ' sheet # ' . $this->currentSheet .
+                ' row # ' . $this->currentRow .
+                ' column # ' . $this->currentCell,
                 [], 422
             );
     }

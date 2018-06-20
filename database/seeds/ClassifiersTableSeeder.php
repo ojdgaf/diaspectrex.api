@@ -20,13 +20,13 @@ class ClassifiersTableSeeder extends Seeder
                 'patient_type_id' => $adult->id,
                 'name'            => 'doctor',
                 'display_name'    => 'Doctor',
-                'description'     => 'Classification made by a doctor manually for adults',
+                'description'     => 'Classification made by a doctor manually for adults.',
             ],
             [
                 'patient_type_id' => $child->id,
                 'name'            => 'doctor',
                 'display_name'    => 'Doctor',
-                'description'     => 'Classification made by a doctor manually for children',
+                'description'     => 'Classification made by a doctor manually for children.',
             ],
             [
                 'patient_type_id' => $adult->id,
@@ -51,6 +51,18 @@ class ClassifiersTableSeeder extends Seeder
                 'name'            => 'discriminant analysis',
                 'display_name'    => 'Discriminant Analysis',
                 'description'     => 'Math method. Adjusted for children.',
+            ],
+            [
+                'patient_type_id' => $adult->id,
+                'name'            => 'K-nearest neighbors',
+                'display_name'    => 'k-nearest neighbors',
+                'description'     => 'Math non-parametric method. Adjusted for adults.',
+            ],
+            [
+                'patient_type_id' => $child->id,
+                'name'            => 'K-nearest neighbors',
+                'display_name'    => 'k-nearest neighbors',
+                'description'     => 'Math non-parametric method. Adjusted for children.',
             ],
         ]);
     }

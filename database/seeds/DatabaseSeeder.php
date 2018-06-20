@@ -29,7 +29,8 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             RoleModelTableSeeder::class,
 
-            TestingSeeder::class,
+            SeancesSeeder::class,
+            PredictionsSeeder::class,
         ]);
     }
 }

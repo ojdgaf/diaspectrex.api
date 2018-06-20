@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
  */
 class Classifier implements ClassifierInterface
 {
-    use ConfigReader;
+    use Validator;
 
     /**
      * @var Trainer
@@ -36,6 +36,7 @@ class Classifier implements ClassifierInterface
     {
         $this->classifierModel = $classifierModel;
         $this->trainer = $trainer;
+        $this->validateConfigForClassifier();
     }
 
     /**
@@ -55,7 +56,7 @@ class Classifier implements ClassifierInterface
     /**
      * @return ClassifierInterface
      */
-    public function retrain(): ClassifierInterface
+    public function train(): ClassifierInterface
     {
         $this->trainer->train($this->classifierModel);
 

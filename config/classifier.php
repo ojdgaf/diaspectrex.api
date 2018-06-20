@@ -18,22 +18,19 @@ return [
             'adult' => [
                 'groups' => [
                     'bronchitis' => [
-                        'endpoint' => [
-                            'MLModelId'       => 'ml-MsqH0SFgckb',
-                            'PredictEndpoint' => 'https://realtime.machinelearning.eu-west-1.amazonaws.com',
-                        ],
+                        'MLModelId'       => 'ml-MsqH0SFgckb',
+                        'PredictEndpoint' => 'https://realtime.machinelearning.eu-west-1.amazonaws.com',
+                        'EvaluationId'    => 'ev-8yuVXm5nyBu',
                     ],
                     'pneumonia'  => [
-                        'endpoint' => [
-                            'MLModelId'       => 'ml-J9bd1OQW3O1',
-                            'PredictEndpoint' => 'https://realtime.machinelearning.eu-west-1.amazonaws.com',
-                        ],
+                        'MLModelId'       => 'ml-J9bd1OQW3O1',
+                        'PredictEndpoint' => 'https://realtime.machinelearning.eu-west-1.amazonaws.com',
+                        'EvaluationId'    => 'ev-2gGbdjg44FM',
                     ],
                     'standard'   => [
-                        'endpoint' => [
-                            'MLModelId'       => 'ml-Wxp861rELAy',
-                            'PredictEndpoint' => 'https://realtime.machinelearning.eu-west-1.amazonaws.com',
-                        ],
+                        'MLModelId'       => 'ml-Wxp861rELAy',
+                        'PredictEndpoint' => 'https://realtime.machinelearning.eu-west-1.amazonaws.com',
+                        'EvaluationId'    => 'ev-DOKUC1kD2qa',
                     ],
                 ],
             ],

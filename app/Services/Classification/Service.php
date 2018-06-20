@@ -2,23 +2,50 @@
 
 namespace App\Services\Classification;
 
-use Illuminate\Support\Collection;
-use App\Models\Classifier;
-use App\Services\Classification\Contracts\ClassifierFactoryInterface;
+use App\Services\Classification\Contracts\EvaluatorInterface;
+use App\Services\Classification\Contracts\FactoryInterface;
 use App\Services\Classification\Contracts\ClassifierInterface;
 use App\Services\Classification\Contracts\ServiceInterface;
+use App\Models\Classifier as Model;
 
+/**
+ * Class Service
+ * @package App\Services\Classification
+ */
 class Service implements ServiceInterface
 {
-    protected $classifierFactory;
+    /**
+     * @var FactoryInterface
+     */
+    protected $factory;
 
-    public function __construct(ClassifierFactoryInterface $factory)
+    /**
+     * Service constructor.
+     *
+     * @param FactoryInterface $factory
+     */
+    public function __construct(FactoryInterface $factory)
     {
-        $this->classifierFactory = $factory;
+        $this->factory = $factory;
     }
 
-    public function getClassifier(Classifier $classifier): ClassifierInterface
+    /**
+     * @param Model $model
+     *
+     * @return ClassifierInterface
+     */
+    public function getClassifier(Model $model): ClassifierInterface
     {
-        return $this->classifierFactory->getClassifierInstance($classifier);
+        return $this->factory->getClassifierInstance($model);
+    }
+
+    /**
+     * @param Model $model
+     *
+     * @return EvaluatorInterface
+     */
+    public function getEvaluator(Model $model): EvaluatorInterface
+    {
+        return $this->factory->getEvaluatorInstance($model);
     }
 }

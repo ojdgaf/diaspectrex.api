@@ -1,0 +1,4 @@
+first rows contain true positive values for specified disease
+next, all diseases with same patient type contain corresponding true negative values
+
+you have to use binary classification model with random datasource split

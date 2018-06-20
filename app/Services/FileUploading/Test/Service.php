@@ -2,13 +2,15 @@
 
 namespace App\Services\FileUploading\Test;
 
+use App\Services\FileUploading\Test\Contracts\ServiceInterface;
 use Illuminate\Http\UploadedFile;
+use App\Services\FileUploading\Test\Contracts\ParserInterface;
 
 /**
  * Class Service
  * @package App\Services\FileUploading\Test
  */
-class Service
+class Service implements ServiceInterface
 {
     /**
      * @var Factory
@@ -22,11 +24,14 @@ class Service
 
     /**
      * Service constructor.
+     *
+     * @param Factory $factory
+     * @param Storage $storage
      */
-    public function __construct()
+    public function __construct(Factory $factory, Storage $storage)
     {
-        $this->factory = new Factory();
-        $this->storage = new Storage();
+        $this->factory = $factory;
+        $this->storage = $storage;
     }
 
     /**
@@ -49,17 +54,19 @@ class Service
 
     /**
      * @param UploadedFile $file
+     *
      * @return ParserInterface
      */
     public function getParser(UploadedFile $file): ParserInterface
     {
         $this->validateWithThrow($file);
 
-        return $this->factory->findParser($file)->setFile($file)->setFilePath($this->store($file));
+        return $this->factory->getParserInstance($file)->parse($file);
     }
 
     /**
      * @param UploadedFile $file
+     *
      * @return string
      */
     public function store(UploadedFile $file): string

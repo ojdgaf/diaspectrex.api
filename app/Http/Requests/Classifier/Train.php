@@ -2,9 +2,16 @@
 
 namespace App\Http\Requests\Classifier;
 
+use App\Models\Classifier;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class CreateOrUpdate extends FormRequest
+/**
+ * Class Train
+ * @package App\Http\Requests\Classifier
+ * @property int $classifier_id
+ */
+class Train extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +30,10 @@ class CreateOrUpdate extends FormRequest
      */
     public function rules()
     {
+        $automatedClassifiersIds = Classifier::automated()->pluck('id');
+
         return [
-            'name'        => 'required|string|min:2|max:255|bail',
-            'description' => 'nullable|string|bail'
+            'classifier_id' => ['required', 'integer', Rule::in($automatedClassifiersIds)],
         ];
     }
 }

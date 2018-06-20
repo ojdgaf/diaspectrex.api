@@ -166,6 +166,7 @@ return [
          * Custom Service Providers...
          */
         App\Providers\ClassificationProvider::class,
+        App\Providers\TestUploadingProvider::class,
 
         /*
          * Observers

@@ -1,31 +1,42 @@
 <?php
 
-namespace App\Services\Classification\Classifiers;
+namespace App\Services\Classification\Classifiers\AWSMachineLearning;
 
+use Illuminate\Support\Collection;
+use App\Services\Classification\Contracts\ClassifierInterface;
+use Aws\MachineLearning\MachineLearningClient;
 use App\Models\Classifier as Model;
 use App\Models\DiagnosticGroup;
 use App\Models\Test;
 use App\Models\Prediction;
-use App\Services\Classification\Contracts\ClassifierInterface;
-use Aws\MachineLearning\MachineLearningClient;
-use Illuminate\Support\Collection;
 
 /**
- * Class AWSMachineLearning
+ * Class Classifier
  * @package App\Services\Classification\Classifiers
  */
-class AWSMachineLearning implements ClassifierInterface
+class Classifier implements ClassifierInterface
 {
+    use Config;
+
+    /**
+     * @var string
+     */
     protected const UNKNOWN_GROUP_MESSAGE = 'None of AWS Machine Learning models gave positive result: ' .
     'seems like the test example belongs to another (unknown by us yet) disease, ' .
     'or it is just a mix of several diseases. ' .
     'After all we may simply be unable to connect to AWS services. ' .
     'There are detailed information provided by each of them. ';
 
+    /**
+     * @var string
+     */
     protected const AMBIGUITY_MESSAGE = 'Two or more AWS Machine Learning models gave positive results: ' .
     'seems like it is just a mix of several diseases so we cannot be sure what actual disease is. ' .
     'There are detailed information provided by each of AWS service. ';
 
+    /**
+     * @var string
+     */
     protected const EMPTY_CONFIG_TREE = 'Seems like there is no config for specified classifier. ' .
     'Try another classifier or call a support. ';
 
@@ -37,7 +48,7 @@ class AWSMachineLearning implements ClassifierInterface
     /**
      * @var Model
      */
-    protected $classifierModel;
+    protected $model;
 
     /**
      * @var Test
@@ -49,17 +60,44 @@ class AWSMachineLearning implements ClassifierInterface
      */
     protected $currentDiagnosticGroup;
 
-    public function __construct(Model $classifierModel, MachineLearningClient $client)
+    /**
+     * Classifier constructor.
+     * 
+     * @param Model $model
+     * @param MachineLearningClient $client
+     */
+    public function __construct(Model $model, MachineLearningClient $client)
     {
-        $this->classifierModel = $classifierModel;
+        $this->model = $model;
         $this->client = $client;
     }
 
+    /**
+     * @return Model
+     */
+    public function getModel(): Model
+    {
+        return $this->model;
+    }
+
+    /**
+     * @return MachineLearningClient
+     */
+    public function getClient(): MachineLearningClient
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param Test $test
+     * 
+     * @return Prediction
+     */
     public function classify(Test $test): Prediction
     {
         $this->test = $test;
 
-        $configTree = $this->getConfigTree();
+        $configTree = $this->getConfigTreeForPatientType($this->getModel()->patientType);
 
         $predictions = $this->predictAll($configTree);
 
@@ -67,32 +105,45 @@ class AWSMachineLearning implements ClassifierInterface
                     ->loadMissing('classifier', 'diagnosticGroup');
     }
 
-    public function retrain(): ClassifierInterface
+    /**
+     * @return ClassifierInterface
+     */
+    public function train(): ClassifierInterface
     {
         // Not implemented yet.
 
         return $this;
     }
 
-    protected function predictAll(array $configTree): Collection
+    /**
+     * @param Collection $configTree
+     * 
+     * @return Collection
+     */
+    protected function predictAll(Collection $configTree): Collection
     {
-        return collect($configTree)->map(
-            function (array $configBranch, string $diagnosticGroupName) {
+        return $this->getEndpoints($configTree)->map(
+            function (Collection $endpoint, string $diagnosticGroupName) {
                 return $this->setCurrentDiagnosticGroup($diagnosticGroupName)
-                            ->predict($configBranch);
+                            ->predict($endpoint);
             }
         );
     }
 
-    protected function predict(array $configBranch): Prediction
+    /**
+     * @param Collection $endpoint
+     * 
+     * @return Prediction
+     */
+    protected function predict(Collection $endpoint): Prediction
     {
         try {
-            $response = $this->client->predict(
-                array_merge($configBranch['endpoint'], $this->getRecord())
+            $response = $this->getClient()->predict(
+                $endpoint->union($this->getRecord())->toArray()
             );
         } catch (\Exception $e) {
             return new Prediction([
-                'classifier_id' => $this->classifierModel->id,
+                'classifier_id' => $this->getModel()->id,
                 'test_id'       => $this->test->id,
                 'info'          => $this->getConnectionErrorMessage(),
             ]);
@@ -105,13 +156,18 @@ class AWSMachineLearning implements ClassifierInterface
         $rawValue = (float) $response['Prediction']['predictedScores'][ $predictedLabel ];
 
         return new Prediction([
-            'classifier_id'       => $this->classifierModel->id,
+            'classifier_id'       => $this->getModel()->id,
             'diagnostic_group_id' => optional($diagnosticGroup)->id,
             'test_id'             => $this->test->id,
             'raw_value'           => $rawValue,
         ]);
     }
 
+    /**
+     * @param Collection $predictions
+     * 
+     * @return Prediction
+     */
     protected function getFinalPrediction(Collection $predictions): Prediction
     {
         if ($predictions->isEmpty())
@@ -143,6 +199,12 @@ class AWSMachineLearning implements ClassifierInterface
         return $positivePredictions->first();
     }
 
+    /**
+     * @param Collection $predictions
+     * @param string $message
+     * 
+     * @return Prediction
+     */
     protected function createReportWithDetailedMessage(
         Collection $predictions,
         string $message
@@ -155,29 +217,30 @@ class AWSMachineLearning implements ClassifierInterface
         });
 
         return new Prediction([
-            'classifier_id' => $this->classifierModel->id,
+            'classifier_id' => $this->getModel()->id,
             'test_id'       => $this->test->id,
             'info'          => $message,
         ]);
     }
 
-    protected function getConfigTree(): array
-    {
-        $groupTypes = config('classifier.aws machine learning.types');
-
-        return $groupTypes[ $this->classifierModel->patientType->name ]['groups'];
-    }
-
+    /**
+     * @param string $diagnosticGroupName
+     * 
+     * @return ClassifierInterface
+     */
     protected function setCurrentDiagnosticGroup(string $diagnosticGroupName): ClassifierInterface
     {
         $this->currentDiagnosticGroup = DiagnosticGroup::where([
-            'patient_type_id' => $this->classifierModel->patientType->id,
+            'patient_type_id' => $this->getModel()->patientType->id,
             'name'            => $diagnosticGroupName,
         ])->firstOrFail();
 
         return $this;
     }
 
+    /**
+     * @return array
+     */
     protected function getRecord(): array
     {
         return [
@@ -187,6 +250,9 @@ class AWSMachineLearning implements ClassifierInterface
         ];
     }
 
+    /**
+     * @return string
+     */
     protected function getConnectionErrorMessage(): string
     {
         return "Could not connect to AWS model ({$this->currentDiagnosticGroup->name}), " .

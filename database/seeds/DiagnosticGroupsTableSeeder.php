@@ -32,13 +32,13 @@ class DiagnosticGroupsTableSeeder extends Seeder
                 'patient_type_id' => $adult->id,
                 'name'            => 'bronchitis',
                 'display_name'    => 'Bronchitis',
-                'description'     => 'Adults who have bronchitis',
+                'description'     => 'Adults who have bronchitis.',
             ],
             [
                 'patient_type_id' => $child->id,
                 'name'            => 'bronchitis',
                 'display_name'    => 'Bronchitis',
-                'description'     => 'Children who have bronchitis',
+                'description'     => 'Children who have bronchitis.',
             ],
             [
                 'patient_type_id' => $adult->id,

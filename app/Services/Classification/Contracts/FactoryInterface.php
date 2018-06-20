@@ -5,23 +5,22 @@ namespace App\Services\Classification\Contracts;
 use App\Models\Classifier;
 
 /**
- * Interface ServiceInterface
+ * Interface FactoryInterface
  * @package App\Services\Classification\Contracts
  */
-interface ServiceInterface
+interface FactoryInterface
 {
     /**
      * @param Classifier $classifierModel
      *
      * @return ClassifierInterface
      */
-    public function getClassifier(Classifier $classifierModel): ClassifierInterface;
-
+    public function getClassifierInstance(Classifier $classifierModel): ClassifierInterface;
 
     /**
      * @param Classifier $classifierModel
      *
      * @return EvaluatorInterface
      */
-    public function getEvaluator(Classifier $classifierModel): EvaluatorInterface;
+    public function getEvaluatorInstance(Classifier $classifierModel): EvaluatorInterface;
 }
