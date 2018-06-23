@@ -15,12 +15,12 @@ class StorageManager
     /**
      * @var string
      */
-    protected const CLASSIFIERS_FOLDER_PATH = 'app/classifiers';
+    protected const CLASSIFIERS_FOLDER_PATH = 'app/classifiers/';
 
     /**
      * @var UnderlyingManager
      */
-    protected $manager;
+    protected $base;
 
     /**
      * @var Model
@@ -30,11 +30,11 @@ class StorageManager
     /**
      * StorageManager constructor.
      *
-     * @param UnderlyingManager $manager
+     * @param UnderlyingManager $base
      */
-    public function __construct(UnderlyingManager $manager)
+    public function __construct(UnderlyingManager $base)
     {
-        $this->manager = $manager;
+        $this->base = $base;
     }
 
     /**
@@ -57,9 +57,9 @@ class StorageManager
     public function store(Estimator $implementation)
     {
         try {
-            $this->manager->saveToFile($implementation, $this->getPath());
+            $this->base->saveToFile($implementation, $this->getPath());
         } catch (\Exception $e) {
-            sendError($e->getMessage());
+            return false;
         }
 
         return true;
@@ -71,7 +71,7 @@ class StorageManager
     public function restore(): ?Estimator
     {
         try {
-            return $this->manager->restoreFromFile($this->getPath());
+            return $this->base->restoreFromFile($this->getPath());
         } catch (\Exception $e) {
             return null;
         }
@@ -82,7 +82,7 @@ class StorageManager
      */
     protected function getPath(): string
     {
-        $path = static::CLASSIFIERS_FOLDER_PATH . '/' .
+        $path = static::CLASSIFIERS_FOLDER_PATH .
                 $this->model->patientType->name . '.' .
                 $this->model->name;
 
