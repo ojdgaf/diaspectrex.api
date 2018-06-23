@@ -32,7 +32,7 @@ class UsersTableSeeder extends Seeder
                 'middle_name' => 'Support',
                 'last_name'   => 'Support',
                 'sex'         => 'male',
-                'birthday'    => '1970-01-0-1',
+                'birthday'    => '1970-01-01',
                 'passport'    => 'AA-000001',
                 'address_id'  => $ONPUAddress->id,
                 'hospital_id' => $diaspectrexClinic->id,

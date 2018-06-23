@@ -13,7 +13,7 @@ class SeancesSeeder extends Seeder
      */
     public function run()
     {
-        $support = User::firstOrFail(1);
+        $support = User::findOrFail(1);
         $adult   = PatientType::whereName('adult')->firstOrFail();
         $child   = PatientType::whereName('child')->firstOrFail();
 
