@@ -2,15 +2,17 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
-use Illuminate\Http\UploadedFile;
 use App\Services\FileUploading\Test\Contracts\ServiceInterface;
 use App\Models\Prediction;
+use App\Services\FileUploading\Test\UploadedFileTrait;
 
 /**
  * Class PredictionsSeeder
  */
 class PredictionsSeeder extends Seeder
 {
+    use UploadedFileTrait;
+
     /**
      * @var string
      */
@@ -49,13 +51,13 @@ class PredictionsSeeder extends Seeder
     public function run()
     {
         $childrenPredictions = $this->service
-            ->getParser($this->fileFromPath(storage_path($this->childrenTestsFilePath())))
+            ->getParser($this->createUploadedFileFromPath(storage_path($this->childrenTestsFilePath())))
             ->setExtraPredictionAttributes($this->predictionAttributesForChildren())
             ->setExtraTestAttributes($this->testAttributesForChildren())
             ->getPredictions();
 
         $adultsPredictions = $this->service
-            ->getParser($this->fileFromPath(storage_path($this->adultsTestsFilePath())))
+            ->getParser($this->createUploadedFileFromPath(storage_path($this->adultsTestsFilePath())))
             ->setExtraPredictionAttributes($this->predictionAttributesForAdults())
             ->setExtraTestAttributes($this->testAttributesForAdults())
             ->getPredictions();
@@ -69,28 +71,6 @@ class PredictionsSeeder extends Seeder
 
                 $prediction->save();
             });
-    }
-
-    /**
-     * Create an UploadedFile object from absolute path.
-     *
-     * @param string $path
-     *
-     * @return UploadedFile
-     */
-    protected function fileFromPath($path): UploadedFile
-    {
-        $name = File::name($path);
-
-        $extension = File::extension($path);
-
-        $originalName = $name . '.' . $extension;
-
-        $mimeType = File::mimeType($path);
-
-        $size = File::size($path);
-
-        return new UploadedFile($path, $originalName, $mimeType, $size, null, true);
     }
 
     /**
