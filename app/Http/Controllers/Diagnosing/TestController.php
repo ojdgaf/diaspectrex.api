@@ -45,7 +45,14 @@ class TestController
     public function store(Create $request)
     {
         $test = $request->hasFile('test') ?
-            $this->service->getParser($request->file('test'))->getTests()->first() :
+            $this->service
+                ->getParser($request->file('test'))
+                ->setExtraTestAttributes(collect([
+                    'file_path' => $this->service->store($request->file('test')),
+                ]))
+                ->getTests()
+                ->first()
+            :
             new Test($request->validated());
 
         $test->save();
