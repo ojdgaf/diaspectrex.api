@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 use App\Services\FileUploading\Test\Contracts\ServiceInterface;
 use App\Models\Prediction;
+use App\Models\PatientType;
 use App\Services\FileUploading\Test\UploadedFileTrait;
 
 /**
@@ -21,12 +22,7 @@ class PredictionsSeeder extends Seeder
     /**
      * @var string
      */
-    protected const ADULTS_TESTS_FILENAME = 'adult.training.xlsx';
-
-    /**
-     * @var string
-     */
-    protected const CHILDREN_TESTS_FILENAME = 'child.training.xlsx';
+    protected const FILENAME = 'training.xlsx';
 
     /**
      * @var ServiceInterface
@@ -50,92 +46,72 @@ class PredictionsSeeder extends Seeder
      */
     public function run()
     {
-        $childrenPredictions = $this->service
-            ->getParser($this->createUploadedFileFromPath(storage_path($this->childrenTestsFilePath())))
-            ->setExtraPredictionAttributes($this->predictionAttributesForChildren())
-            ->setExtraTestAttributes($this->testAttributesForChildren())
-            ->getPredictions();
+        PatientType::all()->each(function (PatientType $type) {
+            $this->service
+                ->getParser($this->createUploadedFileFromPath(storage_path($this->getTestFilePath($type))))
+                ->setExtraPredictionAttributes($this->getPredictionAttributes($type))
+                ->setExtraTestAttributes($this->getTestAttributes($type))
+                ->getPredictions()->each(function (Prediction $prediction) {
+                    $prediction->test->save();
 
-        $adultsPredictions = $this->service
-            ->getParser($this->createUploadedFileFromPath(storage_path($this->adultsTestsFilePath())))
-            ->setExtraPredictionAttributes($this->predictionAttributesForAdults())
-            ->setExtraTestAttributes($this->testAttributesForAdults())
-            ->getPredictions();
+                    $prediction->test()->associate($prediction->test);
 
-        $childrenPredictions
-            ->merge($adultsPredictions)
-            ->each(function (Prediction $prediction) {
-                $prediction->test->save();
-
-                $prediction->test()->associate($prediction->test);
-
-                $prediction->save();
-            });
+                    $prediction->save();
+                });
+        });
     }
 
     /**
+     * @param PatientType $type
+     *
      * @return Collection
      */
-    protected function predictionAttributesForChildren(): Collection
+    protected function getPredictionAttributes(PatientType $type): Collection
+    {
+        switch ($type->name) {
+            case 'child': return collect([
+                'seance_id'     => 1,
+                'classifier_id' => 2,
+                'is_approved'   => true,
+                'info'          => 'Database seeding',
+                'created_at'    => now(),
+                'updated_at'    => now(),
+            ]);
+
+            case 'adult': return collect([
+                'seance_id'     => 2,
+                'classifier_id' => 1,
+                'is_approved'   => true,
+                'info'          => 'Database seeding',
+                'created_at'    => now(),
+                'updated_at'    => now(),
+            ]);
+
+            default: return collect([]);
+        }
+    }
+
+    /**
+     * @param PatientType $type
+     *
+     * @return Collection
+     */
+    protected function getTestAttributes(PatientType $type): Collection
     {
         return collect([
-            'seance_id'     => 1,
-            'classifier_id' => 2,
-            'is_approved'   => true,
-            'info'          => 'Database seeding',
-            'created_at'    => now(),
-            'updated_at'    => now(),
+            'file_path' => str_replace(
+                'app/', '', $this->getTestFilePath($type)
+            ),
         ]);
     }
 
     /**
-     * @return Collection
-     */
-    protected function predictionAttributesForAdults(): Collection
-    {
-        return collect([
-            'seance_id'     => 2,
-            'classifier_id' => 1,
-            'is_approved'   => true,
-            'info'          => 'Database seeding',
-            'created_at'    => now(),
-            'updated_at'    => now(),
-        ]);
-    }
-
-    /**
-     * @return Collection
-     */
-    protected function testAttributesForChildren(): Collection
-    {
-        return collect([
-            'file_path' => str_replace('app/', '', $this->childrenTestsFilePath()),
-        ]);
-    }
-
-    /**
-     * @return Collection
-     */
-    protected function testAttributesForAdults(): Collection
-    {
-        return collect([
-            'file_path' => str_replace('app/', '', $this->adultsTestsFilePath()),
-        ]);
-    }
-
-    /**
+     * @param PatientType $type
+     *
      * @return string
      */
-    protected function childrenTestsFilePath(): string
+    protected function getTestFilePath(PatientType $type): string
     {
-        return static::STORAGE_PATH . static::CHILDREN_TESTS_FILENAME;
-    }
-
-    /**
-     * @return string
-     */
-    protected function adultsTestsFilePath(): string
-    {
-        return static::STORAGE_PATH . static::ADULTS_TESTS_FILENAME;
+        return static::STORAGE_PATH . $type->name . '.' . static::FILENAME;
     }
 }
