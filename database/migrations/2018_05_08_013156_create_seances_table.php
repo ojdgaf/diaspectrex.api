@@ -28,7 +28,7 @@ class CreateSeancesTable extends Migration
             $table->foreign('examination_id')->references('id')
                 ->on('examinations')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('doctor_id')->references('id')
-                ->on('users')->onUpdate('cascade')->onDelete('set null');
+                ->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
