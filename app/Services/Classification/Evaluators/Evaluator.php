@@ -56,15 +56,17 @@ class Evaluator implements EvaluatorInterface
      */
     public function evaluate(): Collection
     {
-        return PatientType::all()->map(function (PatientType $type) {
-            $samples = $this->getSamples($type);
+        # TODO getModel() in interface
 
-            $expected = $this->getExpectedLabels($samples);
+        $type = $this->classifier->getModel()->patientType;
 
-            $evaluated = $this->getActualLabels($samples);
+        $samples = $this->getSamples($type);
 
-            return $this->makeEvaluationForPatientType($type, $expected, $evaluated);
-        });
+        $expected = $this->getExpectedLabels($samples);
+
+        $evaluated = $this->getEvaluatedLabels($samples);
+
+        return collect($this->makeEvaluationForPatientType($type, $expected, $evaluated));
     }
 
     /**
@@ -106,7 +108,7 @@ class Evaluator implements EvaluatorInterface
      *
      * @return Collection
      */
-    protected function getActualLabels(Collection $samples): Collection
+    protected function getEvaluatedLabels(Collection $samples): Collection
     {
         return $samples->map(function (Prediction $sample) {
             $diagnosticGroup = $this->classifier->classify($sample->test)->diagnosticGroup;
@@ -136,9 +138,11 @@ class Evaluator implements EvaluatorInterface
 
         return [
             $type->name => [
-                'expected'  => $expected,
-                'evaluated' => $evaluated,
-                'accuracy'  => ($matches / $expected->count()),
+                'expected'       => $expected,
+                'evaluated'      => $evaluated,
+                'expected count' => $expected->count(),
+                'matches'        => $matches,
+                'accuracy'       => ($matches / $expected->count()),
             ],
         ];
     }
