@@ -11,6 +11,7 @@ use App\Services\Classification\Classifiers\DiscriminantAnalysis\Classifier as D
 use App\Services\Classification\Classifiers\KNearestNeighbors\Classifier    as KNearestNeighborsClassifier;
 use App\Services\Classification\Evaluators\AWSMachineLearning   as AWSMachineLearningEvaluator;
 use App\Services\Classification\Evaluators\DiscriminantAnalysis as DiscriminantAnalysisEvaluator;
+use App\Services\Classification\Evaluators\KNearestNeighbors    as KNearestNeighborsEvaluator;
 
 /**
  * Class Factory
@@ -37,6 +38,7 @@ class Factory implements FactoryInterface
     protected const EVALUATORS = [
         'aws machine learning'  => AWSMachineLearningEvaluator::class,
         'discriminant analysis' => DiscriminantAnalysisEvaluator::class,
+        'k-nearest neighbors'   => KNearestNeighborsEvaluator::class,
     ];
 
     /**

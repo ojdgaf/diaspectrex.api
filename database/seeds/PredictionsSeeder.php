@@ -87,7 +87,7 @@ class PredictionsSeeder extends Seeder
                 'updated_at'    => now(),
             ]);
 
-            default: return collect([]);
+            default: return collect();
         }
     }
 
