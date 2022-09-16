@@ -16,7 +16,7 @@
         "lint": "eslint --ext .js,.vue src test/unit/specs"
     },
     "dependencies": {
-        "bootstrap": "^4.0.0-beta.2",
+        "bootstrap": "^4.3.1",
         "chartist": "^0.11.0",
         "es6-promise": "^4.1.1",
         "google-maps": "^3.2.1",
@@ -29,7 +29,7 @@
     },
     "devDependencies": {
         "axios": "^0.18",
-        "bootstrap": "^4.0.0",
+        "bootstrap": "^4.3.1",
         "cross-env": "^5.1",
         "eslint": "^4.19.1",
         "eslint-config-airbnb-base": "^12.1.0",
